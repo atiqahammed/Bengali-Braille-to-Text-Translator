@@ -3,14 +3,19 @@ package main;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import userInterface.ConfirmBox;
 import userInterface.Home;
 import utility.Utility;
 
 public class Main extends Application implements EventHandler<ActionEvent>{
+
+	Stage window;
 
 	Button button;
 	public static void main(String[] args) {
@@ -23,7 +28,17 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle(Utility.BRAILLE_TO_TEXT_TRANSLATOR);
+		
+		Parent root = FXMLLoader.load(getClass().getResource("../fxmlFiles/initialPage.fxml"));
+		
+		window = primaryStage;
+		window.setTitle(Utility.BRAILLE_TO_TEXT_TRANSLATOR);
+		window.setOnCloseRequest(e -> {
+			e.consume();
+			closeProgram();
+		});
+
+
 
 		button = new Button();
 
@@ -34,8 +49,8 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		layout.getChildren().add(button);
 
 		Scene scene = new Scene(layout, Utility.APPLICATION_WIDTH, Utility.APPLICATION_HEIGHT);
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		window.setScene(new Scene(root, Utility.APPLICATION_WIDTH, Utility.APPLICATION_HEIGHT));
+		window.show();
 
 	}
 
@@ -45,6 +60,13 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 			System.out.println("clicked");
 		}
 
+	}
+
+	private void closeProgram() {
+
+		boolean decision = ConfirmBox.display("Closing program", "Sure you want to close the program?");
+		if(decision)
+			window.close();
 	}
 
 }
