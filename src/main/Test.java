@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.fxml.*;
 import javafx.scene.*;
+import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -26,7 +27,22 @@ public class Test extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		System.out.println("okk");
 		// TODO Auto-generated method stub
-		Parent root = FXMLLoader.load(getClass().getResource("temp.fxml"));
+
+
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("temp.fxml"));
+		Parent root = loader.load();
+
+		Button button = (Button)loader.getNamespace().get("button_file_chooser");
+
+		button.setOnAction(e -> {
+			System.out.println("hello");
+		});
+
+		// button_file_chooser
+		//TextField foo = (TextField)loader.getNamespace().get("exampleFxId");
+
+
+		//Parent root = FXMLLoader.load(getClass().getResource("temp.fxml"));
 		primaryStage.initStyle(StageStyle.TRANSPARENT);
 		//primaryStage.initStyle(StageStyle.UNDECORATED);
 
