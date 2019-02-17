@@ -5,13 +5,16 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.filechooser.FileSystemView;
 
-public abstract class Preprocessor implements IPreprocessor {
+public abstract class ImageProcessor implements IImageProcessor {
 
 	protected BufferedImage image;
 	protected int width;
 	protected int height;
 	protected String imageFileName;
+	protected String imagePath;
+	protected String imageType;
 
 	protected void initializeImage(File imageFile) {
 		try {
@@ -22,6 +25,14 @@ public abstract class Preprocessor implements IPreprocessor {
 		width = image.getWidth();
 		height = image.getHeight();
 		imageFileName = getName(imageFile);
+		imageType = getImageType(imageFile);
+	}
+
+	protected String getImageType(File imageFile) {
+		String srting = FileSystemView.getFileSystemView().getSystemTypeDescription(imageFile);
+		String[] splited = srting.toLowerCase().split(" ");
+		String type = splited[0];
+		return type;
 	}
 
 	protected String getName(File imageFile) {
@@ -41,16 +52,30 @@ public abstract class Preprocessor implements IPreprocessor {
 	@Override
 	public File convert(File imageFile) {
 		initializeImage(imageFile);
+		initializedPreOperation();
 
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				writePixel(i, j);
 			}
 		}
-		return writeImage();
+		return getImageFile();
+	}
+
+	private File getImageFile() {
+		imagePath = '/' + imageFileName + "." + imageType;
+		//System.out.println(imagePath);
+		File ouptut = new File(imagePath);
+		try {
+			ImageIO.write(image, imageType, ouptut);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return ouptut;
 	}
 
 	protected abstract void writePixel(int x, int y);
-	protected abstract File writeImage();
+
+	protected abstract void initializedPreOperation();
 
 }

@@ -4,8 +4,9 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 
-import com.sun.javafx.logging.Logger;
+import javax.swing.filechooser.FileSystemView;
 
+import com.sun.javafx.logging.Logger;
 import javafx.application.Application;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -23,7 +24,7 @@ import javafx.scene.paint.Paint;
 
 public class Test extends Application{
 
-	 private Desktop desktop = Desktop.getDesktop();
+	private Desktop desktop = Desktop.getDesktop();
 	private double xOffset = 0;
 	private double yOffset = 0;
 
@@ -83,10 +84,14 @@ public class Test extends Application{
 	   System.out.println("hello");
 	   File file = fileChooser.showOpenDialog(primaryStage);
        if (file != null) {
-           openFile(file);
+
+    	   //String s = FileSystemView.getFileSystemView().getSystemTypeDescription(file);
+    	   //.button.System.out.println(s.toLowerCase());
+    	   //System.out.println("System Type description of " + file.getName() + " is " + FileSystemView.getFileSystemView().getSystemTypeDescription(file));
+    	   openFile(file);
        }
 
-       File test = new GrayScale().convert(file);
+      File test = new GrayScale().convert(file);
        if(test != null)
     	   openFile(test);
 
