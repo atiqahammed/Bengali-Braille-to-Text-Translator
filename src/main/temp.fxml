@@ -10,7 +10,7 @@
       <AnchorPane prefHeight="36.0" prefWidth="900.0" style="-fx-background-color: #111111;" />
       <AnchorPane layoutX="184.0" layoutY="36.0" prefHeight="464.0" prefWidth="717.0" style="-fx-background-color: #983456;">
          <children>
-            <Button layoutX="629.0" layoutY="88.0" mnemonicParsing="false" text="Choose" />
+            <Button fx:id="button_file_chooser" layoutX="629.0" layoutY="88.0" mnemonicParsing="false" text="Choose" />
             <TextField layoutX="288.0" layoutY="88.0" prefHeight="25.0" prefWidth="335.0" />
             <Button layoutX="539.0" layoutY="153.0" mnemonicParsing="false" text="Next" />
          </children>

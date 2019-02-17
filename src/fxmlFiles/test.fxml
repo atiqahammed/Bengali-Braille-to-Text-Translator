@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane layoutX="-34.0" layoutY="61.0" prefHeight="439.0" prefWidth="200.0" style="-fx-background-color: red;" />
+      <AnchorPane layoutX="166.0" layoutY="61.0" prefHeight="277.0" prefWidth="692.0" style="-fx-background-color: pink;" AnchorPane.rightAnchor="42.0" />
+      <AnchorPane layoutX="90.0" layoutY="-14.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: black;" />
+   </children>
+</AnchorPane>
