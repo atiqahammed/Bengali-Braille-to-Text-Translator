@@ -12,6 +12,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import preProcessor.GrayScale;
+import preProcessor.OtsuThresholding;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.Button;
@@ -37,29 +38,12 @@ public class Test extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		System.out.println("okk");
-		// TODO Auto-generated method stub
-
-
-
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("temp.fxml"));
 		Parent root = loader.load();
 
-
-
-
-
-
-
-		//Parent root = FXMLLoader.load(getClass().getResource("temp.fxml"));
 		primaryStage.initStyle(StageStyle.TRANSPARENT);
 		//primaryStage.initStyle(StageStyle.UNDECORATED);
 
-
-
-
-
-		 //grab your root here
         root.setOnMousePressed(new EventHandler<MouseEvent>() {
        @Override
        public void handle(MouseEvent event) {
@@ -95,14 +79,15 @@ public class Test extends Application{
        if(test != null)
     	   openFile(test);
 
+       OtsuThresholding thresholding = new OtsuThresholding();
+       thresholding.convert(test);
+       thresholding.test();
+
 
    });
 
 	if(button != null)
 		System.out.println("ok :)");
-
-
-
 
 		Scene scene = new Scene(root);
 		scene.setFill(Color.TRANSPARENT);

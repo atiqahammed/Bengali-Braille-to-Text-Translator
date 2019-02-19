@@ -1,13 +1,10 @@
 package preProcessor;
 
 import java.awt.image.BufferedImage;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
 import java.io.*;
-
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
