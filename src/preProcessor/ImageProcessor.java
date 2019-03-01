@@ -63,7 +63,7 @@ public abstract class ImageProcessor implements IImageProcessor {
 	}
 
 	private File getImageFile() {
-		imagePath = '/' + imageFileName + "." + imageType;
+		imagePath = imageFileName + "." + imageType;
 		//System.out.println(imagePath);
 		File ouptut = new File(imagePath);
 		try {
