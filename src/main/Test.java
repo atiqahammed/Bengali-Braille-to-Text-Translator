@@ -12,6 +12,7 @@ import javafx.application.Application;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import preProcessor.BiHistogramEqualizer;
 import preProcessor.BinaryImageProcessor;
 import preProcessor.GrayScale;
 import preProcessor.OtsuThresholding;
@@ -81,13 +82,20 @@ public class Test extends Application {
 
 
 
-			int grayLevel = new OtsuThresholding().getThresholdGrayLevel(test);
+			// MID POINT FOR BI HISTOGRAM EQUALIZATION
+			OtsuThresholding otsuThresholding = new OtsuThresholding();
+			int grayLevel = otsuThresholding.getThresholdGrayLevel(test);
 			System.out.println(grayLevel);
+			Map<Integer, Long> grayScaleFrequency = otsuThresholding.getGrayScaleFrequency();
 
+			BiHistogramEqualizer equalizer = new BiHistogramEqualizer();
+			equalizer.getBiHistogramEqualizedImage(test, grayLevel, grayScaleFrequency);
+
+/*
 			File biImg = new BinaryImageProcessor().getBinaryImage(test, grayLevel);
 			if(biImg != null)
 				openFile(biImg);
-
+*/
 
 			//Map<Integer, Long> grayScaleFrequency = new OtsuThresholding().getGrayScaleFrequency(test);
 

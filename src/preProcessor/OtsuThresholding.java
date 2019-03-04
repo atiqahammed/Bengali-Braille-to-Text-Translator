@@ -18,6 +18,10 @@ public class OtsuThresholding extends ImageProcessor {
 
 	private long totalNumberOfPixel;
 
+	public Map<Integer, Long> getGrayScaleFrequency() {
+		return grayScaleFrequency;
+	}
+
 	@Override
 	protected void writePixel(int x, int y) {
 		Color c = new Color(image.getRGB(y, x));
