@@ -89,8 +89,9 @@ public class Test extends Application {
 			Map<Integer, Long> grayScaleFrequency = otsuThresholding.getGrayScaleFrequency();
 
 			BiHistogramEqualizer equalizer = new BiHistogramEqualizer();
-			equalizer.getBiHistogramEqualizedImage(test, grayLevel, grayScaleFrequency);
-
+			File img = equalizer.getBiHistogramEqualizedImage(test, grayLevel, grayScaleFrequency);
+			if(img != null)
+				openFile(img);
 /*
 			File biImg = new BinaryImageProcessor().getBinaryImage(test, grayLevel);
 			if(biImg != null)
