@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Erosion extends ImageProcessor{
+public class Dilation extends ImageProcessor{
 
 
 	private int row[] = {-1, 0, 1, 0};
@@ -52,7 +52,7 @@ public class Erosion extends ImageProcessor{
 
 
 		Color color;
-		if (count == 4) {
+		if (count >= 1) {
 			color = new Color(0, 0,  0);
 		}
 

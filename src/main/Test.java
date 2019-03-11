@@ -14,9 +14,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import preProcessor.BiHistogramEqualizer;
 import preProcessor.BinaryImageProcessor;
+import preProcessor.Dilation;
+import preProcessor.Erosion;
 import preProcessor.GrayScale;
 import preProcessor.HistogramEqualizer;
 import preProcessor.OtsuThresholding;
+import test.Temp;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.Button;
@@ -66,32 +69,58 @@ public class Test extends Application {
 		Button button = (Button) loader.getNamespace().get("button_file_chooser");
 		button.setOnAction(e -> {
 			File file = fileChooser.showOpenDialog(primaryStage);
-			if (file != null) {
 
-				// String s =
-				// FileSystemView.getFileSystemView().getSystemTypeDescription(file);
-				// .button.System.out.println(s.toLowerCase());
-				// System.out.println("System Type description of " +
-				// file.getName() + " is " +
-				// FileSystemView.getFileSystemView().getSystemTypeDescription(file));
+
+			if (file != null) {
 				openFile(file);
 			}
+
+
 
 			File test = new GrayScale().convert(file);
 			if (test != null)
 				openFile(test);
+			System.out.println("gray conversion completed");
 
 
 			OtsuThresholding otsuThresholding = new OtsuThresholding();
 			int grayLevel = otsuThresholding.getThresholdGrayLevel(test);
-			System.out.println(grayLevel);
-			Map<Integer, Long> grayScaleFrequency = otsuThresholding.getGrayScaleFrequency();
+			Map<Integer, Long> getThMap = otsuThresholding.getGrayScaleFrequency();
 
-			HistogramEqualizer histogramEqualizer = new HistogramEqualizer();
-			File biImg = histogramEqualizer.getHistogramEqualizedImage(test, grayScaleFrequency);
 
-			if(biImg != null)
-				openFile(biImg);
+			//File biHiFile = new BiHistogramEqualizer().getBiHistogramEqualizedImage(test, grayLevel, getThMap);
+			//openFile(biHiFile);
+
+
+
+
+
+			File binaryImage = new BinaryImageProcessor().getBinaryImage(test, grayLevel + 30);
+			if(binaryImage != null)
+				openFile(binaryImage);
+
+
+
+
+			File deFile = new Dilation().getImage(binaryImage);
+			openFile(deFile);
+
+
+
+
+
+			new Temp().run(deFile);
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -99,34 +128,34 @@ public class Test extends Application {
 
 
 			/*
-			// MID POINT FOR BI HISTOGRAM EQUALIZATION
-			OtsuThresholding otsuThresholding = new OtsuThresholding();
-			int grayLevel = otsuThresholding.getThresholdGrayLevel(test);
-			System.out.println(grayLevel);
-			Map<Integer, Long> grayScaleFrequency = otsuThresholding.getGrayScaleFrequency();
+			File el = new Erosion().getImage(deFile);
+			openFile(el);
 
-			BiHistogramEqualizer equalizer = new BiHistogramEqualizer();
-			File img = equalizer.getBiHistogramEqualizedImage(test, grayLevel, grayScaleFrequency);
-			if(img != null)
-				openFile(img);
+			File deFile2 = new Dilation().getImage(el);
+			openFile(deFile2);
+			*/
+
+
 /*
-			File biImg = new BinaryImageProcessor().getBinaryImage(test, grayLevel);
-			if(biImg != null)
-				openFile(biImg);
+
+			File deFile = new Dilation().getImage(binaryImage);
+			openFile(deFile);
+			File deFile2 = new Dilation().getImage(deFile);
+			openFile(deFile2);
+
 */
 
-			//Map<Integer, Long> grayScaleFrequency = new OtsuThresholding().getGrayScaleFrequency(test);
 
-			/*
-			for(int i = 0; i <=  255; i++) {
-				System.out.println(i + " >> " + grayScaleFrequency.get(i));
-			}*/
+
+
+			//System.out.println(grayLevel + "level");
+			//Map<Integer, Long> grayScaleFrequency = otsuThresholding.getGrayScaleFrequency();
+
+
 
 
 
 		});
-
-
 
 		Scene scene = new Scene(root);
 		scene.setFill(Color.TRANSPARENT);

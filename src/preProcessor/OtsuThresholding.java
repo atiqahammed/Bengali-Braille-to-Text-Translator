@@ -134,12 +134,6 @@ public class OtsuThresholding extends ImageProcessor {
 		backgroudMean.put(grayLevel, bgMean);
 		backgroundVariane.put(grayLevel, variance);
 
-		// System.out.println(bgMean);
-
-		// System.out.println(variance);
-		// System.out.println(backgroundMean);
-		// System.out.println(weight);
-
 	}
 
 }

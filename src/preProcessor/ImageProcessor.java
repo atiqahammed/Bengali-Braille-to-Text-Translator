@@ -62,7 +62,7 @@ public abstract class ImageProcessor implements IImageProcessor {
 		return getImageFile();
 	}
 
-	private File getImageFile() {
+	protected File getImageFile() {
 		imagePath = imageFileName + "." + imageType;
 		File ouptut = new File(imagePath);
 		try {
