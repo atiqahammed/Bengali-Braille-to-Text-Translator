@@ -19,6 +19,8 @@ import preProcessor.Erosion;
 import preProcessor.GrayScale;
 import preProcessor.HistogramEqualizer;
 import preProcessor.OtsuThresholding;
+import test.LineProcess;
+import test.Process;
 import test.Temp;
 import javafx.fxml.*;
 import javafx.scene.*;
@@ -79,12 +81,13 @@ public class Test extends Application {
 
 			File test = new GrayScale().convert(file);
 			//if (test != null)
-			//	openFile(test);
+			//openFile(test);
 			System.out.println("gray conversion completed");
 
 
 			OtsuThresholding otsuThresholding = new OtsuThresholding();
 			int grayLevel = otsuThresholding.getThresholdGrayLevel(test);
+			System.out.println(grayLevel + " : thresholding");
 			Map<Integer, Long> getThMap = otsuThresholding.getGrayScaleFrequency();
 
 
@@ -95,21 +98,27 @@ public class Test extends Application {
 
 
 
-			File binaryImage = new BinaryImageProcessor().getBinaryImage(test, grayLevel + 30);
+
+
+			File binaryImage = new BinaryImageProcessor().getBinaryImage(test, grayLevel);
 			//if(binaryImage != null)
-				///openFile(binaryImage);
+			//	openFile(binaryImage);
 
 
 
 
 			File deFile = new Dilation().getImage(binaryImage);
-			//openFile(deFile);
+			//	openFile(deFile);
+
+			File file2 = new Process().run(deFile);
+
+			//openFile(file2);
 
 
+			File file3 = new LineProcess().run(file2);
+			openFile(file3);
 
-
-
-			new Temp().run(deFile);
+			//new Temp().run(deFile);
 
 
 

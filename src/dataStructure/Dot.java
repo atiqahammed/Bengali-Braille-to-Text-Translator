@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import com.sun.corba.se.impl.interceptors.PINoOpHandlerImpl;
+
 public class Dot {
 
 	private Point center;
@@ -13,6 +15,10 @@ public class Dot {
 	private int endingX;
 	private int startingY;
 	private int endingY;
+
+
+	private ArrayList<Point> indexsOfPixels;
+
 
 	public Dot(ArrayList<String> indexsOfPixels) {
 
@@ -52,6 +58,46 @@ public class Dot {
 
 	}
 
+	public Dot() {
+		indexsOfPixels = new ArrayList<>();
+	}
+
+	public void processDot() {
+		ArrayList<Integer> allXIndexs = new ArrayList<Integer>();
+		ArrayList<Integer> allYIndexs = new ArrayList<Integer>();
+
+		for (int i = 0; i < indexsOfPixels.size(); i++) {
+			Point point = indexsOfPixels.get(i);
+			//String arr[] = indexOfPixel.split("-");
+
+			allYIndexs.add(point.getY());
+			allXIndexs.add(point.getX());
+
+		}
+
+		Collections.sort(allXIndexs);
+		Collections.sort(allXIndexs);
+
+		startingX = allXIndexs.get(0);
+		endingX = allXIndexs.get(allXIndexs.size() - 1);
+
+		startingY = allYIndexs.get(0);
+		endingY = allYIndexs.get(allYIndexs.size() - 1);
+
+		Point leftUpperPixel = new Point(startingX, startingY);
+		Point rightUpperPixel = new Point(endingX, startingY);
+		Point leftLowerPixel = new Point(startingX, endingY);
+		Point rightLowerPixel = new Point(endingX, endingY);
+
+		double sumOfAllDistance = leftUpperPixel.getDistance(rightUpperPixel)
+				+ leftUpperPixel.getDistance(leftLowerPixel) + leftUpperPixel.getDistance(rightLowerPixel)
+				+ leftLowerPixel.getDistance(rightLowerPixel) + rightLowerPixel.getDistance(rightUpperPixel);
+
+		redious = (int) (sumOfAllDistance / 6);
+
+		center = new Point((startingX + endingX) / 2, (startingY + endingY) / 2);
+	}
+
 	public Point getCenter() {
 		return center;
 	}
@@ -76,13 +122,12 @@ public class Dot {
 		return endingY;
 	}
 
-	public int compareTo(Dot o) {
-		return center.getX() < o.getCenter().getX() ? -1
-				: center.getX() > o.getCenter().getX() ? 1 : doSecodaryOrderSort(o);
+	public void addPixels(Point point) {
+		indexsOfPixels.add(point);
 	}
 
-	public int doSecodaryOrderSort(Dot o) {
-		return center.getY() < o.getCenter().getX() ? -1 : center.getY() > o.getCenter().getX() ? 1 : 0;
+	public int getPixelSIze() {
+		return indexsOfPixels.size();
 	}
 
 }
