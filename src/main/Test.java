@@ -72,14 +72,14 @@ public class Test extends Application {
 
 
 			if (file != null) {
-				openFile(file);
+			//	openFile(file);
 			}
 
 
 
 			File test = new GrayScale().convert(file);
-			if (test != null)
-				openFile(test);
+			//if (test != null)
+			//	openFile(test);
 			System.out.println("gray conversion completed");
 
 
@@ -96,14 +96,14 @@ public class Test extends Application {
 
 
 			File binaryImage = new BinaryImageProcessor().getBinaryImage(test, grayLevel + 30);
-			if(binaryImage != null)
-				openFile(binaryImage);
+			//if(binaryImage != null)
+				///openFile(binaryImage);
 
 
 
 
 			File deFile = new Dilation().getImage(binaryImage);
-			openFile(deFile);
+			//openFile(deFile);
 
 
 
