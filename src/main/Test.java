@@ -70,8 +70,15 @@ public class Test extends Application {
 
 		Button button = (Button) loader.getNamespace().get("button_file_chooser");
 		button.setOnAction(e -> {
-			File file = fileChooser.showOpenDialog(primaryStage);
 
+			File dataFile = new File("IMG_1838.JPG");
+			openFile(dataFile);
+
+			//File file = fileChooser.showOpenDialog(primaryStage);
+
+
+
+			/*
 
 			if (file != null) {
 			//	openFile(file);
