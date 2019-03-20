@@ -14,6 +14,8 @@ public class Dilation extends ImageProcessor{
 	private int col[] = {0, 1, 0, -1};
 	protected BufferedImage image2;
 	int total = 0;
+	private Color white = new Color(255, 255, 255);
+	private Color black = new Color(0, 0, 0);
 
 
 
@@ -41,7 +43,7 @@ public class Dilation extends ImageProcessor{
 				Color color = new Color(image.getRGB(tempY, tempX));
 				int grayValue = (int) color.getRed();
 				//System.out.println(grayValue);
-				if(grayValue == 0) {
+				if(grayValue == 255) {
 					count++;
 					//System.out.println(i + " " + count);
 				}
@@ -53,11 +55,12 @@ public class Dilation extends ImageProcessor{
 
 		Color color;
 		if (count >= 1) {
-			color = new Color(0, 0,  0);
+			//color = new Color(0, 0,  0);
+			color = white;
 		}
 
 		else {
-			color = new Color(255, 255, 255);
+			color = black;//new Color(255, 255, 255);
 		}
 
 		image2.setRGB(y, x, color.getRGB());
@@ -66,7 +69,7 @@ public class Dilation extends ImageProcessor{
 	@Override
 	protected void initializedPreOperation() {
 
-		imageFileName = "EROSION_Image_" + imageFileName;
+		imageFileName = "Dilation_Image_" + imageFileName;
 		image2 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 	}
