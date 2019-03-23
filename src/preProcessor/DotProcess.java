@@ -81,222 +81,91 @@ public class DotProcess {
 					outputImage.setRGB(x, y, white.getRGB());
 				}
 			}
-
-			double height = dot.getEndingY() - dot.getStartingY();
-			double width = dot.getEndingY() - dot.getStartingY();
-			double area = height * width;
-			totalArea += area;
-
-			allArea.add(area);
 		}
 
-		//// area
-		System.out.println("area information");
-		System.out.println(allArea.size());
 
-		Collections.sort(allArea);
 
-		System.out.println(allArea.get(0));
-		System.out.println(allArea.get(allArea.size() - 1));
-		System.out.println(allArea.get(allArea.size() / 2));
-		System.out.println(totalArea / allArea.size());
-		int radious = (int) Math.sqrt(allArea.get(allArea.size() - 1));
-		System.out.println("radious " + radious);
-		System.out.println("end of area information");
+		Map<String, Boolean> pixelCounted = new TreeMap<String, Boolean>();
 
+
+		Dot dot = uniqueDots.get(1);
+
+		System.out.println("--------------");
+		System.out.println(dot.getStartingX() + " " + dot.getEndingY());
+		System.out.println("--------------");
+		ArrayList<String> pixelList = new ArrayList<String>();
+		ArrayList<String> oneDot = new ArrayList<>();
 		int count = 0;
 
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
 
-				if (isColor(y, x, white, outputImage)) {
-					count++;
-				}
 
+		for(int y = dot.getStartingY(); y <= dot.getEndingY(); y++) {
+			for(int x = dot.getStartingX(); x <= dot.getEndingX(); x ++) {
+				String pixel = getStringIndex(x, y);
+				pixelList.add(pixel);
+
+				oneDot.add(pixel);
+
+				pixelCounted.put(pixel, true);
+				count++;
 			}
-		}
+		}/// traversing a single dot
+		System.out.println(pixelList.size() +" pevious size");
 
-		System.out.println("total white color = " + count);
+		while(pixelList.size() > 0) {
+			String currentPixel = pixelList.get(0);
+			pixelList.remove(0);
 
-		for (int uniqueDotIndex = 1; uniqueDotIndex < 2/* uniqueDots.size() */; uniqueDotIndex++) {
-
-			Dot dot = uniqueDots.get(uniqueDotIndex);
-			dot.processDot();
-
-			System.out.println(dot.getStartingY() + "-" + dot.getStartingX());
-			System.out.println(dot.getEndingY() + "-" + dot.getEndingX());
-
-			for (int x = dot.getStartingX(); x <= dot.getEndingX(); x++) {
-				for (int y = dot.getStartingY(); y <= dot.getEndingY(); y++) {
-					// outputImage.setRGB(x, y, yellow.getRGB());
-
-					Color tempColor = new Color(outputImage.getRGB(x, y));
-
-					if (isColorEquals(tempColor, white)) {
-						ArrayList<Point> list = new ArrayList<>();
-						list.add(new Point(x, y));
-
-						while (list.size() > 0) {
-							Point currentPoint = list.get(0);
-							System.out.println("queue size = " +list.size());
+			String []pixVal = currentPixel.split("-");
+			int x = Integer.parseInt(pixVal[0]);
+			int y = Integer.parseInt(pixVal[1]);
 
 
+			for(int neighbourY = -1; neighbourY <= 1; neighbourY++) {
+				for(int neighbourX = -1; neighbourX <= 1; neighbourX++) {
+					int tempY = y + neighbourY;
+					int tempX = x + neighbourX;
 
-							for (int treverseIndexY = -1; treverseIndexY <= 1; treverseIndexY++) {
-								for (int treverseIndexX = -1; treverseIndexX <= 1; treverseIndexX++) {
-									int tempY = y + treverseIndexY;
-									int tempX = x + treverseIndexX;
+					String tempPixelString = getStringIndex(tempX, tempY);
 
-									if (isAPixelIndex(x, y)) {
-
-
-
-										if(currentPoint.getX() > 2347 || currentPoint.getX() < 2329 || currentPoint.getY() < 151 || currentPoint.getY() > 160)
-										System.out.println(tempX + " ooooo " + tempY);
-										if(isColor(tempY, tempX, white, outputImage)) {
-											list.add(new Point(tempX, tempY));
-											System.out.println("white color ");
-										} else {
-											if(isColor(tempY, tempX, black, outputImage))
-												System.out.println("black color");
-											else if(isColor(tempY, tempX, yellow, outputImage))
-												System.out.println("yello color");
-											else System.out.println("undefined color");
-										}
-
-
-									}
-
-								}
-							}
-
-							outputImage.setRGB(currentPoint.getX(), currentPoint.getY(), yellow.getRGB());
-							if(currentPoint.getX() > 2347 || currentPoint.getX() < 2329 || currentPoint.getY() < 151 || currentPoint.getY() > 160) {
-								System.out.println(currentPoint.getX()+"____"+ currentPoint.getY());
-							}
-
-
-							list.remove(0);
-						}
+					if(isColor(tempY, tempX, white, outputImage) && !pixelCounted.containsKey(tempPixelString)) {
+						//System.out.println("paichi");
+						//System.out.println(tempY + " " + tempX);
+						pixelList.add(tempPixelString);
+						pixelCounted.put(tempPixelString, true);
+						oneDot.add(tempPixelString);
 
 					}
 
-					// list.add(new Point(x, y));
-
 				}
 			}
 
+			//break;/// error
 		}
 
-		// ArrayList<Dot> connectedDots = new ArrayList<Dot>();
 
-		/*
-		 * for(int dotIndex = 0; dotIndex < uniqueDots.size(); dotIndex++) { Dot
-		 * dot = uniqueDots.get(dotIndex);
-		 *
-		 *
-		 * Point dotCenter = dot.getCenter(); System.out.println("dot center = "
-		 * + dotCenter.getX() + " " + dotCenter.getY());
-		 *
-		 *
-		 *
-		 * boolean flag = false; for(int i = dot.getStartingY(); i <=
-		 * dot.getEndingY(); i++) { for(int j = dot.getStartingX(); j <=
-		 * dot.getEndingX(); j++) {
-		 *
-		 * for(int y = -radious; y <= radious; y++) { for(int x = -radious; x <=
-		 * radious; x++) { if(x>= 0 && x<width && y>=0 && y<height){ Color c =
-		 * new Color(outputImage.getRGB(x, y)); if(c.getRed() == 255 &&
-		 * c.getGreen() == 255 && c.getBlue() == 0) { flag = true; break; } } }
-		 * }
-		 *
-		 *
-		 *
-		 *
-		 * }
-		 *
-		 * if(flag) break; }
-		 *
-		 *
-		 *
-		 * if(flag) {
-		 *
-		 * for(int i = dot.getStartingY(); i <= dot.getEndingY(); i++) { for(int
-		 * j = dot.getStartingX(); j <= dot.getEndingX(); j++) {
-		 *
-		 *
-		 *
-		 * Color c = new Color(outputImage.getRGB(j, i)); if(c.getRed() == 255
-		 * && c.getGreen() == 255 && c.getBlue() == 255) { outputImage.setRGB(j,
-		 * i, black.getRed()); }
-		 *
-		 *
-		 * }
-		 *
-		 *
-		 * }
-		 *
-		 *
-		 * } else {
-		 *
-		 * int centerX = dot.getCenter().getX(); int centerY =
-		 * dot.getCenter().getY();
-		 *
-		 * for(int i = - radious; i <= radious; i++) { for(int j = -radious; j
-		 * <= radious; j++) { int x = centerX + j; int y = centerY + i;
-		 *
-		 *
-		 * if(x >= 0 && x < width && y >= 0 && y <height) {
-		 * outputImage.setRGB(x, y, yellow.getRGB()); }
-		 *
-		 *
-		 * } }
-		 *
-		 *
-		 *
-		 * } }
-		 */
+		System.out.println(oneDot.size() + " after size");
+		//System.out.println("count of pixel " + count);
 
-		/*
-		 *
-		 *
-		 *
-		 * Dot dot = uniqueDots.get(0); dot.processDot();
-		 *
-		 *
-		 *
-		 *
-		 * for(int x = dot.getStartingX(); x <= dot.getEndingX(); x++) { for(int
-		 * y = dot.getStartingY(); y <= dot.getEndingY(); y++) {
-		 * //outputImage.setRGB(x, y, red.getRGB());
-		 *
-		 *
-		 *
-		 *
-		 * } }
-		 *
-		 * System.out.println("starting X: " + dot.getStartingX());
-		 * System.out.println("starting Y: " + dot.getStartingY());
-		 *
-		 *
-		 *
-		 *
-		 *
-		 *
-		 *
-		 *
-		 *
-		 *
-		 * Color clr = new Color(outputImage.getRGB(dot.getStartingX()-1,
-		 * dot.getStartingY())); System.out.println(clr.getRed() + " " +
-		 * clr.getGreen() +" "+clr.getBlue());
-		 *
-		 *
-		 *
-		 *
-		 *
-		 *
-		 */
+
+		for(int i = 0; i < oneDot.size(); i++) {
+			String s = oneDot.get(i);
+
+			String []arr = s.split("-");
+			int x = Integer.parseInt(arr[0]);
+			int y = Integer.parseInt(arr[1]);
+
+			outputImage.setRGB(x, y, red.getRGB());
+		}
+
+
+
+
+
+
+
+
+
 
 		File outputfile = new File("dotDetected.jpg");
 		try {

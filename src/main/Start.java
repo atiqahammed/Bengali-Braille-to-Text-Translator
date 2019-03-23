@@ -12,6 +12,7 @@ import preProcessor.DotProcess;
 import preProcessor.GrayScale;
 import preProcessor.MedianFilter;
 import preProcessor.OtsuThresholding;
+import preProcessor.SingleDot;
 
 public class Start {
 	static Desktop desktop = Desktop.getDesktop();
@@ -31,17 +32,25 @@ public class Start {
 		File binaryImage = new BinaryImageProcessor2().getBinaryImage(blackAndWhiteImage, grayLevel);
 		System.out.println("binary image conversion is completed...");
 
-		File dImage = new Dilation().getImage(binaryImage);
+
+		File MFile = new MedianFilter().getFilteredImage(binaryImage, 1);
+		System.out.println("median filter is done...");
+
+
+		File dImage = new Dilation().getImage(MFile);
 		System.out.println("Dilation is completed...");
 
 		File dotFile = new DotProcess().getRectangularDottedFile(dImage);
 		System.out.println("Dot detected...");
 
-		File MFile = new MedianFilter().getFilteredImage(dotFile, 1);
-		System.out.println("median filter is done...");
 
-		File dotFile2 = new DotProcess().getRectangularDottedFile(MFile);
-		System.out.println("Dot detected...");
+	//	File singleDot = new SingleDot().getRectangularDottedFile(dotFile);
+	//	System.out.println("Single Dot Processed...");
+
+
+
+		//File dotFile2 = new DotProcess().getRectangularDottedFile(MFile);
+		//System.out.println("Dot detected...");
 
 		// GrayFilter filter = new GrayFilter(b, p)
 
