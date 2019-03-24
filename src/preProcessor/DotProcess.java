@@ -85,6 +85,87 @@ public class DotProcess {
 
 
 
+
+		int cnt = 0;
+
+		for(int ii = 0; ii < uniqueDots.size(); ii++) {
+			Map<String, Boolean> pixelCounted = new TreeMap<String, Boolean>();
+			Dot dot = uniqueDots.get(ii);
+			ArrayList<String> pixelList = new ArrayList<String>();
+			ArrayList<String> oneDot = new ArrayList<>();
+
+			boolean flag = false;
+
+			for(int y = dot.getStartingY(); y <= dot.getEndingY(); y++) {
+				for(int x = dot.getStartingX(); x <= dot.getEndingX(); x ++) {
+
+					String pixel = getStringIndex(x, y);
+					if(!isColor(y, x, white, outputImage))
+						flag = true;
+					pixelList.add(pixel);
+					oneDot.add(pixel);
+					pixelCounted.put(pixel, true);
+					//count++;
+				}
+			}
+
+			if(flag)
+				continue;
+
+
+			while(pixelList.size() > 0) {
+				String currentPixel = pixelList.get(0);
+				pixelList.remove(0);
+
+				String []pixVal = currentPixel.split("-");
+				int x = Integer.parseInt(pixVal[0]);
+				int y = Integer.parseInt(pixVal[1]);
+
+
+				for(int neighbourY = -1; neighbourY <= 1; neighbourY++) {
+					for(int neighbourX = -1; neighbourX <= 1; neighbourX++) {
+						int tempY = y + neighbourY;
+						int tempX = x + neighbourX;
+
+						String tempPixelString = getStringIndex(tempX, tempY);
+
+						if(isColor(tempY, tempX, white, outputImage) && !pixelCounted.containsKey(tempPixelString)) {
+							//System.out.println("paichi");
+							//System.out.println(tempY + " " + tempX);
+							pixelList.add(tempPixelString);
+							pixelCounted.put(tempPixelString, true);
+							oneDot.add(tempPixelString);
+
+						}
+
+					}
+				}
+
+
+				//break;/// error
+			}
+
+			for(int i = 0; i < oneDot.size(); i++) {
+				String s = oneDot.get(i);
+
+				String []arr = s.split("-");
+				int x = Integer.parseInt(arr[0]);
+				int y = Integer.parseInt(arr[1]);
+
+				outputImage.setRGB(x, y, red.getRGB());
+			}
+
+			cnt++;
+
+
+		}
+
+		System.out.println(cnt);
+
+
+
+		/*
+
 		Map<String, Boolean> pixelCounted = new TreeMap<String, Boolean>();
 
 
@@ -162,7 +243,7 @@ public class DotProcess {
 
 
 
-
+		*/
 
 
 
