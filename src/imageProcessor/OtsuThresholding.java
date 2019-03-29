@@ -1,11 +1,11 @@
-package preProcessor;
+package imageProcessor;
 
 import java.awt.Color;
 import java.io.File;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class OtsuThresholding extends ImageProcessor {
+public class OtsuThresholding extends ImageProcessor{
 
 	private Map<Integer, Long> grayScaleFrequency;
 	private Map<Integer, Double> backgroundWeight;
@@ -18,39 +18,17 @@ public class OtsuThresholding extends ImageProcessor {
 
 	private long totalNumberOfPixel;
 
-	public Map<Integer, Long> getGrayScaleFrequency() {
-		return grayScaleFrequency;
-	}
 
 	@Override
-	protected void writePixel(int x, int y) {
-		Color c = new Color(image.getRGB(y, x));
+	protected void operatePixel(int indexOfRow, int indexOfColumn) {
+		Color c = new Color(inputImage.getRGB(indexOfColumn, indexOfRow));
 		int grayLevel = (int) c.getRed();
 		grayScaleFrequency.put(grayLevel, grayScaleFrequency.get(grayLevel) + 1);
-	}
-
-	@Override
-	protected void initializedPreOperation() {
-
-		totalNumberOfPixel = height * width;
-		grayScaleFrequency = new TreeMap<>();
-		backgroundWeight = new TreeMap<>();
-		foregroundWeight = new TreeMap<>();
-		backgroudMean = new TreeMap<>();
-		foregroudMean = new TreeMap<>();
-		backgroundVariane = new TreeMap<>();
-		foregroundVariane = new TreeMap<>();
-		withinClassVariance = new TreeMap<>();
-
-		long initialValue = 0;
-		for (int i = 0; i < 256; i++) {
-			grayScaleFrequency.put(i, initialValue);
-		}
 
 	}
 
 	public int getThresholdGrayLevel(File imageFile) {
-		convert(imageFile);
+		process(imageFile);
 
 		for (int i = 0; i <= 255; i++) {
 			calculateBackgroundPixels(i);
@@ -67,7 +45,27 @@ public class OtsuThresholding extends ImageProcessor {
 				smallestIndex = i;
 			}
 		}
+
 		return smallestIndex;
+	}
+
+	@Override
+	protected void init() {
+		totalNumberOfPixel = imageHeight * imageWidth;
+		grayScaleFrequency = new TreeMap<>();
+		backgroundWeight = new TreeMap<>();
+		foregroundWeight = new TreeMap<>();
+		backgroudMean = new TreeMap<>();
+		foregroudMean = new TreeMap<>();
+		backgroundVariane = new TreeMap<>();
+		foregroundVariane = new TreeMap<>();
+		withinClassVariance = new TreeMap<>();
+
+		long initialValue = 0;
+		for (int i = 0; i < 256; i++) {
+			grayScaleFrequency.put(i, initialValue);
+		}
+
 	}
 
 	private void calculateWithInClassVariance() {

@@ -5,7 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import utility.Utility;
+import util.Utils;
 
 public class Home extends Application{
 
@@ -34,7 +34,7 @@ public class Home extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle(Utility.BRAILLE_TO_TEXT_TRANSLATOR);
+		primaryStage.setTitle(Utils.BRAILLE_TO_TEXT_TRANSLATOR);
 		Button button = new Button();
 
 		button.setText("Click Me");

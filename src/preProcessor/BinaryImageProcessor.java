@@ -37,8 +37,4 @@ public class BinaryImageProcessor extends ImageProcessor{
 		return convert(imageFile);
 	}
 
-
-
-
-
 }

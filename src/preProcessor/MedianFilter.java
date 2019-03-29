@@ -9,6 +9,8 @@ import java.util.Collections;
 
 import javax.imageio.ImageIO;
 
+import util.Utils;
+
 public class MedianFilter extends ImageProcessor {
 
 	int karnelSize;
@@ -17,8 +19,8 @@ public class MedianFilter extends ImageProcessor {
 	private int col[] = { 0, 1, 0, -1 };
 	protected BufferedImage image2;
 	int total = 0;
-	private Color white = new Color(255, 255, 255);
-	private Color black = new Color(0, 0, 0);
+	//private Color white = new Color(255, 255, 255);
+	//private Color black = new Color(0, 0, 0);
 
 	@Override
 	protected void writePixel(int x, int y) {
@@ -44,16 +46,9 @@ public class MedianFilter extends ImageProcessor {
 		int medianValue = colorValue.get(colorValue.size()/2);
 		Color color;
 		if(medianValue == 0)
-			color = black;
-		else color = white;
+			color = Utils.BLACK;
+		else color = Utils.WHITE;
 		image2.setRGB(y, x, color.getRGB());
-
-
-		// Color c = new Color(image.getRGB(y, x));
-		// int grayScale = (int) c.getRed();
-
-		// image2.setRGB(y, x, color.getRGB());
-
 	}
 
 	@Override

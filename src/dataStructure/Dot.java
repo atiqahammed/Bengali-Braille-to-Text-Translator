@@ -76,7 +76,7 @@ public class Dot {
 		}
 
 		Collections.sort(allXIndexs);
-		Collections.sort(allXIndexs);
+		Collections.sort(allYIndexs);
 
 		startingX = allXIndexs.get(0);
 		endingX = allXIndexs.get(allXIndexs.size() - 1);
