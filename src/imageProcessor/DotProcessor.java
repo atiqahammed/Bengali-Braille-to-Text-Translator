@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -25,6 +26,13 @@ public class DotProcessor {
 	ArrayList<Dot> uniqueDots = new ArrayList<>();
 	Map<String, Boolean> isAPartOfADot = new TreeMap<String, Boolean>();
 	Map<String, Dot> indexStringToDotMapping = new TreeMap<String, Dot>();
+	Map<Integer, ArrayList<Integer>> lineMapped = new TreeMap<Integer, ArrayList<Integer>>();
+	Map<Integer, ArrayList<Integer>> lineMappedXX = new TreeMap<Integer, ArrayList<Integer>>();
+	Map<Integer, ArrayList<Point>> lineMapped2 = new TreeMap<Integer, ArrayList<Point>>();
+
+
+
+
 
 
 
@@ -52,11 +60,6 @@ public class DotProcessor {
 			}
 		}
 
-
-		// out put image initialization
-
-
-		// nwe part
 		int cnt = 0;
 		ArrayList<Dot> FirstStepSelectedDot = new ArrayList<>();
 		ArrayList<ArrayList<String>> twoDString = new ArrayList<>();
@@ -104,8 +107,6 @@ public class DotProcessor {
 						String tempPixelString = getStringIndex(tempX, tempY);
 
 						if(isColor(tempY, tempX, Utils.WHITE, outputImage) && !pixelCounted.containsKey(tempPixelString)) {
-							//System.out.println("paichi");
-							//System.out.println(tempY + " " + tempX);
 							pixelList.add(tempPixelString);
 							pixelCounted.put(tempPixelString, true);
 							oneDot.add(tempPixelString);
@@ -115,8 +116,6 @@ public class DotProcessor {
 					}
 				}
 
-
-				//break;/// error
 			}
 
 			ArrayList<String> newString = new ArrayList<>();
@@ -132,43 +131,302 @@ public class DotProcessor {
 
 			}
 
-			System.out.println("-- " + newString.size() + "  index > " + cnt);
+			//System.out.println("-- " + newString.size() + "  index > " + cnt);
 			twoDString.add(newString);
 
 			cnt++;
 
 		}
 
-		System.out.println(twoDString.size());
+		//System.out.println(twoDString.size());
 		for(int i = 0; i < twoDString.size(); i++) {
 			Dot tempDot = new Dot(twoDString.get(i));
 			FirstStepSelectedDot.add(tempDot);
 		}
 
-		System.out.println(FirstStepSelectedDot.size());
+		//System.out.println(FirstStepSelectedDot.size());
 		initializeOutputImage();
+
+		ArrayList<Point> allCenter = new ArrayList<>();
 
 		for(int index = 0; index< twoDString.size(); index++) {
 
 			ArrayList<String> xx = twoDString.get(index);
-
-
 			BrailleDor brailleDor = new BrailleDor(xx);
 			Point center = brailleDor.getCenter();
+			allCenter.add(center);
 
 			for(int x = -1 ; x <= 1; x++) {
 				for(int y = -1; y <= 1; y++) {
 					int tempX = center.getX() + x;
 					int tempY = center.getY() + y;
 
-
 					if(tempY >= 0 && tempY < height && tempY >= 0 && tempY < width)
-						outputImage.setRGB(tempX, tempY, Color.WHITE.getRed());
+						outputImage.setRGB(tempX, tempY, Color.WHITE.getRGB());
 				}
+			}
+		}
+
+
+
+
+		int iniTialPoint = -1;
+		int count = 0;
+		int maxH = 20;
+		ArrayList<Integer> lineIndex = new ArrayList<Integer>();
+		ArrayList<Integer> dotsInLine = new ArrayList<Integer>();
+		ArrayList<Integer> dotsInLinexx = new ArrayList<Integer>();
+
+		ArrayList<Point> pointInLine = new ArrayList<Point>();
+
+
+		for(int i = 0; i < allCenter.size(); i++) {
+
+
+			int centerY = allCenter.get(i).getY();
+			//
+
+			if(centerY - iniTialPoint >= maxH) {
+				if(count > 2) {
+					lineIndex.add(iniTialPoint);
+					lineMapped.put(iniTialPoint, (ArrayList<Integer>) dotsInLine.clone());
+					lineMapped2.put(iniTialPoint, (ArrayList<Point>) pointInLine.clone());
+					lineMappedXX.put(iniTialPoint, (ArrayList<Integer>) dotsInLinexx.clone());
+
+				}
+				dotsInLine = new ArrayList<>();
+				pointInLine = new ArrayList<Point>();
+				dotsInLinexx = new ArrayList<>();
+
+				dotsInLine.add(centerY);
+				dotsInLinexx.add(allCenter.get(i).getX());
+				pointInLine.add(allCenter.get(i));
+
+
+				count = 1;
+				iniTialPoint = centerY;
+
+			} else {
+				count++;
+				dotsInLine.add(centerY);
+				dotsInLinexx.add(allCenter.get(i).getX());
+				pointInLine.add(allCenter.get(i));
+			}
+		}
+
+		if(count > 2) {
+			lineIndex.add(iniTialPoint);
+			lineMapped.put(iniTialPoint, (ArrayList<Integer>) dotsInLine.clone());
+			lineMappedXX.put(iniTialPoint, (ArrayList<Integer>) dotsInLinexx.clone());
+			lineMapped2.put(iniTialPoint, (ArrayList<Point>) pointInLine.clone());
+
+		}
+
+
+
+		for(int i = 0; i < lineIndex.size(); i++) {
+			int key = lineIndex.get(i);
+			ArrayList<Integer> listX = lineMappedXX.get(key);
+			Collections.sort(listX);
+			lineMappedXX.put(key, listX);
+			//lineMappedXX.put(lineIndex.get(i), Collections.sort(lineMappedXX.get(lineIndex.get(i))));
+		}
+
+
+		System.out.println(lineIndex.size());
+
+
+
+
+		for(int i = 0; i < lineIndex.size(); i++) {
+
+			int index = lineIndex.get(i);
+			ArrayList<Integer> xx = lineMappedXX.get(index);
+			ArrayList<Point> pp = lineMapped2.get(index);
+
+
+/*
+			for(int l = 0; l < xx.size(); l++) {
+				//System.out.print("("+pp.get(l).getY() +" " + pp.get(l).getX() + "), ");
+				System.out.print(xx.get(l) + ", ");
+			}
+			System.out.println();
+*/
+			for(int x = 0; x < width; x++) {
+				outputImage.setRGB(x, lineIndex.get(i), Utils.RED.getRGB());
+			}
+		}
+
+
+
+
+		for(int i = 0; i < 1; i = i+3) {
+
+			ArrayList<Integer> firstLine = lineMappedXX.get(lineIndex.get(0));
+			ArrayList<Integer> secondLine = lineMappedXX.get(lineIndex.get(1));
+			ArrayList<Integer> thirdLine = lineMappedXX.get(lineIndex.get(2));
+
+			ArrayList<String> letters = new ArrayList<String>();
+
+
+			int initialUpperDot = firstLine.get(0);
+			int initialMiddelDot = secondLine.get(0);
+			int initialLowerDot = thirdLine.get(0);
+
+			int smallestXIndex = initialUpperDot;
+			if(initialMiddelDot < smallestXIndex) smallestXIndex = initialMiddelDot;
+			if(initialLowerDot < smallestXIndex) smallestXIndex = initialLowerDot;
+
+			Utils.FUNCTIONS.printFirstCurrentLine(firstLine, secondLine, thirdLine);
+
+
+			int previousIndex = smallestXIndex - 35;
+
+			while(firstLine.size() > 0 || secondLine.size() > 0|| thirdLine.size() > 0) {
+				String letter = "000000";
+
+				int currentIndex = -1;
+				int nextIndex = -1;
+
+				int upperDot = -1;
+				int middelDot = -1;
+				int lowerDot = -1;
+
+				int nextUpperDot = -1;
+				int nextMiddelDot = -1;
+				int nextLowerDot = -1;
+
+
+				// first level identification....
+				if(firstLine.size() > 0) {
+					if(firstLine.get(0) - previousIndex >= 25 && firstLine.get(0) - previousIndex <= 45) {
+						upperDot = firstLine.get(0);
+						firstLine.remove(0);
+					}
+				}
+
+				if(secondLine.size() > 0) {
+					if(secondLine.get(0) - previousIndex >= 25 && secondLine.get(0) - previousIndex <= 45) {
+						middelDot = secondLine.get(0);
+						secondLine.remove(0);
+					}
+				}
+
+				if(thirdLine.size() > 0) {
+					if(thirdLine.get(0) - previousIndex >= 25 && thirdLine.get(0) - previousIndex <= 45) {
+						lowerDot = thirdLine.get(0);
+						thirdLine.remove(0);
+					}
+				}
+
+				if(upperDot > 0) currentIndex = upperDot;
+				if(currentIndex < 0 && middelDot > 0) currentIndex = middelDot;
+				if(middelDot >0 && middelDot < currentIndex) currentIndex = middelDot;
+				if(currentIndex < 0 && lowerDot > 0) currentIndex = lowerDot;
+				if(lowerDot > 0 && lowerDot < currentIndex) currentIndex = lowerDot;
+				//if(middelDot > 0 && middelDot < )
+
+
+
+
+				System.out.println(upperDot +" "+ middelDot+ " "+ lowerDot);
+
+
+
+
+
+				System.out.println(currentIndex);
+
+				Utils.FUNCTIONS.printFirstCurrentLine(firstLine, secondLine, thirdLine);
+
+
+				// second level identification....
+				if(firstLine.size() > 0) {
+					if(firstLine.get(0) - currentIndex>= 25 && firstLine.get(0) - currentIndex <= 45) {
+						nextUpperDot = firstLine.get(0);
+						firstLine.remove(0);
+					}
+				}
+
+				if(secondLine.size() > 0) {
+					if(secondLine.get(0) - currentIndex>= 25 && secondLine.get(0) - currentIndex<= 45) {
+						nextMiddelDot = secondLine.get(0);
+						secondLine.remove(0);
+					}
+				}
+
+				if(thirdLine.size() > 0) {
+					if(thirdLine.get(0) - currentIndex >= 25 && thirdLine.get(0) - currentIndex <= 45) {
+						nextLowerDot = thirdLine.get(0);
+						thirdLine.remove(0);
+					}
+				}
+
+				System.out.println(nextUpperDot+" "+ nextMiddelDot +" "+ nextLowerDot+ "  >");
+				if(nextUpperDot == -1 && nextMiddelDot == -1 && nextLowerDot == -1) {
+					if(upperDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
+					if(middelDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
+					if(lowerDot!= -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
+
+					letters.add(Utils.LETTERS.getLetters(letter));
+
+					ArrayList<Integer> tempIndex = new ArrayList<Integer>();
+					if(firstLine.size() > 0) tempIndex.add(firstLine.get(0));
+					if(secondLine.size() > 0) tempIndex.add(secondLine.get(0));
+					if(thirdLine.size() > 0) tempIndex.add(thirdLine.get(0));
+
+					Collections.sort(tempIndex);
+					if(tempIndex.size()> 0)
+					previousIndex = tempIndex.get(0) - 35;
+					System.out.println("previous index " + previousIndex);
+
+				}
+
+				else {
+					if(upperDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
+					if(middelDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
+					if(lowerDot!= -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
+
+					if(nextUpperDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 3);
+					if(nextMiddelDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 4);
+					if(nextLowerDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 5);
+
+					System.out.println(letter);
+
+					letters.add(Utils.LETTERS.getLetters(letter));
+
+					ArrayList<Integer> tempIndex = new ArrayList<Integer>();
+					if(firstLine.size() > 0) tempIndex.add(firstLine.get(0));
+					if(secondLine.size() > 0) tempIndex.add(secondLine.get(0));
+					if(thirdLine.size() > 0) tempIndex.add(thirdLine.get(0));
+
+					Collections.sort(tempIndex);
+					if(tempIndex.size() > 0)
+					previousIndex = tempIndex.get(0) - 35;
+					System.out.println("previous index " + previousIndex);
+
+				}
+
+				System.out.println(letters);
+
+
+
+				//break;
 			}
 
 
+			System.out.println(letters);
+
+			break;
+
+
+
+
 		}
+
+
+
+
 
 
 
@@ -255,8 +513,6 @@ public class DotProcessor {
 		indexStringToDotMapping = new TreeMap<String, Dot>();
 	}
 
-
-
 	private boolean isColor(int y, int x, Color color, BufferedImage bufferedImage) {
 		Color clr = new Color(bufferedImage.getRGB(x, y));
 		return isColorEquals(color, clr);
@@ -267,7 +523,4 @@ public class DotProcessor {
 			return true;
 		return false;
 	}
-
-
-
 }

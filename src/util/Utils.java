@@ -3,6 +3,7 @@ package util;
 import java.awt.Color;
 import java.io.File;
 
+import dataStructure.Letters;
 import imageProcessor.BinaryImageConvertor;
 import imageProcessor.GrayScale;
 import imageProcessor.ImageProcessor;
@@ -27,6 +28,8 @@ public class Utils {
 	public static BinaryImageConvertor BINARY_IMAGE_CONVERTOR = new BinaryImageConvertor();
 	public static MedianFilter MEDIAN_FILTER = new MedianFilter();
 
+	public static Functions FUNCTIONS = new Functions();
+	public static Letters LETTERS = new Letters();
 
 
 }
