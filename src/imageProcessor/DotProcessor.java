@@ -243,29 +243,45 @@ public class DotProcessor {
 			int index = lineIndex.get(i);
 			ArrayList<Integer> xx = lineMappedXX.get(index);
 			ArrayList<Point> pp = lineMapped2.get(index);
-
-
-/*
-			for(int l = 0; l < xx.size(); l++) {
-				//System.out.print("("+pp.get(l).getY() +" " + pp.get(l).getX() + "), ");
-				System.out.print(xx.get(l) + ", ");
-			}
-			System.out.println();
-*/
+			// coloring line
 			for(int x = 0; x < width; x++) {
 				outputImage.setRGB(x, lineIndex.get(i), Utils.RED.getRGB());
 			}
 		}
 
 
+		// removing noice in a single line
+
+		for(int i = 0; i < lineIndex.size(); i++) {
+			ArrayList<Integer> currentLine = lineMappedXX.get(lineIndex.get(i));
+			int previousXIndexOfDot = currentLine.get(0);
+
+			ArrayList<Integer> indexsToRemove = new ArrayList<Integer>();
+			for(int j = 1; j < currentLine.size(); j++) {
+				if(currentLine.get(j) - previousXIndexOfDot < 20) {
+					indexsToRemove.add(previousXIndexOfDot);
+				}
+
+				previousXIndexOfDot = currentLine.get(j);
+			}
+
+			for(int j = 0; j < indexsToRemove.size(); j++) {
+				currentLine.remove(indexsToRemove.get(j));
+			}
+			//System.out.println(previousXIndexOfDot);
+		}
 
 
-		for(int i = 0; i < 1; i = i+3) {
 
-			ArrayList<Integer> firstLine = lineMappedXX.get(lineIndex.get(0));
-			ArrayList<Integer> secondLine = lineMappedXX.get(lineIndex.get(1));
-			ArrayList<Integer> thirdLine = lineMappedXX.get(lineIndex.get(2));
+		for(int i = 3; i < 4; i = i+3) {
 
+			ArrayList<Integer> firstLine = lineMappedXX.get(lineIndex.get(i + 0));
+			ArrayList<Integer> secondLine = lineMappedXX.get(lineIndex.get(i + 1));
+			ArrayList<Integer> thirdLine = lineMappedXX.get(lineIndex.get(i + 2));
+
+			Utils.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
+
+			/*
 			ArrayList<String> letters = new ArrayList<String>();
 
 
@@ -411,11 +427,11 @@ public class DotProcessor {
 
 
 
-				//break;
-			}
+				break;
+			}*/
 
 
-			System.out.println(letters);
+			//System.out.println(letters);
 
 			break;
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Functions {
 
-	public void printFirstCurrentLine(ArrayList<Integer> firstLine, ArrayList<Integer> secondLine,
+	public void printCurrentLine(ArrayList<Integer> firstLine, ArrayList<Integer> secondLine,
 			ArrayList<Integer> thirdLine) {
 		System.out.println(firstLine);
 		System.out.println(secondLine);
