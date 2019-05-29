@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
@@ -20,6 +21,7 @@ public class DotProcessor {
 
 	int height;
 	int width;
+
 	BufferedImage inputImage = null;
 	BufferedImage outputImage;
 
@@ -29,12 +31,15 @@ public class DotProcessor {
 	Map<Integer, ArrayList<Integer>> lineMapped = new TreeMap<Integer, ArrayList<Integer>>();
 	Map<Integer, ArrayList<Integer>> lineMappedXX = new TreeMap<Integer, ArrayList<Integer>>();
 	Map<Integer, ArrayList<Point>> lineMapped2 = new TreeMap<Integer, ArrayList<Point>>();
+	ArrayList<ArrayList<String>> twoDString = null;
 
 
 
-
-
-
+	// line information
+	ArrayList<Integer> lineIndex = new ArrayList<Integer>();
+	ArrayList<Integer> dotsInLine = new ArrayList<Integer>();
+	ArrayList<Integer> dotsInLinexx = new ArrayList<Integer>();
+	ArrayList<Point> pointInLine = new ArrayList<Point>();
 
 	public File getRectangularDottedFile(File imageFile) {
 
@@ -45,184 +50,28 @@ public class DotProcessor {
 
 		findDots();
 		initializeOutputImage();
-
-		System.out.println(uniqueDots.size());
-
-		for (int i = 0; i < uniqueDots.size(); i++) {
-
-			Dot dot = uniqueDots.get(i);
-			dot.processDot();
-
-			for (int x = dot.getStartingX(); x <= dot.getEndingX(); x++) {
-				for (int y = dot.getStartingY(); y <= dot.getEndingY(); y++) {
-					outputImage.setRGB(x, y, Utils.WHITE.getRGB());
-				}
-			}
-		}
-
-		int cnt = 0;
-		ArrayList<Dot> FirstStepSelectedDot = new ArrayList<>();
-		ArrayList<ArrayList<String>> twoDString = new ArrayList<>();
-
-
-		for(int ii = 0; ii < uniqueDots.size(); ii++) {
-			Map<String, Boolean> pixelCounted = new TreeMap<String, Boolean>();
-			Dot dot = uniqueDots.get(ii);
-			ArrayList<String> pixelList = new ArrayList<String>();
-			ArrayList<String> oneDot = new ArrayList<>();
-
-			boolean flag = false;
-
-			for(int y = dot.getStartingY(); y <= dot.getEndingY(); y++) {
-				for(int x = dot.getStartingX(); x <= dot.getEndingX(); x ++) {
-
-					String pixel = getStringIndex(x, y);
-					if(!isColor(y, x, Utils.WHITE, outputImage))
-						flag = true;
-					pixelList.add(pixel);
-					oneDot.add(pixel);
-					pixelCounted.put(pixel, true);
-					//count++;
-				}
-			}
-
-			if(flag)
-				continue;
-
-
-			while(pixelList.size() > 0) {
-				String currentPixel = pixelList.get(0);
-				pixelList.remove(0);
-
-				String []pixVal = currentPixel.split("-");
-				int x = Integer.parseInt(pixVal[0]);
-				int y = Integer.parseInt(pixVal[1]);
-
-
-				for(int neighbourY = -1; neighbourY <= 1; neighbourY++) {
-					for(int neighbourX = -1; neighbourX <= 1; neighbourX++) {
-						int tempY = y + neighbourY;
-						int tempX = x + neighbourX;
-
-						String tempPixelString = getStringIndex(tempX, tempY);
-
-						if(isColor(tempY, tempX, Utils.WHITE, outputImage) && !pixelCounted.containsKey(tempPixelString)) {
-							pixelList.add(tempPixelString);
-							pixelCounted.put(tempPixelString, true);
-							oneDot.add(tempPixelString);
-
-						}
-
-					}
-				}
-
-			}
-
-			ArrayList<String> newString = new ArrayList<>();
-			for(int i = 0; i < oneDot.size(); i++) {
-				String s = oneDot.get(i);
-				newString.add(s);
-
-				String []arr = s.split("-");
-				int x = Integer.parseInt(arr[0]);
-				int y = Integer.parseInt(arr[1]);
-
-				outputImage.setRGB(x, y, Utils.RED.getRGB());
-
-			}
-
-			//System.out.println("-- " + newString.size() + "  index > " + cnt);
-			twoDString.add(newString);
-
-			cnt++;
-
-		}
-
-		//System.out.println(twoDString.size());
-		for(int i = 0; i < twoDString.size(); i++) {
-			Dot tempDot = new Dot(twoDString.get(i));
-			FirstStepSelectedDot.add(tempDot);
-		}
-
-		//System.out.println(FirstStepSelectedDot.size());
+		System.out.println("number of unique dot :: " + uniqueDots.size());
+		processUniqueDots();
+		ArrayList<Dot> firstStepSelectedDot = selectDotInFirstStep();
+		System.out.println(firstStepSelectedDot.size());
 		initializeOutputImage();
-
-		ArrayList<Point> allCenter = new ArrayList<>();
-
-		for(int index = 0; index< twoDString.size(); index++) {
-
-			ArrayList<String> xx = twoDString.get(index);
-			BrailleDor brailleDor = new BrailleDor(xx);
-			Point center = brailleDor.getCenter();
-			allCenter.add(center);
-
-			for(int x = -1 ; x <= 1; x++) {
-				for(int y = -1; y <= 1; y++) {
-					int tempX = center.getX() + x;
-					int tempY = center.getY() + y;
-
-					if(tempY >= 0 && tempY < height && tempY >= 0 && tempY < width)
-						outputImage.setRGB(tempX, tempY, Color.WHITE.getRGB());
-				}
-			}
-		}
+		ArrayList<Point> allCenter = getAllCenter();
 
 
 
 
-		int iniTialPoint = -1;
-		int count = 0;
-		int maxH = 20;
-		ArrayList<Integer> lineIndex = new ArrayList<Integer>();
-		ArrayList<Integer> dotsInLine = new ArrayList<Integer>();
-		ArrayList<Integer> dotsInLinexx = new ArrayList<Integer>();
-
-		ArrayList<Point> pointInLine = new ArrayList<Point>();
 
 
-		for(int i = 0; i < allCenter.size(); i++) {
+		//System.out.println(twoDString);
+
+		System.out.println("dot test");
+		for(int i =0; i < 10; i++)
+			System.out.println(allCenter.get(i).getX() + " " + allCenter.get(i).getY());
 
 
-			int centerY = allCenter.get(i).getY();
-			//
+		processLineInformation(allCenter);
 
-			if(centerY - iniTialPoint >= maxH) {
-				if(count > 2) {
-					lineIndex.add(iniTialPoint);
-					lineMapped.put(iniTialPoint, (ArrayList<Integer>) dotsInLine.clone());
-					lineMapped2.put(iniTialPoint, (ArrayList<Point>) pointInLine.clone());
-					lineMappedXX.put(iniTialPoint, (ArrayList<Integer>) dotsInLinexx.clone());
-
-				}
-				dotsInLine = new ArrayList<>();
-				pointInLine = new ArrayList<Point>();
-				dotsInLinexx = new ArrayList<>();
-
-				dotsInLine.add(centerY);
-				dotsInLinexx.add(allCenter.get(i).getX());
-				pointInLine.add(allCenter.get(i));
-
-
-				count = 1;
-				iniTialPoint = centerY;
-
-			} else {
-				count++;
-				dotsInLine.add(centerY);
-				dotsInLinexx.add(allCenter.get(i).getX());
-				pointInLine.add(allCenter.get(i));
-			}
-		}
-
-		if(count > 2) {
-			lineIndex.add(iniTialPoint);
-			lineMapped.put(iniTialPoint, (ArrayList<Integer>) dotsInLine.clone());
-			lineMappedXX.put(iniTialPoint, (ArrayList<Integer>) dotsInLinexx.clone());
-			lineMapped2.put(iniTialPoint, (ArrayList<Point>) pointInLine.clone());
-
-		}
-
-
+//////
 
 		for(int i = 0; i < lineIndex.size(); i++) {
 			int key = lineIndex.get(i);
@@ -235,53 +84,171 @@ public class DotProcessor {
 
 		System.out.println(lineIndex.size());
 
+		Collections.sort(lineIndex);
 
+
+		//colorLine(lineIndex);
+
+
+		System.out.println("size of lines:: " + lineIndex.size());
+		ArrayList<Integer> differenceBetweenLines = new ArrayList<Integer>();
 
 
 		for(int i = 0; i < lineIndex.size(); i++) {
+			System.out.println(lineIndex.get(i));
+		}
 
-			int index = lineIndex.get(i);
-			ArrayList<Integer> xx = lineMappedXX.get(index);
-			ArrayList<Point> pp = lineMapped2.get(index);
-			// coloring line
-			for(int x = 0; x < width; x++) {
-				outputImage.setRGB(x, lineIndex.get(i), Utils.RED.getRGB());
+		for(int i = 1; i < lineIndex.size(); i++) {
+			differenceBetweenLines.add(lineIndex.get(i) - lineIndex.get(i - 1));
+		}
+
+
+		System.out.println(differenceBetweenLines);
+
+		Collections.sort(differenceBetweenLines);
+		System.out.println(differenceBetweenLines);
+
+
+		int lineDistance = differenceBetweenLines.get(differenceBetweenLines.size() / 2);
+		System.out.println(lineDistance);
+		int limit = (int) ((double) lineDistance * 0.30);
+		System.out.println(limit);
+
+		for(int i = 0; i < lineIndex.size(); i++) {
+			ArrayList<Integer> currentLine = lineMappedXX.get(lineIndex.get(i));
+			System.out.println(lineIndex.get(i) + "    ...  " + currentLine.size());
+		}
+
+
+		ArrayList<Integer> newLineIndex = new ArrayList<Integer>();
+
+		for(int i = 0; i < lineIndex.size(); i++) {
+
+			if(i + 3 < lineIndex.size()) {
+				int firstLineIndex = lineIndex.get(i);
+				int secondLineIndex = lineIndex.get(i + 1);
+				int ThirdLineIndex = lineIndex.get(i + 2);
+				int forthLineIndex = lineIndex.get(i + 3);
+
+				Boolean isFirstThreeLineShouldTake = isPartOfLine(firstLineIndex, secondLineIndex, ThirdLineIndex, lineDistance, limit);
+				Boolean isLastThreeLineShouldTake = isPartOfLine(secondLineIndex, ThirdLineIndex, forthLineIndex, lineDistance, limit);
+
+				if(isFirstThreeLineShouldTake && isLastThreeLineShouldTake) {
+
+					double firstAverage = (lineMappedXX.get(firstLineIndex).size() + lineMappedXX.get(secondLineIndex).size() + lineMappedXX.get(ThirdLineIndex).size()) / 3;
+					double lastAverage = (lineMappedXX.get(forthLineIndex).size() + lineMappedXX.get(secondLineIndex).size() + lineMappedXX.get(ThirdLineIndex).size()) / 3;
+
+					System.out.println(firstAverage + "  fi");
+					System.out.println(lastAverage + "  la");
+
+					if(firstAverage > lastAverage) {
+						newLineIndex.add(firstLineIndex);
+						newLineIndex.add(secondLineIndex);
+						newLineIndex.add(ThirdLineIndex);
+
+						i += 2;
+					} else {
+						newLineIndex.add(secondLineIndex);
+						newLineIndex.add(ThirdLineIndex);
+						newLineIndex.add(forthLineIndex);
+
+						i += 3;
+					}
+				}
+
+				else if(isFirstThreeLineShouldTake && !isLastThreeLineShouldTake) {
+					newLineIndex.add(firstLineIndex);
+					newLineIndex.add(secondLineIndex);
+					newLineIndex.add(ThirdLineIndex);
+
+					i += 2;
+				}
+
+				else if(!isFirstThreeLineShouldTake && isLastThreeLineShouldTake) {
+					newLineIndex.add(secondLineIndex);
+					newLineIndex.add(ThirdLineIndex);
+					newLineIndex.add(forthLineIndex);
+
+					i += 3;
+				}
+
+
+
+			}
+
+			else if(i + 2 < lineIndex.size()) {
+				int firstLineIndex = lineIndex.get(i);
+				int secondLineIndex = lineIndex.get(i + 1);
+				int ThirdLineIndex = lineIndex.get(i + 2);
+
+				Boolean isLineShouldTake = isPartOfLine(firstLineIndex, secondLineIndex, ThirdLineIndex, lineDistance, limit);
+				if(isLineShouldTake) {
+					newLineIndex.add(firstLineIndex);
+					newLineIndex.add(secondLineIndex);
+					newLineIndex.add(ThirdLineIndex);
+
+					i += 2;
+				}
+
+
 			}
 		}
+
+		colorLine(newLineIndex);
+
+		System.out.println(newLineIndex);
+
+
+		int horizontalMedianDiff = 0;
+
+		ArrayList<Integer> allHorizontalDifference = new ArrayList<Integer>();
+		for(int i = 0; i < newLineIndex.size(); i++) {
+
+			ArrayList<Integer> currentLineXArray = lineMappedXX.get(newLineIndex.get(i));
+			System.out.println("line : " + currentLineXArray);
+			System.out.println("si " + currentLineXArray.size());
+
+			for(int j = 1; j <  currentLineXArray.size(); j++) {
+				allHorizontalDifference.add(currentLineXArray.get(j) - currentLineXArray.get(j-1));
+			}
+
+		}
+		Collections.sort(allHorizontalDifference);
+		System.out.println(allHorizontalDifference);
 
 
 		// removing noice in a single line
 
-		for(int i = 0; i < lineIndex.size(); i++) {
-			ArrayList<Integer> currentLine = lineMappedXX.get(lineIndex.get(i));
-			int previousXIndexOfDot = currentLine.get(0);
+//		for(int i = 0; i < lineIndex.size(); i++) {
+//			ArrayList<Integer> currentLine = lineMappedXX.get(lineIndex.get(i));
+//			int previousXIndexOfDot = currentLine.get(0);
+//
+//			ArrayList<Integer> indexsToRemove = new ArrayList<Integer>();
+//			for(int j = 1; j < currentLine.size(); j++) {
+//				if(currentLine.get(j) - previousXIndexOfDot < 20) {
+//					indexsToRemove.add(previousXIndexOfDot);
+//				}
+//
+//				previousXIndexOfDot = currentLine.get(j);
+//			}
+//
+//			for(int j = 0; j < indexsToRemove.size(); j++) {
+//				currentLine.remove(indexsToRemove.get(j));
+//			}
+//			//System.out.println(previousXIndexOfDot);
+//		}
 
-			ArrayList<Integer> indexsToRemove = new ArrayList<Integer>();
-			for(int j = 1; j < currentLine.size(); j++) {
-				if(currentLine.get(j) - previousXIndexOfDot < 20) {
-					indexsToRemove.add(previousXIndexOfDot);
-				}
+////////////////////////
 
-				previousXIndexOfDot = currentLine.get(j);
-			}
+		for(int i = 0; i < newLineIndex.size(); i = i+3) {
 
-			for(int j = 0; j < indexsToRemove.size(); j++) {
-				currentLine.remove(indexsToRemove.get(j));
-			}
-			//System.out.println(previousXIndexOfDot);
-		}
-
-
-
-		for(int i = 3; i < 4; i = i+3) {
-
-			ArrayList<Integer> firstLine = lineMappedXX.get(lineIndex.get(i + 0));
-			ArrayList<Integer> secondLine = lineMappedXX.get(lineIndex.get(i + 1));
-			ArrayList<Integer> thirdLine = lineMappedXX.get(lineIndex.get(i + 2));
+			ArrayList<Integer> firstLine = lineMappedXX.get(newLineIndex.get(i + 0));
+			ArrayList<Integer> secondLine = lineMappedXX.get(newLineIndex.get(i + 1));
+			ArrayList<Integer> thirdLine = lineMappedXX.get(newLineIndex.get(i + 2));
 
 			Utils.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
 
-			/*
+
 			ArrayList<String> letters = new ArrayList<String>();
 
 
@@ -293,7 +260,7 @@ public class DotProcessor {
 			if(initialMiddelDot < smallestXIndex) smallestXIndex = initialMiddelDot;
 			if(initialLowerDot < smallestXIndex) smallestXIndex = initialLowerDot;
 
-			Utils.FUNCTIONS.printFirstCurrentLine(firstLine, secondLine, thirdLine);
+			Utils.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
 
 
 			int previousIndex = smallestXIndex - 35;
@@ -315,21 +282,21 @@ public class DotProcessor {
 
 				// first level identification....
 				if(firstLine.size() > 0) {
-					if(firstLine.get(0) - previousIndex >= 25 && firstLine.get(0) - previousIndex <= 45) {
+					if(firstLine.get(0) - previousIndex >= 20 && firstLine.get(0) - previousIndex <= 45) {
 						upperDot = firstLine.get(0);
 						firstLine.remove(0);
 					}
 				}
 
 				if(secondLine.size() > 0) {
-					if(secondLine.get(0) - previousIndex >= 25 && secondLine.get(0) - previousIndex <= 45) {
+					if(secondLine.get(0) - previousIndex >= 20 && secondLine.get(0) - previousIndex <= 45) {
 						middelDot = secondLine.get(0);
 						secondLine.remove(0);
 					}
 				}
 
 				if(thirdLine.size() > 0) {
-					if(thirdLine.get(0) - previousIndex >= 25 && thirdLine.get(0) - previousIndex <= 45) {
+					if(thirdLine.get(0) - previousIndex >= 20 && thirdLine.get(0) - previousIndex <= 45) {
 						lowerDot = thirdLine.get(0);
 						thirdLine.remove(0);
 					}
@@ -351,28 +318,28 @@ public class DotProcessor {
 
 
 
-				System.out.println(currentIndex);
+				System.out.println("current Index " + currentIndex);
 
-				Utils.FUNCTIONS.printFirstCurrentLine(firstLine, secondLine, thirdLine);
+				Utils.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
 
 
 				// second level identification....
 				if(firstLine.size() > 0) {
-					if(firstLine.get(0) - currentIndex>= 25 && firstLine.get(0) - currentIndex <= 45) {
+					if(firstLine.get(0) - currentIndex >= 20 && firstLine.get(0) - currentIndex <= 45) {
 						nextUpperDot = firstLine.get(0);
 						firstLine.remove(0);
 					}
 				}
 
 				if(secondLine.size() > 0) {
-					if(secondLine.get(0) - currentIndex>= 25 && secondLine.get(0) - currentIndex<= 45) {
+					if(secondLine.get(0) - currentIndex >= 20 && secondLine.get(0) - currentIndex<= 45) {
 						nextMiddelDot = secondLine.get(0);
 						secondLine.remove(0);
 					}
 				}
 
 				if(thirdLine.size() > 0) {
-					if(thirdLine.get(0) - currentIndex >= 25 && thirdLine.get(0) - currentIndex <= 45) {
+					if(thirdLine.get(0) - currentIndex >= 20 && thirdLine.get(0) - currentIndex <= 45) {
 						nextLowerDot = thirdLine.get(0);
 						thirdLine.remove(0);
 					}
@@ -384,6 +351,7 @@ public class DotProcessor {
 					if(middelDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
 					if(lowerDot!= -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
 
+					System.out.println(letter);
 					letters.add(Utils.LETTERS.getLetters(letter));
 
 					ArrayList<Integer> tempIndex = new ArrayList<Integer>();
@@ -393,7 +361,7 @@ public class DotProcessor {
 
 					Collections.sort(tempIndex);
 					if(tempIndex.size()> 0)
-					previousIndex = tempIndex.get(0) - 35;
+					previousIndex = tempIndex.get(0) - 25;
 					System.out.println("previous index " + previousIndex);
 
 				}
@@ -418,7 +386,7 @@ public class DotProcessor {
 
 					Collections.sort(tempIndex);
 					if(tempIndex.size() > 0)
-					previousIndex = tempIndex.get(0) - 35;
+					previousIndex = tempIndex.get(0) - 25;
 					System.out.println("previous index " + previousIndex);
 
 				}
@@ -427,13 +395,10 @@ public class DotProcessor {
 
 
 
-				break;
-			}*/
+				//break;
+			}
 
-
-			//System.out.println(letters);
-
-			break;
+			//break;
 
 
 
@@ -447,6 +412,7 @@ public class DotProcessor {
 
 
 		File outputfile = new File("dotDetected.jpg");
+
 		try {
 			ImageIO.write(outputImage, "jpg", outputfile);
 		} catch (IOException e1) {
@@ -456,6 +422,238 @@ public class DotProcessor {
 		return outputfile;
 	}
 
+	private Boolean isPartOfLine(int firstLineIndex, int secondLineIndex, int thirdLineIndex, int lineDistance,
+			int limit) {
+
+
+		boolean secondLineFound = false;
+		boolean thirdLineFound = false;
+
+
+		int distance = secondLineIndex - firstLineIndex;
+		System.out.println(distance + " dis 1");
+		if(distance <= lineDistance + limit && distance >= lineDistance - limit) {
+			secondLineFound = true;
+		}
+
+
+		int distance2 = thirdLineIndex - secondLineIndex;
+		System.out.println(distance2 + " dis 2");
+		if(distance2 <= lineDistance + limit && distance2 >= lineDistance - limit) {
+			thirdLineFound = true;
+		}
+
+		if(secondLineFound && thirdLineFound)
+			return true;
+		return false;
+	}
+
+	private void colorLine(ArrayList<Integer> arrayOfLineIndex) {
+		for(int i = 0; i < arrayOfLineIndex.size(); i++) {
+
+			for(int x = 0; x < width; x++) {
+				outputImage.setRGB(x, arrayOfLineIndex.get(i), Utils.RED.getRGB());
+			}
+		}
+
+	}
+
+	private ArrayList<Integer> getHeightDistance(ArrayList<Point> allCenter) {
+		ArrayList<Integer> allY = new ArrayList<Integer>();
+		for (int i = 0; i < allCenter.size(); i++) {
+			allY.add(allCenter.get(i).getY());
+		}
+
+		System.out.println(allY);
+		Collections.sort(allY);
+		System.out.println(allY);
+		ArrayList<Integer> allHeightDistance = new ArrayList<>();
+		for(int i = 1; i < allY.size(); i++) {
+			int distance = allY.get(i) - allY.get(i-1);
+			if(distance != 0)
+			allHeightDistance.add(allY.get(i) - allY.get(i-1));
+		}
+
+		System.out.println(allHeightDistance);
+		Collections.sort(allHeightDistance);
+
+		System.out.println(allHeightDistance);
+
+		return null;
+	}
+
+	private void processLineInformation(ArrayList<Point> allCenter) {
+		int iniTialPoint = 1;
+		int count = 0;
+		int maxH = 20;
+
+		for(int i = 0; i < allCenter.size(); i++) {
+
+			int centerY = allCenter.get(i).getY();
+
+			if(centerY == 179 && allCenter.get(i).getX() == 671) {
+				System.out.println("dsfsdfsdfsdfsdfsdf" + iniTialPoint);
+			}
+
+			if(centerY - iniTialPoint >= maxH) {
+				if(count > 0) {
+					lineIndex.add(iniTialPoint);
+					lineMapped.put(iniTialPoint, (ArrayList<Integer>) dotsInLine.clone());
+					lineMapped2.put(iniTialPoint, (ArrayList<Point>) pointInLine.clone());
+					lineMappedXX.put(iniTialPoint, (ArrayList<Integer>) dotsInLinexx.clone());
+
+				}
+				dotsInLine = new ArrayList<>();
+				pointInLine = new ArrayList<Point>();
+				dotsInLinexx = new ArrayList<>();
+
+				dotsInLine.add(centerY);
+				dotsInLinexx.add(allCenter.get(i).getX());
+				pointInLine.add(allCenter.get(i));
+
+
+				count = 1;
+				iniTialPoint = centerY;
+
+			} else {
+				count++;
+				dotsInLine.add(centerY);
+				dotsInLinexx.add(allCenter.get(i).getX());
+				pointInLine.add(allCenter.get(i));
+			}
+
+
+		}
+
+		if(count > 0) {
+			lineIndex.add(iniTialPoint);
+			lineMapped.put(iniTialPoint, (ArrayList<Integer>) dotsInLine.clone());
+			lineMappedXX.put(iniTialPoint, (ArrayList<Integer>) dotsInLinexx.clone());
+			lineMapped2.put(iniTialPoint, (ArrayList<Point>) pointInLine.clone());
+
+		}
+
+
+	}
+
+	private ArrayList<Point> getAllCenter() {
+		ArrayList<Point> allCenter = new ArrayList<>();
+
+		for(int index = 0; index< twoDString.size(); index++) {
+
+			ArrayList<String> xx = twoDString.get(index);
+			BrailleDor brailleDor = new BrailleDor(xx);
+			Point center = brailleDor.getCenter();
+			allCenter.add(center);
+
+			for(int x = -1 ; x <= 1; x++) {
+				for(int y = -1; y <= 1; y++) {
+					int tempX = center.getX() + x;
+					int tempY = center.getY() + y;
+
+					if(tempY >= 0 && tempY < height && tempX >= 0 && tempX < width)
+						outputImage.setRGB(tempX, tempY, Color.WHITE.getRGB());
+				}
+			}
+		}
+		return allCenter;
+	}
+
+	private ArrayList<Dot> selectDotInFirstStep() {
+		ArrayList<Dot> FirstStepSelectedDot = new ArrayList<>();
+		twoDString = new ArrayList<>();
+
+
+		for(int ii = 0; ii < uniqueDots.size(); ii++) {
+			Map<String, Boolean> pixelCounted = new TreeMap<String, Boolean>();
+			Dot dot = uniqueDots.get(ii);
+			ArrayList<String> pixelList = new ArrayList<String>();
+			ArrayList<String> oneDot = new ArrayList<>();
+
+			boolean flag = false;
+
+			for(int y = dot.getStartingY(); y <= dot.getEndingY(); y++) {
+				for(int x = dot.getStartingX(); x <= dot.getEndingX(); x ++) {
+
+					String pixel = getStringIndex(x, y);
+					if(!isColor(y, x, Utils.WHITE, outputImage))
+						flag = true;
+					pixelList.add(pixel);
+					oneDot.add(pixel);
+					pixelCounted.put(pixel, true);
+				}
+			}
+
+			if(flag)
+				continue;
+
+
+			while(pixelList.size() > 0) {
+				String currentPixel = pixelList.get(0);
+				pixelList.remove(0);
+
+				String []pixVal = currentPixel.split("-");
+				int x = Integer.parseInt(pixVal[0]);
+				int y = Integer.parseInt(pixVal[1]);
+
+
+				for(int neighbourY = -1; neighbourY <= 1; neighbourY++) {
+					for(int neighbourX = -1; neighbourX <= 1; neighbourX++) {
+						int tempY = y + neighbourY;
+						int tempX = x + neighbourX;
+
+						String tempPixelString = getStringIndex(tempX, tempY);
+
+						if(tempY < height && tempY >= 0 && tempX < width && tempX >= 0) {
+							if(isColor(tempY, tempX, Utils.WHITE, outputImage) && !pixelCounted.containsKey(tempPixelString)) {
+								pixelList.add(tempPixelString);
+								pixelCounted.put(tempPixelString, true);
+								oneDot.add(tempPixelString);
+							}
+						}
+
+					}
+				}
+
+			}
+
+			ArrayList<String> newString = new ArrayList<>();
+			for(int i = 0; i < oneDot.size(); i++) {
+				String s = oneDot.get(i);
+				newString.add(s);
+
+				String []arr = s.split("-");
+				int x = Integer.parseInt(arr[0]);
+				int y = Integer.parseInt(arr[1]);
+
+				outputImage.setRGB(x, y, Utils.RED.getRGB());
+
+			}
+			twoDString.add(newString);
+		}
+
+		for(int i = 0; i < twoDString.size(); i++) {
+			Dot tempDot = new Dot(twoDString.get(i));
+			FirstStepSelectedDot.add(tempDot);
+		}
+		return FirstStepSelectedDot;
+	}
+
+	private void processUniqueDots() {
+		for (int i = 0; i < uniqueDots.size(); i++) {
+
+			Dot dot = uniqueDots.get(i);
+			dot.processDot();
+
+			for (int x = dot.getStartingX(); x <= dot.getEndingX(); x++) {
+				for (int y = dot.getStartingY(); y <= dot.getEndingY(); y++) {
+					outputImage.setRGB(x, y, Utils.WHITE.getRGB());
+				}
+			}
+		}
+
+	}
+
 	private void initializeOutputImage() {
 		outputImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		for (int y = 0; y < height; y++) {
@@ -463,7 +661,6 @@ public class DotProcessor {
 				outputImage.setRGB(x, y, Utils.BLACK.getRed());
 			}
 		}
-
 	}
 
 	private void findDots() {
@@ -473,7 +670,7 @@ public class DotProcessor {
 				Color color = new Color(inputImage.getRGB(x, y));
 				int grayLevel = (int) color.getRed();
 
-				if (grayLevel == 255) { // black pixel
+				if (grayLevel == 255) { // white pixel
 					if (!isAPartOfExistingDot(point)) { // not in any dot
 						Dot newDot = new Dot();
 						newDot.addPixels(point);
@@ -491,8 +688,10 @@ public class DotProcessor {
 
 	private boolean isAPartOfExistingDot(Point point) {
 
-		for (int i = -9; i <= 9; i++) {
-			for (int j = -9; j <= 9; j++) {
+		int netghborDotSize = Utils.NEIGHBOUR_DOT_SIZE_FOR_PART_OF_DOT_SELECTION;
+
+		for (int i = -netghborDotSize; i <= netghborDotSize; i++) {
+			for (int j = -netghborDotSize; j <= netghborDotSize; j++) {
 				int x = point.getX() + i;
 				int y = point.getY() + j;
 

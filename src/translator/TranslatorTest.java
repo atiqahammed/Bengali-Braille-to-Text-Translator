@@ -12,14 +12,13 @@ public class TranslatorTest {
 
 	public static void main(String[] args) {
 
-		System.out.println("bbb");
-
-		File ImageFile = new File("1-1.jpg");
+		System.out.println("Braille to text translator");
+		File ImageFile = new File("data4.jpg");
 		File grayScaleImage = Utils.GRAY_SCALE_IMAGE_PROCESSOR.process(ImageFile);
 		System.out.println("Gray Scale Conversion completed...");
 
 		int thresholdingLavel = Utils.OTSU_SHRESHOLDER.getThresholdGrayLevel(grayScaleImage);
-		System.out.println("Otsu thresholding : "+thresholdingLavel);
+		System.out.println("Otsu thresholding : " + thresholdingLavel);
 
 		File binaryImage = Utils.BINARY_IMAGE_CONVERTOR.getBinaryImage(grayScaleImage, thresholdingLavel);
 		System.out.println("binary image conversion is completed...");

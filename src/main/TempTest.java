@@ -6,7 +6,9 @@ public class TempTest {
 
 	public static void main(String[] args) {
 
-		System.out.println(Utils.LETTERS.getLetters("110000"));
+//		System.out.println(Utils.LETTERS.getLetters("110000"));
+
+		
 
 	}
 
