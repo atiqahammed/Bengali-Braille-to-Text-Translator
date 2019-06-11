@@ -16,7 +16,9 @@ public class Utils {
 	public static int APPLICATION_HEIGHT = 500;
 	public static int APPLICATION_WIDTH = 840;
 	public static int NEIGHBOUR_DOT_SIZE_FOR_PART_OF_DOT_SELECTION = 9;
-
+	public static int INITAL_DIFFRENCE_BETWEEN_LINE = 20;
+	public static int SAME_POINT_COVERAGE = 20;
+	
 	public static Color WHITE = new Color(255, 255, 255);
 	public static Color BLACK = new Color(0, 0, 0);
 	public static Color RED = new Color(255, 0, 0);
@@ -31,6 +33,8 @@ public class Utils {
 
 	public static Functions FUNCTIONS = new Functions();
 	public static Letters LETTERS = new Letters();
+	
+	
 
 
 }

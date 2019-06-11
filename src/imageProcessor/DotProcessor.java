@@ -12,6 +12,8 @@ import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+
 import dataStructure.BrailleDor;
 import dataStructure.Dot;
 import dataStructure.Point;
@@ -50,10 +52,10 @@ public class DotProcessor {
 
 		findDots();
 		initializeOutputImage();
-		System.out.println("number of unique dot :: " + uniqueDots.size());
+//		System.out.println("number of unique dot :: " + uniqueDots.size());
 		processUniqueDots();
 		ArrayList<Dot> firstStepSelectedDot = selectDotInFirstStep();
-		System.out.println(firstStepSelectedDot.size());
+//		System.out.println(firstStepSelectedDot.size());
 		initializeOutputImage();
 		ArrayList<Point> allCenter = getAllCenter();
 
@@ -64,9 +66,9 @@ public class DotProcessor {
 
 		//System.out.println(twoDString);
 
-		System.out.println("dot test");
-		for(int i =0; i < 10; i++)
-			System.out.println(allCenter.get(i).getX() + " " + allCenter.get(i).getY());
+//		System.out.println("dot test");
+//		for(int i =0; i < 10; i++)
+//			System.out.println(allCenter.get(i).getX() + " " + allCenter.get(i).getY());
 
 
 		processLineInformation(allCenter);
@@ -82,7 +84,7 @@ public class DotProcessor {
 		}
 
 
-		System.out.println(lineIndex.size());
+//		System.out.println(lineIndex.size());
 
 		Collections.sort(lineIndex);
 
@@ -90,34 +92,34 @@ public class DotProcessor {
 		//colorLine(lineIndex);
 
 
-		System.out.println("size of lines:: " + lineIndex.size());
+//		System.out.println("size of lines:: " + lineIndex.size());
 		ArrayList<Integer> differenceBetweenLines = new ArrayList<Integer>();
 
 
-		for(int i = 0; i < lineIndex.size(); i++) {
-			System.out.println(lineIndex.get(i));
-		}
+//		for(int i = 0; i < lineIndex.size(); i++) {
+//			System.out.println(lineIndex.get(i));
+//		}
 
 		for(int i = 1; i < lineIndex.size(); i++) {
 			differenceBetweenLines.add(lineIndex.get(i) - lineIndex.get(i - 1));
 		}
 
 
-		System.out.println(differenceBetweenLines);
+//		System.out.println(differenceBetweenLines);
 
 		Collections.sort(differenceBetweenLines);
-		System.out.println(differenceBetweenLines);
+//		System.out.println(differenceBetweenLines);
 
 
 		int lineDistance = differenceBetweenLines.get(differenceBetweenLines.size() / 2);
-		System.out.println(lineDistance);
+//		System.out.println(lineDistance);
 		int limit = (int) ((double) lineDistance * 0.30);
-		System.out.println(limit);
+//		System.out.println(limit);
 
-		for(int i = 0; i < lineIndex.size(); i++) {
-			ArrayList<Integer> currentLine = lineMappedXX.get(lineIndex.get(i));
-			System.out.println(lineIndex.get(i) + "    ...  " + currentLine.size());
-		}
+//		for(int i = 0; i < lineIndex.size(); i++) {
+//			ArrayList<Integer> currentLine = lineMappedXX.get(lineIndex.get(i));
+//			System.out.println(lineIndex.get(i) + "    ...  " + currentLine.size());
+//		}
 
 
 		ArrayList<Integer> newLineIndex = new ArrayList<Integer>();
@@ -189,54 +191,79 @@ public class DotProcessor {
 
 					i += 2;
 				}
-
-
 			}
 		}
 
 		colorLine(newLineIndex);
 
-		System.out.println(newLineIndex);
+		System.out.println("new line Index:  "+ newLineIndex);
+		System.out.println("previous line diff :" + lineIndex.size() + lineIndex);
+		System.out.println("previous line diff :" + newLineIndex.size() + newLineIndex);
+		ArrayList<Integer> missedLineIndex = getMissedLineIndex(lineIndex, newLineIndex);
+		System.out.println("missed line index : " + missedLineIndex);
+
+		for(int i = 0; i < missedLineIndex.size(); i++) {
+			int indexOfAMissedLine = missedLineIndex.get(i);
+
+			ArrayList<Point> dotlistOfMissedLine = lineMapped2.get(indexOfAMissedLine);
+			for(int j = 0; j < dotlistOfMissedLine.size(); j++) {
+				Point point = dotlistOfMissedLine.get(j);
+				int nearestLineIndex = getNearestLineIndex(point.getY(), newLineIndex);
 
 
-		int horizontalMedianDiff = 0;
+				if(Math.abs(point.getY() - nearestLineIndex) <= Math.abs(point.getY() - indexOfAMissedLine)) {
+//					System.out.println("nearest index of line:: " + nearestLineIndex);
+//					System.out.println("point info X . Y :: " + point.getX() + " . " + point.getY());
 
-		ArrayList<Integer> allHorizontalDifference = new ArrayList<Integer>();
-		for(int i = 0; i < newLineIndex.size(); i++) {
+					lineMappedXX.get(nearestLineIndex).add(point.getX());
+					Collections.sort(lineMappedXX.get(nearestLineIndex));
 
-			ArrayList<Integer> currentLineXArray = lineMappedXX.get(newLineIndex.get(i));
-			System.out.println("line : " + currentLineXArray);
-			System.out.println("si " + currentLineXArray.size());
-
-			for(int j = 1; j <  currentLineXArray.size(); j++) {
-				allHorizontalDifference.add(currentLineXArray.get(j) - currentLineXArray.get(j-1));
+				}
 			}
-
 		}
-		Collections.sort(allHorizontalDifference);
-		System.out.println(allHorizontalDifference);
+
+
+
+
+//		ArrayList<Integer> allHorizontalDifference = new ArrayList<Integer>();
+//		for(int i = 0; i < newLineIndex.size(); i++) {
+//
+//			ArrayList<Integer> currentLineXArray = lineMappedXX.get(newLineIndex.get(i));
+//			System.out.println("line : " + currentLineXArray);
+//			System.out.println("si " + currentLineXArray.size());
+//
+//			for(int j = 1; j <  currentLineXArray.size(); j++) {
+//				allHorizontalDifference.add(currentLineXArray.get(j) - currentLineXArray.get(j-1));
+//			}
+//
+//		}
+//		Collections.sort(allHorizontalDifference);
+//		int horizontalMedianDistance = allHorizontalDifference.get(allHorizontalDifference.size()/2);
+//		System.out.println("horizontal median distance :: " + horizontalMedianDistance);
+
+		//System.out.println(allHorizontalDifference);
 
 
 		// removing noice in a single line
 
-//		for(int i = 0; i < lineIndex.size(); i++) {
-//			ArrayList<Integer> currentLine = lineMappedXX.get(lineIndex.get(i));
-//			int previousXIndexOfDot = currentLine.get(0);
-//
-//			ArrayList<Integer> indexsToRemove = new ArrayList<Integer>();
-//			for(int j = 1; j < currentLine.size(); j++) {
-//				if(currentLine.get(j) - previousXIndexOfDot < 20) {
-//					indexsToRemove.add(previousXIndexOfDot);
-//				}
-//
-//				previousXIndexOfDot = currentLine.get(j);
-//			}
-//
-//			for(int j = 0; j < indexsToRemove.size(); j++) {
-//				currentLine.remove(indexsToRemove.get(j));
-//			}
-//			//System.out.println(previousXIndexOfDot);
-//		}
+		for(int i = 0; i < newLineIndex.size(); i++) {
+			ArrayList<Integer> currentLine = lineMappedXX.get(newLineIndex.get(i));
+			int previousXIndexOfDot = currentLine.get(0);
+
+			ArrayList<Integer> indexsToRemove = new ArrayList<Integer>();
+			for(int j = 1; j < currentLine.size(); j++) {
+				if(currentLine.get(j) - previousXIndexOfDot < Utils.SAME_POINT_COVERAGE) {
+					indexsToRemove.add(previousXIndexOfDot);
+				}
+
+				previousXIndexOfDot = currentLine.get(j);
+			}
+
+			for(int j = 0; j < indexsToRemove.size(); j++) {
+				currentLine.remove(indexsToRemove.get(j));
+			}
+			//System.out.println(previousXIndexOfDot);
+		}
 
 ////////////////////////
 
@@ -246,7 +273,7 @@ public class DotProcessor {
 			ArrayList<Integer> secondLine = lineMappedXX.get(newLineIndex.get(i + 1));
 			ArrayList<Integer> thirdLine = lineMappedXX.get(newLineIndex.get(i + 2));
 
-			Utils.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
+			//Utils.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
 
 
 			ArrayList<String> letters = new ArrayList<String>();
@@ -362,6 +389,8 @@ public class DotProcessor {
 					Collections.sort(tempIndex);
 					if(tempIndex.size()> 0)
 					previousIndex = tempIndex.get(0) - 25;
+					if(tempIndex.get(0) - currentIndex >= 90)
+						letters.add("    ");
 					System.out.println("previous index " + previousIndex);
 
 				}
@@ -385,8 +414,12 @@ public class DotProcessor {
 					if(thirdLine.size() > 0) tempIndex.add(thirdLine.get(0));
 
 					Collections.sort(tempIndex);
-					if(tempIndex.size() > 0)
-					previousIndex = tempIndex.get(0) - 25;
+					if(tempIndex.size() > 0) {
+						previousIndex = tempIndex.get(0) - 25;
+						if(tempIndex.get(0) - currentIndex >= 90)
+							letters.add("    ");
+
+					}
 					System.out.println("previous index " + previousIndex);
 
 				}
@@ -422,6 +455,33 @@ public class DotProcessor {
 		return outputfile;
 	}
 
+	private int getNearestLineIndex(int y, ArrayList<Integer> newLineIndex) {
+		int selectedIndex = newLineIndex.get(0);
+		int initialDistance = Math.abs(y - selectedIndex);
+
+		for(int i = 1; i < newLineIndex.size(); i++) {
+			int currentIndex = newLineIndex.get(i);
+			int currentDistance = Math.abs(y - currentIndex);
+			if(initialDistance > currentDistance) {
+				initialDistance = currentDistance;
+				selectedIndex = currentIndex;
+			}
+		}
+
+		return selectedIndex;
+	}
+
+	private ArrayList<Integer> getMissedLineIndex(ArrayList<Integer> lineIndex, ArrayList<Integer> newLineIndex) {
+		ArrayList<Integer> missedIndexes = new ArrayList<Integer>();
+
+		for(int i = 0; i < lineIndex.size(); i++) {
+			int currentIndex = lineIndex.get(i);
+			if(!newLineIndex.contains(currentIndex))
+				missedIndexes.add(currentIndex);
+		}
+		return missedIndexes;
+	}
+
 	private Boolean isPartOfLine(int firstLineIndex, int secondLineIndex, int thirdLineIndex, int lineDistance,
 			int limit) {
 
@@ -431,14 +491,14 @@ public class DotProcessor {
 
 
 		int distance = secondLineIndex - firstLineIndex;
-		System.out.println(distance + " dis 1");
+//		System.out.println(distance + " dis 1");
 		if(distance <= lineDistance + limit && distance >= lineDistance - limit) {
 			secondLineFound = true;
 		}
 
 
 		int distance2 = thirdLineIndex - secondLineIndex;
-		System.out.println(distance2 + " dis 2");
+//		System.out.println(distance2 + " dis 2");
 		if(distance2 <= lineDistance + limit && distance2 >= lineDistance - limit) {
 			thirdLineFound = true;
 		}
@@ -485,15 +545,15 @@ public class DotProcessor {
 	private void processLineInformation(ArrayList<Point> allCenter) {
 		int iniTialPoint = 1;
 		int count = 0;
-		int maxH = 20;
+		int maxH = Utils.INITAL_DIFFRENCE_BETWEEN_LINE;
 
 		for(int i = 0; i < allCenter.size(); i++) {
 
 			int centerY = allCenter.get(i).getY();
 
-			if(centerY == 179 && allCenter.get(i).getX() == 671) {
-				System.out.println("dsfsdfsdfsdfsdfsdf" + iniTialPoint);
-			}
+//			if(centerY == 179 && allCenter.get(i).getX() == 671) {
+//				System.out.println("dsfsdfsdfsdfsdfsdf" + iniTialPoint);
+//			}
 
 			if(centerY - iniTialPoint >= maxH) {
 				if(count > 0) {
