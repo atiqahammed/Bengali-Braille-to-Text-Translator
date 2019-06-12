@@ -17,6 +17,7 @@ import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 import dataStructure.BrailleDor;
 import dataStructure.Dot;
 import dataStructure.Point;
+import fileManager.FileWithPrintWriter;
 import util.Utils;
 
 public class DotProcessor {
@@ -440,16 +441,25 @@ public class DotProcessor {
 
 		}
 
+		FileWithPrintWriter printWriter = null;
+
+		try {
+			printWriter = new FileWithPrintWriter(Utils.OUTPUT_FILE_NAME);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 
 		for(int i = 0; i < output.size(); i++) {
 
 			for(int j = 0; j < output.get(i).size(); j++)
-				System.out.print(output.get(i).get(j));
+				printWriter.writeInfile(output.get(i).get(j));
+				//System.out.print(output.get(i).get(j));
 
-			System.out.println();
+			printWriter.writeInfile();
 		}
-
+		printWriter.closeFile();
 
 
 		File outputfile = new File("dotDetected.jpg");
