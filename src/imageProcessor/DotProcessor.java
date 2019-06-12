@@ -267,6 +267,8 @@ public class DotProcessor {
 
 ////////////////////////
 
+		ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
+
 		for(int i = 0; i < newLineIndex.size(); i = i+3) {
 
 			ArrayList<Integer> firstLine = lineMappedXX.get(newLineIndex.get(i + 0));
@@ -389,7 +391,7 @@ public class DotProcessor {
 					Collections.sort(tempIndex);
 					if(tempIndex.size()> 0)
 					previousIndex = tempIndex.get(0) - 25;
-					if(tempIndex.get(0) - currentIndex >= 90)
+					if(tempIndex.size() > 0 && tempIndex.get(0) - currentIndex >= 90)
 						letters.add("    ");
 					System.out.println("previous index " + previousIndex);
 
@@ -433,14 +435,20 @@ public class DotProcessor {
 
 			//break;
 
-
+			output.add(letters);
 
 
 		}
 
 
 
+		for(int i = 0; i < output.size(); i++) {
 
+			for(int j = 0; j < output.get(i).size(); j++)
+				System.out.print(output.get(i).get(j));
+
+			System.out.println();
+		}
 
 
 
