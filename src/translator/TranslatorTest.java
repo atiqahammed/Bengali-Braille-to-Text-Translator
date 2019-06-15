@@ -13,7 +13,7 @@ public class TranslatorTest {
 	public static void main(String[] args) {
 
 		System.out.println("Braille to text translator");
-		File ImageFile = new File("data4"+ ".jpg");
+		File ImageFile = new File("data1"+ ".jpg");
 		File grayScaleImage = Utils.GRAY_SCALE_IMAGE_PROCESSOR.process(ImageFile);
 		System.out.println("Gray Scale Conversion completed...");
 
