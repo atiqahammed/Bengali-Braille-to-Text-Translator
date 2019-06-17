@@ -113,13 +113,19 @@ public class DotProcessor {
 
 
 		int lineDistance = differenceBetweenLines.get(differenceBetweenLines.size() / 2);
-//		System.out.println(lineDistance);
+		System.out.println("Line distance : " + lineDistance);
 		int limit = (int) ((double) lineDistance * 0.30);
-//		System.out.println(limit);
+		System.out.println("Limit : " + limit);
 
-//		for(int i = 0; i < lineIndex.size(); i++) {
-//			ArrayList<Integer> currentLine = lineMappedXX.get(lineIndex.get(i));
-//			System.out.println(lineIndex.get(i) + "    ...  " + currentLine.size());
+
+
+
+//		for(int i = 0; i < lineIndex.size() - 1; i++) {
+//			System.out.println(lineIndex.get(i) + " ll");
+//
+//
+//
+//
 //		}
 
 
@@ -195,7 +201,7 @@ public class DotProcessor {
 			}
 		}
 
-		colorLine(newLineIndex);
+
 
 		System.out.println("new line Index:  "+ newLineIndex);
 		System.out.println("previous line diff :" + lineIndex.size() + lineIndex);
@@ -223,30 +229,6 @@ public class DotProcessor {
 			}
 		}
 
-
-
-
-//		ArrayList<Integer> allHorizontalDifference = new ArrayList<Integer>();
-//		for(int i = 0; i < newLineIndex.size(); i++) {
-//
-//			ArrayList<Integer> currentLineXArray = lineMappedXX.get(newLineIndex.get(i));
-//			System.out.println("line : " + currentLineXArray);
-//			System.out.println("si " + currentLineXArray.size());
-//
-//			for(int j = 1; j <  currentLineXArray.size(); j++) {
-//				allHorizontalDifference.add(currentLineXArray.get(j) - currentLineXArray.get(j-1));
-//			}
-//
-//		}
-//		Collections.sort(allHorizontalDifference);
-//		int horizontalMedianDistance = allHorizontalDifference.get(allHorizontalDifference.size()/2);
-//		System.out.println("horizontal median distance :: " + horizontalMedianDistance);
-
-		//System.out.println(allHorizontalDifference);
-
-
-		// removing noice in a single line
-
 		for(int i = 0; i < newLineIndex.size(); i++) {
 			ArrayList<Integer> currentLine = lineMappedXX.get(newLineIndex.get(i));
 			int previousXIndexOfDot = currentLine.get(0);
@@ -265,6 +247,9 @@ public class DotProcessor {
 			}
 			//System.out.println(previousXIndexOfDot);
 		}
+
+
+		colorLine(newLineIndex);
 
 ////////////////////////
 
