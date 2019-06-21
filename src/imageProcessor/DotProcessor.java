@@ -53,39 +53,12 @@ public class DotProcessor {
 
 		findDots();
 		initializeOutputImage();
-//		System.out.println("number of unique dot :: " + uniqueDots.size());
 		processUniqueDots();
 		ArrayList<Dot> firstStepSelectedDot = selectDotInFirstStep();
-//		System.out.println(firstStepSelectedDot.size());
 		initializeOutputImage();
 		ArrayList<Point> allCenter = getAllCenter();
 
-
-
-
-
-
-		//System.out.println(twoDString);
-
-//		System.out.println("dot test");
-//		for(int i =0; i < 10; i++)
-//			System.out.println(allCenter.get(i).getX() + " " + allCenter.get(i).getY());
-
-
 		processLineInformation(allCenter);
-
-//////
-
-		for(int i = 0; i < lineIndex.size(); i++) {
-			int key = lineIndex.get(i);
-			ArrayList<Integer> listX = lineMappedXX.get(key);
-			Collections.sort(listX);
-			lineMappedXX.put(key, listX);
-			//lineMappedXX.put(lineIndex.get(i), Collections.sort(lineMappedXX.get(lineIndex.get(i))));
-		}
-
-
-//		System.out.println(lineIndex.size());
 
 		Collections.sort(lineIndex);
 
@@ -113,8 +86,8 @@ public class DotProcessor {
 		for(int i = 0; i < primaryLineIndexCopy.size(); i++) {
 			int index = primaryLineIndexCopy.get(i);
 
-			System.out.println("start of averaging for : " + index);
-			System.out.println(index);
+//			System.out.println("start of averaging for : " + index);
+//			System.out.println(index);
 
 			ArrayList<Point> allDotsInCurrentLine = lineMapped2.get(index);
 			ArrayList<Integer> allYCoordinateOfCurrentLineDots = new ArrayList<Integer>();
@@ -128,30 +101,30 @@ public class DotProcessor {
 			}
 
 			int average = sum / allDotsInCurrentLine.size();
-			System.out.println("found average = " + average);
-			if(average != index)
-				System.out.println("-------?");
+//			System.out.println("found average = " + average);
+//		/	if(average != index)
+//				System.out.println("-------?");
 
 			lineMapped2.put(average, allDotsInCurrentLine);
 
 			//lineIndex.add(average);
 
 			allAverage.add(average);
-			System.out.println();
+//		/	System.out.println();
 
 		}
 
 
-		System.out.println("all line index : " + allAverage.size());
-		System.out.println("all copy index : " + primaryLineIndexCopy.size());
-		System.out.println("all dot size: " + allDot);
+//		System.out.println("all line index : " + allAverage.size());
+//		System.out.println("all copy index : " + primaryLineIndexCopy.size());
+//		System.out.println("all dot size: " + allDot);
 
 		int total = 0;
 		for(int i = 0; i < allAverage.size(); i++) {
 			total += lineMapped2.get(allAverage.get(i)).size();
 		}
 
-		System.out.println("all dot in average size : " + total);
+//		System.out.println("all dot in average size : " + total);
 		lineIndex = allAverage;
 
 		ArrayList<Integer> allDistanceBetweenLine = new ArrayList<Integer>();
@@ -163,11 +136,11 @@ public class DotProcessor {
 
 
 
-		System.out.println(lineIndex);
+//		System.out.println(lineIndex);
 		Collections.sort(allDistanceBetweenLine);
-		System.out.println(allDistanceBetweenLine);
+//		System.out.println(allDistanceBetweenLine);
 		int median = allDistanceBetweenLine.get(allDistanceBetweenLine.size() / 2);
-		System.out.println(median);
+//		System.out.println(median);
 
 		int limit = 15;
 
@@ -234,9 +207,9 @@ public class DotProcessor {
 		for(int i = 0; i < lineIndex.size(); i++)
 			cout += lineMapped2.get(lineIndex.get(i)).size();
 
-		System.out.println(cout + "   " + allDot);
+//		System.out.println(cout + "   " + allDot);
 
-		System.out.println(lineIndex);
+//		System.out.println(lineIndex);
 
 		colorLine(lineIndex, Utils.RED);
 
@@ -249,27 +222,57 @@ public class DotProcessor {
 		}
 
 
-		System.out.println(differenceBetweenLines);
+//		System.out.println(differenceBetweenLines);
 
 		Collections.sort(differenceBetweenLines);
-		System.out.println(differenceBetweenLines);
+//		System.out.println(differenceBetweenLines);
 
 
 		int lineDistance = differenceBetweenLines.get(differenceBetweenLines.size() / 2);
-		System.out.println("Line distance : " + lineDistance);
-		int acceptanceOfLineDistance = (int) ((double) lineDistance * 0.30);
-		System.out.println("Limit : " + limit);
+//		System.out.println("Line distance : " + lineDistance);
+		int acceptanceOfLineDistance = (int) ((double) lineDistance * 0.50);
+//		System.out.println("Limit : " + acceptanceOfLineDistance);
 
 
 
+		for(int i = 0; i < 10; i++) {
 
-//		for(int i = 0; i < lineIndex.size() - 1; i++) {
-//			System.out.println(lineIndex.get(i) + " ll");
-//
-//
-//
-//
-//		}
+			System.out.println(i);
+
+			if(i + 3 < lineIndex.size()) {
+
+				int firstLineIndex = lineIndex.get(i);
+				int secondLineIndex = lineIndex.get(i + 1);
+				int thirdLineIndex = lineIndex.get(i + 2);
+				int forthLineIndex = lineIndex.get(i + 3);
+
+				Boolean isFirstThreeLineShouldTake = isPartOfLine(firstLineIndex, secondLineIndex, thirdLineIndex, lineDistance, acceptanceOfLineDistance);
+				Boolean isLastThreeLineShouldTake = isPartOfLine(secondLineIndex, thirdLineIndex, forthLineIndex, lineDistance, acceptanceOfLineDistance);
+
+
+				if(isFirstThreeLineShouldTake) {
+					System.out.println(firstLineIndex + " " + secondLineIndex + " " + thirdLineIndex + " f");
+				}
+
+				if(isLastThreeLineShouldTake) {
+					System.out.println(secondLineIndex + " " + thirdLineIndex + " " + forthLineIndex + " l");
+				}
+
+				if(isFirstThreeLineShouldTake && isLastThreeLineShouldTake) {
+					System.out.println(" b");
+				}
+
+
+
+			}
+
+			else if(i + 2 < lineIndex.size()) {
+
+			}
+
+
+		}
+
 
 
 //		ArrayList<Integer> newLineIndex = new ArrayList<Integer>();
@@ -287,8 +290,8 @@ public class DotProcessor {
 //
 //				if(isFirstThreeLineShouldTake && isLastThreeLineShouldTake) {
 //
-//					double firstAverage = (lineMappedXX.get(firstLineIndex).size() + lineMappedXX.get(secondLineIndex).size() + lineMappedXX.get(ThirdLineIndex).size()) / 3;
-//					double lastAverage = (lineMappedXX.get(forthLineIndex).size() + lineMappedXX.get(secondLineIndex).size() + lineMappedXX.get(ThirdLineIndex).size()) / 3;
+//					double firstAverage = (lineMapped2.get(firstLineIndex).size() + lineMapped2.get(secondLineIndex).size() + lineMapped2.get(ThirdLineIndex).size()) / 3;
+//					double lastAverage = (lineMapped2.get(forthLineIndex).size() + lineMapped2.get(secondLineIndex).size() + lineMapped2.get(ThirdLineIndex).size()) / 3;
 //
 //					System.out.println(firstAverage + "  fi");
 //					System.out.println(lastAverage + "  la");
@@ -343,6 +346,9 @@ public class DotProcessor {
 //				}
 //			}
 //		}
+
+		colorLine(newLineIndexList, Utils.YELLOW);
+
 //
 //
 //
@@ -700,17 +706,17 @@ public class DotProcessor {
 			if(centerY - iniTialPoint >= maxH) {
 				if(count > 0) {
 					lineIndex.add(iniTialPoint);
-					lineMapped.put(iniTialPoint, (ArrayList<Integer>) dotsInLine.clone());
+					//lineMapped.put(iniTialPoint, (ArrayList<Integer>) dotsInLine.clone());
 					lineMapped2.put(iniTialPoint, (ArrayList<Point>) pointInLine.clone());
-					lineMappedXX.put(iniTialPoint, (ArrayList<Integer>) dotsInLinexx.clone());
+					//lineMappedXX.put(iniTialPoint, (ArrayList<Integer>) dotsInLinexx.clone());
 
 				}
-				dotsInLine = new ArrayList<>();
+				//dotsInLine = new ArrayList<>();
 				pointInLine = new ArrayList<Point>();
-				dotsInLinexx = new ArrayList<>();
+				//dotsInLinexx = new ArrayList<>();
 
-				dotsInLine.add(centerY);
-				dotsInLinexx.add(allCenter.get(i).getX());
+				//dotsInLine.add(centerY);
+				//dotsInLinexx.add(allCenter.get(i).getX());
 				pointInLine.add(allCenter.get(i));
 
 
@@ -719,8 +725,8 @@ public class DotProcessor {
 
 			} else {
 				count++;
-				dotsInLine.add(centerY);
-				dotsInLinexx.add(allCenter.get(i).getX());
+				//dotsInLine.add(centerY);
+				//dotsInLinexx.add(allCenter.get(i).getX());
 				pointInLine.add(allCenter.get(i));
 			}
 
@@ -729,8 +735,8 @@ public class DotProcessor {
 
 		if(count > 0) {
 			lineIndex.add(iniTialPoint);
-			lineMapped.put(iniTialPoint, (ArrayList<Integer>) dotsInLine.clone());
-			lineMappedXX.put(iniTialPoint, (ArrayList<Integer>) dotsInLinexx.clone());
+			//lineMapped.put(iniTialPoint, (ArrayList<Integer>) dotsInLine.clone());
+			//lineMappedXX.put(iniTialPoint, (ArrayList<Integer>) dotsInLinexx.clone());
 			lineMapped2.put(iniTialPoint, (ArrayList<Point>) pointInLine.clone());
 
 		}
