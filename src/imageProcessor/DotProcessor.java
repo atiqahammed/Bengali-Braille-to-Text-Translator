@@ -241,33 +241,24 @@ public class DotProcessor {
 		colorLine(lineIndex, Utils.RED);
 
 
-
-//		colorLine(allAverage, Utils.YELLOW);
-
-
-//		System.out.println("size of lines:: " + lineIndex.size());
-//		ArrayList<Integer> differenceBetweenLines = new ArrayList<Integer>();
+		ArrayList<Integer> differenceBetweenLines = new ArrayList<Integer>();
 
 
-//		for(int i = 0; i < lineIndex.size(); i++) {
-//			System.out.println(lineIndex.get(i));
-//		}
-//
-//		for(int i = 1; i < lineIndex.size(); i++) {
-//			differenceBetweenLines.add(lineIndex.get(i) - lineIndex.get(i - 1));
-//		}
+		for(int i = 1; i < lineIndex.size(); i++) {
+			differenceBetweenLines.add(lineIndex.get(i) - lineIndex.get(i - 1));
+		}
 
-//
-////		System.out.println(differenceBetweenLines);
-//
-//		Collections.sort(differenceBetweenLines);
-////		System.out.println(differenceBetweenLines);
-//
-//
-//		int lineDistance = differenceBetweenLines.get(differenceBetweenLines.size() / 2);
-//		System.out.println("Line distance : " + lineDistance);
-//		int limit = (int) ((double) lineDistance * 0.30);
-//		System.out.println("Limit : " + limit);
+
+		System.out.println(differenceBetweenLines);
+
+		Collections.sort(differenceBetweenLines);
+		System.out.println(differenceBetweenLines);
+
+
+		int lineDistance = differenceBetweenLines.get(differenceBetweenLines.size() / 2);
+		System.out.println("Line distance : " + lineDistance);
+		int acceptanceOfLineDistance = (int) ((double) lineDistance * 0.30);
+		System.out.println("Limit : " + limit);
 
 
 
