@@ -235,7 +235,7 @@ public class DotProcessor {
 
 
 
-		for(int i = 0; i < 10; i++) {
+		for(int i = 0; i < lineIndex.size(); i++) {
 
 			System.out.println(i);
 
@@ -250,23 +250,60 @@ public class DotProcessor {
 				Boolean isLastThreeLineShouldTake = isPartOfLine(secondLineIndex, thirdLineIndex, forthLineIndex, lineDistance, acceptanceOfLineDistance);
 
 
-				if(isFirstThreeLineShouldTake) {
-					System.out.println(firstLineIndex + " " + secondLineIndex + " " + thirdLineIndex + " f");
-				}
-
-				if(isLastThreeLineShouldTake) {
-					System.out.println(secondLineIndex + " " + thirdLineIndex + " " + forthLineIndex + " l");
-				}
-
 				if(isFirstThreeLineShouldTake && isLastThreeLineShouldTake) {
 					System.out.println(" b");
+
+					ArrayList<String> lettersInFirstSequence = getWords(firstLineIndex, secondLineIndex, thirdLineIndex);
+					ArrayList<String> lettersInLastSequence = getWords(secondLineIndex, thirdLineIndex, forthLineIndex);
+
+					int lettersInFirstLine = Utils.FUNCTIONS.getLetterCount(lettersInFirstSequence);
+					int lettersInLastLine = Utils.FUNCTIONS.getLetterCount(lettersInLastSequence);
+
+					if(lettersInFirstLine >= lettersInLastLine) {
+						System.out.println("First " + lettersInFirstSequence);
+						i += 2;
+					} else {
+						System.out.println("Last " + lettersInLastSequence);
+						i += 3;
+					}
+
 				}
+
+
+
+				else if(isFirstThreeLineShouldTake) {
+					System.out.println(firstLineIndex + " " + secondLineIndex + " " + thirdLineIndex + " f");
+					ArrayList<String> lettersInFirstSequence = getWords(firstLineIndex, secondLineIndex, thirdLineIndex);
+					System.out.println("single first " + lettersInFirstSequence);
+					i += 2;
+				}
+
+				else if(isLastThreeLineShouldTake) {
+					System.out.println(secondLineIndex + " " + thirdLineIndex + " " + forthLineIndex + " l");
+					ArrayList<String> lettersInLastSequence = getWords(secondLineIndex, thirdLineIndex, forthLineIndex);
+					System.out.println("single first " + lettersInLastSequence);
+					i += 3;
+
+				}
+
+
 
 
 
 			}
 
 			else if(i + 2 < lineIndex.size()) {
+				int firstLineIndex = lineIndex.get(i);
+				int secondLineIndex = lineIndex.get(i + 1);
+				int thirdLineIndex = lineIndex.get(i + 2);
+
+				Boolean isFirstThreeLineShouldTake = isPartOfLine(firstLineIndex, secondLineIndex, thirdLineIndex, lineDistance, acceptanceOfLineDistance);
+				if(isFirstThreeLineShouldTake) {
+					System.out.println(firstLineIndex + " " + secondLineIndex + " " + thirdLineIndex + " f");
+					ArrayList<String> lettersInFirstSequence = getWords(firstLineIndex, secondLineIndex, thirdLineIndex);
+					System.out.println("single first " + lettersInFirstSequence);
+					i += 2;
+				}
 
 			}
 
@@ -349,232 +386,6 @@ public class DotProcessor {
 
 		colorLine(newLineIndexList, Utils.YELLOW);
 
-//
-//
-//
-//		System.out.println("new line Index:  "+ newLineIndex);
-//		System.out.println("previous line diff :" + lineIndex.size() + lineIndex);
-//		System.out.println("previous line diff :" + newLineIndex.size() + newLineIndex);
-//		ArrayList<Integer> missedLineIndex = getMissedLineIndex(lineIndex, newLineIndex);
-//		System.out.println("missed line index : " + missedLineIndex);
-//
-//		for(int i = 0; i < missedLineIndex.size(); i++) {
-//			int indexOfAMissedLine = missedLineIndex.get(i);
-//
-//			ArrayList<Point> dotlistOfMissedLine = lineMapped2.get(indexOfAMissedLine);
-//			for(int j = 0; j < dotlistOfMissedLine.size(); j++) {
-//				Point point = dotlistOfMissedLine.get(j);
-//				int nearestLineIndex = getNearestLineIndex(point.getY(), newLineIndex);
-//
-//
-//				if(Math.abs(point.getY() - nearestLineIndex) <= Math.abs(point.getY() - indexOfAMissedLine)) {
-////					System.out.println("nearest index of line:: " + nearestLineIndex);
-////					System.out.println("point info X . Y :: " + point.getX() + " . " + point.getY());
-//
-//					lineMappedXX.get(nearestLineIndex).add(point.getX());
-//					Collections.sort(lineMappedXX.get(nearestLineIndex));
-//
-//				}
-//			}
-//		}
-//
-//		for(int i = 0; i < newLineIndex.size(); i++) {
-//			ArrayList<Integer> currentLine = lineMappedXX.get(newLineIndex.get(i));
-//			int previousXIndexOfDot = currentLine.get(0);
-//
-//			ArrayList<Integer> indexsToRemove = new ArrayList<Integer>();
-//			for(int j = 1; j < currentLine.size(); j++) {
-//				if(currentLine.get(j) - previousXIndexOfDot < Utils.SAME_POINT_COVERAGE) {
-//					indexsToRemove.add(previousXIndexOfDot);
-//				}
-//
-//				previousXIndexOfDot = currentLine.get(j);
-//			}
-//
-//			for(int j = 0; j < indexsToRemove.size(); j++) {
-//				currentLine.remove(indexsToRemove.get(j));
-//			}
-//			//System.out.println(previousXIndexOfDot);
-//		}
-
-
-//		colorLine(newLineIndex);
-
-////////////////////////
-//
-//		ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
-//
-//		for(int i = 0; i < newLineIndex.size(); i = i+3) {
-//
-//			ArrayList<Integer> firstLine = lineMappedXX.get(newLineIndex.get(i + 0));
-//			ArrayList<Integer> secondLine = lineMappedXX.get(newLineIndex.get(i + 1));
-//			ArrayList<Integer> thirdLine = lineMappedXX.get(newLineIndex.get(i + 2));
-//
-//			//Utils.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
-//
-//
-//			ArrayList<String> letters = new ArrayList<String>();
-//
-//
-//			int initialUpperDot = firstLine.get(0);
-//			int initialMiddelDot = secondLine.get(0);
-//			int initialLowerDot = thirdLine.get(0);
-//
-//			int smallestXIndex = initialUpperDot;
-//			if(initialMiddelDot < smallestXIndex) smallestXIndex = initialMiddelDot;
-//			if(initialLowerDot < smallestXIndex) smallestXIndex = initialLowerDot;
-//
-//			Utils.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
-//
-//
-//			int previousIndex = smallestXIndex - 35;
-//
-//			while(firstLine.size() > 0 || secondLine.size() > 0|| thirdLine.size() > 0) {
-//				String letter = "000000";
-//
-//				int currentIndex = -1;
-//				int nextIndex = -1;
-//
-//				int upperDot = -1;
-//				int middelDot = -1;
-//				int lowerDot = -1;
-//
-//				int nextUpperDot = -1;
-//				int nextMiddelDot = -1;
-//				int nextLowerDot = -1;
-//
-//
-//				// first level identification....
-//				if(firstLine.size() > 0) {
-//					if(firstLine.get(0) - previousIndex >= 20 && firstLine.get(0) - previousIndex <= 45) {
-//						upperDot = firstLine.get(0);
-//						firstLine.remove(0);
-//					}
-//				}
-//
-//				if(secondLine.size() > 0) {
-//					if(secondLine.get(0) - previousIndex >= 20 && secondLine.get(0) - previousIndex <= 45) {
-//						middelDot = secondLine.get(0);
-//						secondLine.remove(0);
-//					}
-//				}
-//
-//				if(thirdLine.size() > 0) {
-//					if(thirdLine.get(0) - previousIndex >= 20 && thirdLine.get(0) - previousIndex <= 45) {
-//						lowerDot = thirdLine.get(0);
-//						thirdLine.remove(0);
-//					}
-//				}
-//
-//				if(upperDot > 0) currentIndex = upperDot;
-//				if(currentIndex < 0 && middelDot > 0) currentIndex = middelDot;
-//				if(middelDot >0 && middelDot < currentIndex) currentIndex = middelDot;
-//				if(currentIndex < 0 && lowerDot > 0) currentIndex = lowerDot;
-//				if(lowerDot > 0 && lowerDot < currentIndex) currentIndex = lowerDot;
-//				//if(middelDot > 0 && middelDot < )
-//
-//
-//
-//
-//				System.out.println(upperDot +" "+ middelDot+ " "+ lowerDot);
-//
-//
-//
-//
-//
-//				System.out.println("current Index " + currentIndex);
-//
-//				Utils.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
-//
-//
-//				// second level identification....
-//				if(firstLine.size() > 0) {
-//					if(firstLine.get(0) - currentIndex >= 20 && firstLine.get(0) - currentIndex <= 45) {
-//						nextUpperDot = firstLine.get(0);
-//						firstLine.remove(0);
-//					}
-//				}
-//
-//				if(secondLine.size() > 0) {
-//					if(secondLine.get(0) - currentIndex >= 20 && secondLine.get(0) - currentIndex<= 45) {
-//						nextMiddelDot = secondLine.get(0);
-//						secondLine.remove(0);
-//					}
-//				}
-//
-//				if(thirdLine.size() > 0) {
-//					if(thirdLine.get(0) - currentIndex >= 20 && thirdLine.get(0) - currentIndex <= 45) {
-//						nextLowerDot = thirdLine.get(0);
-//						thirdLine.remove(0);
-//					}
-//				}
-//
-//				System.out.println(nextUpperDot+" "+ nextMiddelDot +" "+ nextLowerDot+ "  >");
-//				if(nextUpperDot == -1 && nextMiddelDot == -1 && nextLowerDot == -1) {
-//					if(upperDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
-//					if(middelDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
-//					if(lowerDot!= -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
-//
-//					System.out.println(letter);
-//					letters.add(Utils.LETTERS.getLetters(letter));
-//
-//					ArrayList<Integer> tempIndex = new ArrayList<Integer>();
-//					if(firstLine.size() > 0) tempIndex.add(firstLine.get(0));
-//					if(secondLine.size() > 0) tempIndex.add(secondLine.get(0));
-//					if(thirdLine.size() > 0) tempIndex.add(thirdLine.get(0));
-//
-//					Collections.sort(tempIndex);
-//					if(tempIndex.size()> 0)
-//					previousIndex = tempIndex.get(0) - 25;
-//					if(tempIndex.size() > 0 && tempIndex.get(0) - currentIndex >= 90)
-//						letters.add("    ");
-//					System.out.println("previous index " + previousIndex);
-//
-//				}
-//
-//				else {
-//					if(upperDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
-//					if(middelDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
-//					if(lowerDot!= -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
-//
-//					if(nextUpperDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 3);
-//					if(nextMiddelDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 4);
-//					if(nextLowerDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 5);
-//
-//					System.out.println(letter);
-//
-//					letters.add(Utils.LETTERS.getLetters(letter));
-//
-//					ArrayList<Integer> tempIndex = new ArrayList<Integer>();
-//					if(firstLine.size() > 0) tempIndex.add(firstLine.get(0));
-//					if(secondLine.size() > 0) tempIndex.add(secondLine.get(0));
-//					if(thirdLine.size() > 0) tempIndex.add(thirdLine.get(0));
-//
-//					Collections.sort(tempIndex);
-//					if(tempIndex.size() > 0) {
-//						previousIndex = tempIndex.get(0) - 25;
-//						if(tempIndex.get(0) - currentIndex >= 90)
-//							letters.add("    ");
-//
-//					}
-//					System.out.println("previous index " + previousIndex);
-//
-//				}
-//
-//				System.out.println(letters);
-//
-//
-//
-//				//break;
-//			}
-//
-//			//break;
-//
-//			output.add(letters);
-//
-//
-//		}
-
 		FileWithPrintWriter printWriter = null;
 
 //		try {
@@ -607,6 +418,173 @@ public class DotProcessor {
 		return outputfile;
 	}
 
+	private ArrayList<String> getWords(int firstLineIndex, int secondLineIndex, int thirdLineIndex) {
+
+		ArrayList<Integer> firstLine= getDotSequence(firstLineIndex);
+		ArrayList<Integer> secondLine = getDotSequence(secondLineIndex);
+		ArrayList<Integer> thirdLine= getDotSequence(thirdLineIndex);
+
+		ArrayList<String> letters = new ArrayList<String>();
+
+		int initialUpperDot = firstLine.get(0);
+		int initialMiddelDot = secondLine.get(0);
+		int initialLowerDot = thirdLine.get(0);
+
+		int smallestXIndex = initialUpperDot;
+		if(initialMiddelDot < smallestXIndex) smallestXIndex = initialMiddelDot;
+		if(initialLowerDot < smallestXIndex) smallestXIndex = initialLowerDot;
+
+//		Utils.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
+		int previousIndex = smallestXIndex - 35;
+
+		while(firstLine.size() > 0 || secondLine.size() > 0|| thirdLine.size() > 0) {
+			String letter = "000000";
+
+			int currentIndex = -1;
+			int nextIndex = -1;
+
+			int upperDot = -1;
+			int middelDot = -1;
+			int lowerDot = -1;
+
+			int nextUpperDot = -1;
+			int nextMiddelDot = -1;
+			int nextLowerDot = -1;
+
+			// first level identification....
+			if(firstLine.size() > 0) {
+				if(firstLine.get(0) - previousIndex >= 20 && firstLine.get(0) - previousIndex <= 45) {
+					upperDot = firstLine.get(0);
+					firstLine.remove(0);
+				}
+			}
+
+			if(secondLine.size() > 0) {
+				if(secondLine.get(0) - previousIndex >= 20 && secondLine.get(0) - previousIndex <= 45) {
+					middelDot = secondLine.get(0);
+					secondLine.remove(0);
+				}
+			}
+
+			if(thirdLine.size() > 0) {
+				if(thirdLine.get(0) - previousIndex >= 20 && thirdLine.get(0) - previousIndex <= 45) {
+					lowerDot = thirdLine.get(0);
+					thirdLine.remove(0);
+				}
+			}
+
+			if(upperDot > 0) currentIndex = upperDot;
+			if(currentIndex < 0 && middelDot > 0) currentIndex = middelDot;
+			if(middelDot >0 && middelDot < currentIndex) currentIndex = middelDot;
+			if(currentIndex < 0 && lowerDot > 0) currentIndex = lowerDot;
+			if(lowerDot > 0 && lowerDot < currentIndex) currentIndex = lowerDot;
+
+//			System.out.println(upperDot +" "+ middelDot+ " "+ lowerDot);
+//			System.out.println("current Index " + currentIndex);
+
+//			Utils.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
+
+						// second level identification....
+			if(firstLine.size() > 0) {
+				if(firstLine.get(0) - currentIndex >= 20 && firstLine.get(0) - currentIndex <= 45) {
+					nextUpperDot = firstLine.get(0);
+					firstLine.remove(0);
+				}
+			}
+
+			if(secondLine.size() > 0) {
+				if(secondLine.get(0) - currentIndex >= 20 && secondLine.get(0) - currentIndex<= 45) {
+					nextMiddelDot = secondLine.get(0);
+					secondLine.remove(0);
+				}
+			}
+
+			if(thirdLine.size() > 0) {
+				if(thirdLine.get(0) - currentIndex >= 20 && thirdLine.get(0) - currentIndex <= 45) {
+					nextLowerDot = thirdLine.get(0);
+					thirdLine.remove(0);
+				}
+			}
+
+//			System.out.println(nextUpperDot+" "+ nextMiddelDot +" "+ nextLowerDot+ "  >");
+			if(nextUpperDot == -1 && nextMiddelDot == -1 && nextLowerDot == -1) {
+				if(upperDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
+				if(middelDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
+				if(lowerDot!= -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
+
+//				System.out.println(letter);
+				letters.add(Utils.LETTERS.getLetters(letter));
+
+				ArrayList<Integer> tempIndex = new ArrayList<Integer>();
+				if(firstLine.size() > 0) tempIndex.add(firstLine.get(0));
+				if(secondLine.size() > 0) tempIndex.add(secondLine.get(0));
+				if(thirdLine.size() > 0) tempIndex.add(thirdLine.get(0));
+
+				Collections.sort(tempIndex);
+				if(tempIndex.size()> 0)
+					previousIndex = tempIndex.get(0) - 25;
+				if(tempIndex.size() > 0 && tempIndex.get(0) - currentIndex >= 90)
+					letters.add("    ");
+//					System.out.println("previous index " + previousIndex);
+
+			}
+
+			else {
+				if(upperDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
+				if(middelDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
+				if(lowerDot!= -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
+
+				if(nextUpperDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 3);
+				if(nextMiddelDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 4);
+				if(nextLowerDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 5);
+
+//				System.out.println(letter);
+				letters.add(Utils.LETTERS.getLetters(letter));
+
+				ArrayList<Integer> tempIndex = new ArrayList<Integer>();
+				if(firstLine.size() > 0) tempIndex.add(firstLine.get(0));
+				if(secondLine.size() > 0) tempIndex.add(secondLine.get(0));
+				if(thirdLine.size() > 0) tempIndex.add(thirdLine.get(0));
+
+				Collections.sort(tempIndex);
+				if(tempIndex.size() > 0) {
+					previousIndex = tempIndex.get(0) - 25;
+					if(tempIndex.get(0) - currentIndex >= 90)
+						letters.add("    ");
+
+				}
+			}
+		}
+
+//		System.out.println(letters);
+		return letters;
+	}
+
+	private ArrayList<Integer> getDotSequence(int index) {
+
+		ArrayList<Point> pointList = lineMapped2.get(index);
+		ArrayList<Integer> dots = new ArrayList<Integer>();
+
+		for(int i = 0; i < pointList.size(); i++)
+			dots.add(pointList.get(i).getX());
+
+		Collections.sort(dots);
+
+		int previousXIndexOfDot = dots.get(0);
+		ArrayList<Integer> dotsToRemove = new ArrayList<Integer>();
+
+		for(int j = 1; j < dots.size(); j++) {
+			if(dots.get(j) - previousXIndexOfDot < Utils.SAME_POINT_COVERAGE)
+				dotsToRemove.add(previousXIndexOfDot);
+			previousXIndexOfDot = dots.get(j);
+		}
+
+		for(int j = 0; j < dotsToRemove.size(); j++)
+			dots.remove(dotsToRemove.get(j));
+
+		return dots;
+	}
+
 	private int getNearestLineIndex(int y, ArrayList<Integer> newLineIndex) {
 		int selectedIndex = newLineIndex.get(0);
 		int initialDistance = Math.abs(y - selectedIndex);
@@ -623,37 +601,18 @@ public class DotProcessor {
 		return selectedIndex;
 	}
 
-	private ArrayList<Integer> getMissedLineIndex(ArrayList<Integer> lineIndex, ArrayList<Integer> newLineIndex) {
-		ArrayList<Integer> missedIndexes = new ArrayList<Integer>();
-
-		for(int i = 0; i < lineIndex.size(); i++) {
-			int currentIndex = lineIndex.get(i);
-			if(!newLineIndex.contains(currentIndex))
-				missedIndexes.add(currentIndex);
-		}
-		return missedIndexes;
-	}
-
 	private Boolean isPartOfLine(int firstLineIndex, int secondLineIndex, int thirdLineIndex, int lineDistance,
 			int limit) {
 
-
 		boolean secondLineFound = false;
 		boolean thirdLineFound = false;
-
-
 		int distance = secondLineIndex - firstLineIndex;
-//		System.out.println(distance + " dis 1");
-		if(distance <= lineDistance + limit && distance >= lineDistance - limit) {
-			secondLineFound = true;
-		}
-
-
 		int distance2 = thirdLineIndex - secondLineIndex;
-//		System.out.println(distance2 + " dis 2");
-		if(distance2 <= lineDistance + limit && distance2 >= lineDistance - limit) {
+
+		if(distance <= lineDistance + limit && distance >= lineDistance - limit)
+			secondLineFound = true;
+		if(distance2 <= lineDistance + limit && distance2 >= lineDistance - limit)
 			thirdLineFound = true;
-		}
 
 		if(secondLineFound && thirdLineFound)
 			return true;
@@ -670,30 +629,6 @@ public class DotProcessor {
 
 	}
 
-	private ArrayList<Integer> getHeightDistance(ArrayList<Point> allCenter) {
-		ArrayList<Integer> allY = new ArrayList<Integer>();
-		for (int i = 0; i < allCenter.size(); i++) {
-			allY.add(allCenter.get(i).getY());
-		}
-
-		System.out.println(allY);
-		Collections.sort(allY);
-		System.out.println(allY);
-		ArrayList<Integer> allHeightDistance = new ArrayList<>();
-		for(int i = 1; i < allY.size(); i++) {
-			int distance = allY.get(i) - allY.get(i-1);
-			if(distance != 0)
-			allHeightDistance.add(allY.get(i) - allY.get(i-1));
-		}
-
-		System.out.println(allHeightDistance);
-		Collections.sort(allHeightDistance);
-
-		System.out.println(allHeightDistance);
-
-		return null;
-	}
-
 	private void processLineInformation(ArrayList<Point> allCenter) {
 		int iniTialPoint = 1;
 		int count = 0;
@@ -706,42 +641,24 @@ public class DotProcessor {
 			if(centerY - iniTialPoint >= maxH) {
 				if(count > 0) {
 					lineIndex.add(iniTialPoint);
-					//lineMapped.put(iniTialPoint, (ArrayList<Integer>) dotsInLine.clone());
 					lineMapped2.put(iniTialPoint, (ArrayList<Point>) pointInLine.clone());
-					//lineMappedXX.put(iniTialPoint, (ArrayList<Integer>) dotsInLinexx.clone());
-
 				}
-				//dotsInLine = new ArrayList<>();
+
 				pointInLine = new ArrayList<Point>();
-				//dotsInLinexx = new ArrayList<>();
-
-				//dotsInLine.add(centerY);
-				//dotsInLinexx.add(allCenter.get(i).getX());
 				pointInLine.add(allCenter.get(i));
-
-
 				count = 1;
 				iniTialPoint = centerY;
 
 			} else {
 				count++;
-				//dotsInLine.add(centerY);
-				//dotsInLinexx.add(allCenter.get(i).getX());
 				pointInLine.add(allCenter.get(i));
 			}
-
-
 		}
 
 		if(count > 0) {
 			lineIndex.add(iniTialPoint);
-			//lineMapped.put(iniTialPoint, (ArrayList<Integer>) dotsInLine.clone());
-			//lineMappedXX.put(iniTialPoint, (ArrayList<Integer>) dotsInLinexx.clone());
 			lineMapped2.put(iniTialPoint, (ArrayList<Point>) pointInLine.clone());
-
 		}
-
-
 	}
 
 	private ArrayList<Point> getAllCenter() {
