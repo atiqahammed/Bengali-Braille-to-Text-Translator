@@ -31,8 +31,6 @@ public class DotProcessor {
 	ArrayList<Dot> uniqueDots = new ArrayList<>();
 	Map<String, Boolean> isAPartOfADot = new TreeMap<String, Boolean>();
 	Map<String, Dot> indexStringToDotMapping = new TreeMap<String, Dot>();
-	Map<Integer, ArrayList<Integer>> lineMapped = new TreeMap<Integer, ArrayList<Integer>>();
-	Map<Integer, ArrayList<Integer>> lineMappedXX = new TreeMap<Integer, ArrayList<Integer>>();
 	Map<Integer, ArrayList<Point>> lineMapped2 = new TreeMap<Integer, ArrayList<Point>>();
 	ArrayList<ArrayList<String>> twoDString = null;
 
@@ -40,8 +38,6 @@ public class DotProcessor {
 
 	// line information
 	ArrayList<Integer> lineIndex = new ArrayList<Integer>();
-	ArrayList<Integer> dotsInLine = new ArrayList<Integer>();
-	ArrayList<Integer> dotsInLinexx = new ArrayList<Integer>();
 	ArrayList<Point> pointInLine = new ArrayList<Point>();
 
 	public File getRectangularDottedFile(File imageFile) {
@@ -79,52 +75,26 @@ public class DotProcessor {
 
 
 
-		int allDot = 0;
+//		int allDot = 0;
 
 		ArrayList<Integer> primaryLineIndexCopy = (ArrayList<Integer>) lineIndex.clone();
 		ArrayList<Integer> allAverage = new ArrayList<Integer>();
+
 		for(int i = 0; i < primaryLineIndexCopy.size(); i++) {
+
 			int index = primaryLineIndexCopy.get(i);
-
-//			System.out.println("start of averaging for : " + index);
-//			System.out.println(index);
-
 			ArrayList<Point> allDotsInCurrentLine = lineMapped2.get(index);
 			ArrayList<Integer> allYCoordinateOfCurrentLineDots = new ArrayList<Integer>();
 
-			allDot += allDotsInCurrentLine.size();
-//			System.out.println("dot " + allDot);
 			int sum = 0;
-			for(int j = 0; j < allDotsInCurrentLine.size(); j++) {
-//				allYCoordinateOfCurrentLineDots.add(allDotsInCurrentLine.get(j).getY())
+			for(int j = 0; j < allDotsInCurrentLine.size(); j++)
 				sum += allDotsInCurrentLine.get(j).getY();
-			}
 
 			int average = sum / allDotsInCurrentLine.size();
-//			System.out.println("found average = " + average);
-//		/	if(average != index)
-//				System.out.println("-------?");
-
 			lineMapped2.put(average, allDotsInCurrentLine);
-
-			//lineIndex.add(average);
-
 			allAverage.add(average);
-//		/	System.out.println();
-
 		}
 
-
-//		System.out.println("all line index : " + allAverage.size());
-//		System.out.println("all copy index : " + primaryLineIndexCopy.size());
-//		System.out.println("all dot size: " + allDot);
-
-		int total = 0;
-		for(int i = 0; i < allAverage.size(); i++) {
-			total += lineMapped2.get(allAverage.get(i)).size();
-		}
-
-//		System.out.println("all dot in average size : " + total);
 		lineIndex = allAverage;
 
 		ArrayList<Integer> allDistanceBetweenLine = new ArrayList<Integer>();
@@ -133,14 +103,8 @@ public class DotProcessor {
 			allDistanceBetweenLine.add(lineIndex.get(i) - lineIndex.get(i-1));
 		}
 
-
-
-
-//		System.out.println(lineIndex);
 		Collections.sort(allDistanceBetweenLine);
-//		System.out.println(allDistanceBetweenLine);
 		int median = allDistanceBetweenLine.get(allDistanceBetweenLine.size() / 2);
-//		System.out.println(median);
 
 		int limit = 15;
 
