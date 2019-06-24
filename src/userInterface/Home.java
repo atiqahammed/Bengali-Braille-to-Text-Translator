@@ -41,7 +41,7 @@ public class Home extends Application{
 
 		StackPane layout = new StackPane();
 		layout.getChildren().add(button);
-
+//System.out.println();
 		Scene scene = new Scene(layout);
 		primaryStage.setScene(scene);
 		primaryStage.show();

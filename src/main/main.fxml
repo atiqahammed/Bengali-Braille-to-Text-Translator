@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.layout.AnchorPane?>
 
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane layoutX="158.0" layoutY="157.0" prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane layoutX="59.0" layoutY="45.0" prefHeight="441.0" prefWidth="383.0">
          <children>
-            <Button layoutX="48.0" layoutY="58.0" mnemonicParsing="false" text="Button" />
+            <JFXButton layoutX="120.0" layoutY="158.0" />
          </children>
       </AnchorPane>
    </children>
