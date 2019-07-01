@@ -9,15 +9,19 @@ import util.Utils;
 
 public class TempTest extends Application{
 
+
+	public static Stage STAGE;
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub
+
 		Parent root = FXMLLoader.load(getClass().getResource("test_home_ui.fxml"));
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle(Utils.BRAILLE_TO_TEXT_TRANSLATOR);
+		primaryStage.setResizable(false);
 		primaryStage.show();
-
+		STAGE = primaryStage;
 
 
 	}
