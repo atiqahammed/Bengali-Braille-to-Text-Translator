@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
@@ -7,7 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="root_anchoe_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane layoutX="82.0" layoutY="77.0" prefHeight="500.0" prefWidth="300.0" style="-fx-background-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="500.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -21,18 +22,15 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Button fx:id="close_button" layoutX="1.0" layoutY="1.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #000000;">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/close-button.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+            <Button fx:id="close_button" layoutX="4.0" layoutY="5.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #000000;" text="X" textFill="WHITE" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
             </Button>
+            <Button fx:id="test_button" layoutX="124.0" layoutY="123.0" mnemonicParsing="false" text="Button" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="333.0" layoutY="86.0" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="home_ui_anchor_pane" layoutX="333.0" layoutY="86.0" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="278.0" fitWidth="494.0" layoutX="8.0" layoutY="9.0" opacity="0.21" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="9.0">
                <image>
