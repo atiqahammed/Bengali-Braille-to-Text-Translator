@@ -1,5 +1,6 @@
 package util;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,65 +10,65 @@ public class Functions {
 	ArrayList<String> letters = new ArrayList<>();
 
 	public Functions() {
-		letters.add("অ");
-		letters.add("আ");
+		letters.add("à¦…");
+		letters.add("à¦†");
 
-		letters.add("ই");
-		letters.add("ঈ");
+		letters.add("à¦‡");
+		letters.add("à¦ˆ");
 
-		letters.add("উ");
-		letters.add("ঊ");
+		letters.add("à¦‰");
+		letters.add("à¦Š");
 
-		letters.add("এ");
-		letters.add("ঐ");
+		letters.add("à¦�");
+		letters.add("à¦�");
 
-		letters.add("ও");
-		letters.add("ঔ");
+		letters.add("à¦“");
+		letters.add("à¦”");
 
-		letters.add("ক");
-		letters.add("খ");
-		letters.add("গ");
-		letters.add("ঘ");
-		letters.add("ঙ");
+		letters.add("à¦•");
+		letters.add("à¦–");
+		letters.add("à¦—");
+		letters.add("à¦˜");
+		letters.add("à¦™");
 
-		letters.add("চ");
-		letters.add("ছ");
-		letters.add("জ");
-		letters.add("ঝ");
-		letters.add("ঞ");
+		letters.add("à¦š");
+		letters.add("à¦›");
+		letters.add("à¦œ");
+		letters.add("à¦�");
+		letters.add("à¦ž");
 
-		letters.add("ট");
-		letters.add("ঠ");
-		letters.add("ড");
-		letters.add("ঢ");
-		letters.add("ণ");
+		letters.add("à¦Ÿ");
+		letters.add("à¦ ");
+		letters.add("à¦¡");
+		letters.add("à¦¢");
+		letters.add("à¦£");
 
-		letters.add("ত");
-		letters.add("থ");
-		letters.add("দ");
-		letters.add("ধ");
-		letters.add("ন");
+		letters.add("à¦¤");
+		letters.add("à¦¥");
+		letters.add("à¦¦");
+		letters.add("à¦§");
+		letters.add("à¦¨");
 
-		letters.add("প");
-		letters.add("ফ");
-		letters.add("ব");
-		letters.add("ভ");
-		letters.add("ম");
+		letters.add("à¦ª");
+		letters.add("à¦«");
+		letters.add("à¦¬");
+		letters.add("à¦­");
+		letters.add("à¦®");
 
-		letters.add("য");
-		letters.add("র");
-		letters.add("ল");
+		letters.add("à¦¯");
+		letters.add("à¦°");
+		letters.add("à¦²");
 
-		letters.add("শ");
-		letters.add("স");
-		letters.add("ষ");
-		letters.add("হ");
-		letters.add("ক্ষ");
+		letters.add("à¦¶");
+		letters.add("à¦¸");
+		letters.add("à¦·");
+		letters.add("à¦¹");
+		letters.add("à¦•à§�à¦·");
 
-		letters.add("জ্ঞ");
-		letters.add("ড়");
-		letters.add("ঢ়");
-		letters.add("য়");
+		letters.add("à¦œà§�à¦ž");
+		letters.add("à§œ");
+		letters.add("à§�");
+		letters.add("à§Ÿ");
 	}
 
 	public void printCurrentLine(ArrayList<Integer> firstLine, ArrayList<Integer> secondLine,
@@ -97,6 +98,10 @@ public class Functions {
 		Pattern pattern = Pattern.compile(Utils.IMAGE_PATTERN);
 		Matcher matcher = pattern.matcher(image);
 		return matcher.matches();
+	}
+
+	public boolean isSelectedFileValid(File file, String filePath) {
+		return filePath.equals(file.getAbsolutePath());
 	}
 
 }
