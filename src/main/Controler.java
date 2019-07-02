@@ -28,33 +28,13 @@ public class Controler implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("init function");
+//		System.out.println("init function");
+//		loadUI("home_anchorpane_ui");
 	}
 
 	@FXML
 	private void main_ui_home_button(MouseEvent mouseEvent) {
-////		loadUI("u1");
-//		System.out.println("ok");
-//
-//		Parent root = null;
-//		try {
-//			root = FXMLLoader.load(getClass().getResource("u1.fxml"));
-//		} catch (IOException e) {
-//
-//			System.out.println("error");
-//		}
-//
-//		main_border_pane.setCenter(root);
-//		if(root == null) {
-//			System.out.println("r");
-//		}
-//
-//		if (main_border_pane == null) {
-//			System.out.println("b");
-//		}
-
-		System.out.println("home button");
-
+		loadUI("home_anchorpane_ui");
 	}
 
 	@FXML
@@ -73,18 +53,13 @@ public class Controler implements Initializable{
 
 	@FXML
 	private void default_file_chooser_ui_done_button(MouseEvent mouseEvent) {
-//		loadUI("u4");
-//		System.out.println("done button");
 		Desktop desktop = Desktop.getDesktop();
         if(choosedFile.exists())
 			try {
 				desktop.open(choosedFile);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-
 	}
 
 	private void loadUI(String ui) {

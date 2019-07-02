@@ -23,7 +23,6 @@ public class TempTest extends Application{
 		primaryStage.show();
 		STAGE = primaryStage;
 
-
 	}
 
 	public static void main(String[] args) {

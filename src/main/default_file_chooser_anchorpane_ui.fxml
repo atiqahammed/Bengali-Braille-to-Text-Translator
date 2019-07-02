@@ -5,11 +5,10 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controler">
    <children>
-      <TextField fx:id="default_template_ui_file_path_textfield" layoutX="189.0" layoutY="281.0" prefHeight="39.0" prefWidth="328.0" />
-      <Button layoutX="66.0" layoutY="286.0" mnemonicParsing="false" onMouseClicked="#default_file_chooser_ui_choose_button" style="-fx-background-color: #101010; -fx-text-fill: #ffffff;" text="Choose image">
+      <TextField fx:id="default_template_ui_file_path_textfield" layoutX="134.0" layoutY="281.0" prefHeight="39.0" prefWidth="454.0" />
+      <Button layoutX="11.0" layoutY="286.0" mnemonicParsing="false" onMouseClicked="#default_file_chooser_ui_choose_button" style="-fx-background-color: #101010; -fx-text-fill: #ffffff;" text="Choose image">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

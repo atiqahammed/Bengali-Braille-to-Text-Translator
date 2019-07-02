@@ -49,13 +49,13 @@ public class BrailleStartMain extends Application {
 		AnchorPane p1 = (AnchorPane) MAIN_UI_FXML_LOADER.getNamespace().get("home_ui_anchor_pane");
 		AnchorPane p = (AnchorPane) MAIN_UI_FXML_LOADER.getNamespace().get("root_anchoe_pane");
 		AnchorPane p2 = (AnchorPane) FXMLLoader.load(getClass().getResource("test_temp.fxml"));
-		
-		
+
+
 		button.setOnAction(e -> {
 
 			System.out.println("test button");
-			BorderPane.
-			p1.getChildren().clear();
+//			BorderPane.
+//			p1.getChildren().clear();
 			//AnchorPane.setRightAnchor(p1, 0.0);
 //			System.out.println(AnchorPane.getRightAnchor(p1).doubleValue());
 

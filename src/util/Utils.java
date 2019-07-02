@@ -15,6 +15,7 @@ public class Utils {
 
 	public static String BRAILLE_TO_TEXT_TRANSLATOR = "Braille to Text Translator";
 	public static String OUTPUT_FILE_NAME = "output.txt";
+	public static final String IMAGE_PATTERN = "([^\\s]+(\\.(?i)(jpg|png))$)";
 
 	public static int APPLICATION_HEIGHT = 500;
 	public static int APPLICATION_WIDTH = 840;

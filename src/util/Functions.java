@@ -1,6 +1,8 @@
 package util;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Functions {
 
@@ -21,7 +23,6 @@ public class Functions {
 
 		letters.add("ও");
 		letters.add("ঔ");
-
 
 		letters.add("ক");
 		letters.add("খ");
@@ -78,19 +79,24 @@ public class Functions {
 	}
 
 	public String replaceCharUsingCharArray(String str, char ch, int index) {
-	    char[] chars = str.toCharArray();
-	    chars[index] = ch;
-	    return String.valueOf(chars);
+		char[] chars = str.toCharArray();
+		chars[index] = ch;
+		return String.valueOf(chars);
 	}
 
 	public int getLetterCount(ArrayList<String> lettersInline) {
 		int count = 0;
-		for(int i = 0; i < lettersInline.size(); i++)
-			if(letters.contains(lettersInline.get(i)))
+		for (int i = 0; i < lettersInline.size(); i++)
+			if (letters.contains(lettersInline.get(i)))
 				count++;
 
-
 		return count;
+	}
+
+	public boolean validateImageFileType(final String image) {
+		Pattern pattern = Pattern.compile(Utils.IMAGE_PATTERN);
+		Matcher matcher = pattern.matcher(image);
+		return matcher.matches();
 	}
 
 }
