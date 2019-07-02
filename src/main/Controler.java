@@ -29,8 +29,6 @@ public class Controler implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// System.out.println("init function");
-		// loadUI("home_anchorpane_ui");
 	}
 
 	@FXML
