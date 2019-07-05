@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -132,11 +134,41 @@ public class Functions {
 			return str;
 		return str.substring(0, pos);
 	}
+
+	public File writeInImageFile() {
+		BufferedImage outputImage = new BufferedImage(Utils.IMAGE_WEIDTH, Utils.IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		String time = dtf.format(now);
+
+		String imagePath = Utils.IMAGE_FILE_NAME + /*"_" + time*/ "." + Utils.IMAGE_FILE_TYPE;
+		File ouptutFile = new File(imagePath);
+
+		for(int i = 0; i < Utils.IMAGE_HEIGHT; i++) {
+			for(int j = 0; j < Utils.IMAGE_WEIDTH; j++) {
+
+				outputImage.setRGB(j, i, Utils.IMAGE_ARRAY_OF_PIXEL.get(i).get(j).getRGB());
+			}
+		}
+
+		System.out.println(Utils.IMAGE_FILE_TYPE + "..." + imagePath);
+
+
+		try {
+			ImageIO.write(outputImage, Utils.IMAGE_FILE_TYPE, ouptutFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return ouptutFile;
+	}
+
+
 	public ArrayList<ArrayList<Color>> getImageIn2DArray(File imageFile) {
 		try {
 			BufferedImage inputImage = ImageIO.read(imageFile);
-			Utils.IMAGE_HEIGHT = inputImage.getWidth();
-			Utils.IMAGE_WEIDTH = inputImage.getHeight();
+			Utils.IMAGE_HEIGHT = inputImage.getHeight();
+			Utils.IMAGE_WEIDTH = inputImage.getWidth();
 			Utils.IMAGE_FILE_NAME = getName(imageFile);
 			Utils.IMAGE_FILE_TYPE = getImageType(imageFile);
 
@@ -145,7 +177,7 @@ public class Functions {
 			for(int i = 0;  i < Utils.IMAGE_HEIGHT; i++) {
 				ArrayList<Color> arrayOfARow = new ArrayList<Color>();
 				for(int j = 0; j < Utils.IMAGE_WEIDTH; j++)
-					arrayOfARow.add(new Color(inputImage.getRGB(i, j)));
+					arrayOfARow.add(new Color(inputImage.getRGB(j, i)));
 				imageArray.add(arrayOfARow);
 			}
 

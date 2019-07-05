@@ -65,6 +65,7 @@ public class Controler implements Initializable {
 			System.out.println(Utils.IMAGE_ARRAY_OF_PIXEL.size());
 			System.out.println(Utils.IMAGE_WEIDTH);
 			System.out.println(Utils.IMAGE_ARRAY_OF_PIXEL.get(0).size());
+			Utils.FUNCTIONS.writeInImageFile();
 		}
 
 		else {
