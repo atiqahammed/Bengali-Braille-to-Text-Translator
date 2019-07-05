@@ -2,6 +2,7 @@ package util;
 
 import java.awt.Color;
 import java.io.File;
+import java.util.ArrayList;
 
 import dataStructure.Letters;
 import fileManager.FileWithPrintWriter;
@@ -38,7 +39,15 @@ public class Utils {
 	public static Functions FUNCTIONS = new Functions();
 	public static Letters LETTERS = new Letters();
 
-	public static FileWithPrintWriter FILE_WRITER;// = new FileWithPrintWriter(OUTPUT_FILE_NAME);
+	public static FileWithPrintWriter FILE_WRITER;
+
+	public static int IMAGE_HEIGHT = 0;
+	public static int IMAGE_WEIDTH = 0;
+	public static String IMAGE_FILE_NAME = "image";
+	public static String IMAGE_FILE_TYPE = "abc";
+
+	public static ArrayList<ArrayList<Color>> IMAGE_ARRAY_OF_PIXEL = null;
+
 
 
 
