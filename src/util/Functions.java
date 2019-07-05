@@ -135,6 +135,27 @@ public class Functions {
 		return str.substring(0, pos);
 	}
 
+	public ArrayList<ArrayList<Color>> convertInGrayScale(ArrayList<ArrayList<Color>> imageArray) {
+		int imageHeight = imageArray.size();
+		int imageWidth = imageArray.get(0).size();
+
+		for(int i = 0; i < imageHeight; i++) {
+			for(int j = 0 ; j < imageWidth; j ++) {
+				Color currentPixelColor = imageArray.get(i).get(j);
+
+				int red = (int) currentPixelColor.getRed();
+				int green = (int) currentPixelColor.getGreen();
+				int blue = (int) currentPixelColor.getBlue();
+
+				int averageValue = (red + green + blue) / 3;
+				Color newColor = new Color(averageValue, averageValue, averageValue);
+				imageArray.get(i).set(j, newColor);
+			}
+		}
+
+		return imageArray;
+	}
+
 	public File writeInImageFile() {
 		BufferedImage outputImage = new BufferedImage(Utils.IMAGE_WEIDTH, Utils.IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
