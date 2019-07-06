@@ -383,4 +383,45 @@ public class Functions {
 
 		return newImageArray;
 	}
+
+	public ArrayList<ArrayList<Color>> getDialutedImageArray() {
+		ArrayList<ArrayList<Color>> newImageArray = new ArrayList<ArrayList<Color>>();
+
+		int row[] = {-1, 0, 1, 0};
+		int col[] = {0, 1, 0, -1};
+
+		for(int i = 0; i < Utils.IMAGE_HEIGHT; i++) {
+			ArrayList<Color> arrayOfARow = new ArrayList<Color>();
+
+			for(int j = 0; j < Utils.IMAGE_WEIDTH; j++) {
+
+				Color c = Utils.IMAGE_ARRAY_OF_PIXEL.get(i).get(j);
+				int grayScale = (int) c.getRed();
+				int count = 0;
+
+				for(int a = 0; a < 4; a++) {
+					int tempX = j + col[a];
+					int tempY = i + row[a];
+
+					if(tempX>= 0 && tempX < Utils.IMAGE_WEIDTH && tempY >= 0 && tempY < Utils.IMAGE_HEIGHT) {
+						Color color = Utils.IMAGE_ARRAY_OF_PIXEL.get(tempY).get(tempX);
+						int grayValue = (int) color.getRed();
+						if(grayValue == 255) count++;
+					}
+
+				}
+
+				Color color;
+				if (count >= 1) color = Utils.WHITE;
+				else color = Utils.BLACK;
+
+				arrayOfARow.add(color);
+			}
+
+			newImageArray.add(arrayOfARow);
+		}
+
+		return newImageArray;
+
+	}
 }

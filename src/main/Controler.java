@@ -65,6 +65,7 @@ public class Controler implements Initializable {
 			int threshold = Utils.FUNCTIONS.getOtsuThreshold();
 			Utils.FUNCTIONS.convertBinaryImage(threshold);
 			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getMedianFilteredArray(1);
+			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getDialutedImageArray();
 			Utils.FUNCTIONS.writeInImageFile();
 		}
 
