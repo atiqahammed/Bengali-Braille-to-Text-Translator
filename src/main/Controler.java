@@ -64,6 +64,7 @@ public class Controler implements Initializable {
 			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.convertInGrayScale();
 			int threshold = Utils.FUNCTIONS.getOtsuThreshold();
 			Utils.FUNCTIONS.convertBinaryImage(threshold);
+			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getMedianFilteredArray(1);
 			Utils.FUNCTIONS.writeInImageFile();
 		}
 

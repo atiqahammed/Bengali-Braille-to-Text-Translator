@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -343,5 +344,43 @@ public class Functions {
 					Utils.IMAGE_ARRAY_OF_PIXEL.get(i).set(j, Utils.BLACK);
 			}
 		}
+	}
+
+	public ArrayList<ArrayList<Color>> getMedianFilteredArray(int kernelSize) {
+
+		ArrayList<ArrayList<Color>> newImageArray = new ArrayList<ArrayList<Color>>();
+		for(int i = 0; i < Utils.IMAGE_HEIGHT; i++) {
+
+			ArrayList<Color> arrayOfARow = new ArrayList<>();
+			for(int j = 0; j < Utils.IMAGE_WEIDTH; j++) {
+				ArrayList<Integer> colorValue = new ArrayList<Integer>();
+
+				for (int a = -1 * kernelSize; a <= kernelSize; a++) {
+					for (int b = -1 * kernelSize; b <= kernelSize; b++) {
+
+						int tempX = j + a;
+						int tempY = i + b;
+
+						if (tempX >= 0 && tempX <  Utils.IMAGE_WEIDTH && tempY >= 0 && tempY < Utils.IMAGE_HEIGHT) {
+							Color c = Utils.IMAGE_ARRAY_OF_PIXEL.get(tempY).get(tempX);
+							int grayScale = (int) c.getRed();
+							colorValue.add(grayScale);
+						}
+					}
+				}
+
+				Collections.sort(colorValue);
+				int medianValue = colorValue.get(colorValue.size()/2);
+				Color color;
+				if(medianValue == 0) color = Utils.BLACK;
+				else color = Utils.WHITE;
+				arrayOfARow.add(color);
+
+			}
+
+			newImageArray.add(arrayOfARow);
+		}
+
+		return newImageArray;
 	}
 }
