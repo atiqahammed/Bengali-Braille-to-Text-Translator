@@ -61,11 +61,8 @@ public class Controler implements Initializable {
 		if (validFile) {
 			System.out.println("valid\nGo to next page with output");
 			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getImageIn2DArray(choosedFile);
-			System.out.println(Utils.IMAGE_HEIGHT);
-			System.out.println(Utils.IMAGE_ARRAY_OF_PIXEL.size());
-			System.out.println(Utils.IMAGE_WEIDTH);
-			System.out.println(Utils.IMAGE_ARRAY_OF_PIXEL.get(0).size());
-			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.convertInGrayScale(Utils.IMAGE_ARRAY_OF_PIXEL);
+			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.convertInGrayScale();
+			int threshold = Utils.FUNCTIONS.getOtsuThreshold();
 			Utils.FUNCTIONS.writeInImageFile();
 		}
 
