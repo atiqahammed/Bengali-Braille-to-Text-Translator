@@ -332,4 +332,16 @@ public class Functions {
 
 		return null;
 	}
+
+	public void convertBinaryImage(int threshold) {
+		for(int i = 0; i < Utils.IMAGE_HEIGHT; i++) {
+			for(int j = 0; j < Utils.IMAGE_WEIDTH; j++) {
+				int colorValue = (int) Utils.IMAGE_ARRAY_OF_PIXEL.get(i).get(j).getRed();
+				if(colorValue < threshold)
+					Utils.IMAGE_ARRAY_OF_PIXEL.get(i).set(j, Utils.WHITE);
+				else
+					Utils.IMAGE_ARRAY_OF_PIXEL.get(i).set(j, Utils.BLACK);
+			}
+		}
+	}
 }
