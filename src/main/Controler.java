@@ -2,6 +2,7 @@ package main;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -10,8 +11,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import util.Utils;
@@ -22,10 +25,13 @@ public class Controler implements Initializable {
 	private BorderPane brailleborderpane;
 
 	@FXML
+	private TextArea output_textarea;
+	@FXML
 	private TextField default_template_ui_file_path_textfield;
 
 	final FileChooser fileChooser = new FileChooser();
 	private File choosedFile;
+	private String outputText = "default output";
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -51,6 +57,20 @@ public class Controler implements Initializable {
 	}
 
 	@FXML
+	private void default_file_chooser_ui_save_button(MouseEvent mouseEvent) {
+
+		System.out.println("output");
+
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showSaveDialog(TempTest.STAGE);
+
+        if (file != null) {
+            saveTextToFile(outputText, file);
+        }
+	}
+
+	@FXML
 	private void default_file_chooser_ui_done_button(MouseEvent mouseEvent) {
 
 		String filePathInTextField = default_template_ui_file_path_textfield.getText();
@@ -67,6 +87,10 @@ public class Controler implements Initializable {
 			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getMedianFilteredArray(1);
 			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getDialutedImageArray();
 			Utils.FUNCTIONS.writeInImageFile();
+
+
+			outputText = "new output "; // output will generate here.....;
+			output_textarea.setText(outputText);
 		}
 
 		else {
@@ -92,5 +116,16 @@ public class Controler implements Initializable {
 		brailleborderpane.setCenter(root);
 
 	}
+
+	private void saveTextToFile(String content, File file) {
+        try {
+            PrintWriter writer;
+            writer = new PrintWriter(file);
+            writer.println(content);
+            writer.close();
+        } catch (IOException ex) {
+//            Logger.getLogger(SaveFileWithFileChooser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }
