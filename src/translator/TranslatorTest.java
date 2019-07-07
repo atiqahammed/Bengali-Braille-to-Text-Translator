@@ -2,7 +2,7 @@ package translator;
 
 import java.io.File;
 
-import com.sun.org.apache.bcel.internal.classfile.Field;
+//import com.sun.org.apache.bcel.internal.classfile.Field;
 
 import imageProcessor.DotProcessor;
 import preProcessor.Dilation;

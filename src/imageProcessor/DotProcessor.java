@@ -12,7 +12,7 @@ import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+//import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import dataStructure.BrailleDor;
 import dataStructure.Dot;

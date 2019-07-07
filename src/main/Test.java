@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.swing.filechooser.FileSystemView;
 
-import com.sun.javafx.logging.Logger;
+//import com.sun.javafx.logging.Logger;
 import javafx.application.Application;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;

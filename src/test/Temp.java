@@ -12,7 +12,7 @@ import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
-import com.sun.javafx.scene.traversal.WeightedClosestCorner;
+//import com.sun.javafx.scene.traversal.WeightedClosestCorner;
 
 import dataStructure.Dot;
 import dataStructure.Point;

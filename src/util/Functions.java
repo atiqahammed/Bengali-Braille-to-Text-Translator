@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileSystemView;
 
-import com.sun.deploy.uitoolkit.impl.fx.ui.UITextArea;
+//import com.sun.deploy.uitoolkit.impl.fx.ui.UITextArea;
 
 public class Functions {
 
@@ -52,65 +52,65 @@ public class Functions {
 	}
 
 	public Functions() {
-		letters.add("à¦…");
-		letters.add("à¦†");
+		letters.add("Ã Â¦â€¦");
+		letters.add("Ã Â¦â€ ");
 
-		letters.add("à¦‡");
-		letters.add("à¦ˆ");
+		letters.add("Ã Â¦â€¡");
+		letters.add("Ã Â¦Ë†");
 
-		letters.add("à¦‰");
-		letters.add("à¦Š");
+		letters.add("Ã Â¦â€°");
+		letters.add("Ã Â¦Å ");
 
-		letters.add("à¦�");
-		letters.add("à¦�");
+		letters.add("Ã Â¦ï¿½");
+		letters.add("Ã Â¦ï¿½");
 
-		letters.add("à¦“");
-		letters.add("à¦”");
+		letters.add("Ã Â¦â€œ");
+		letters.add("Ã Â¦â€�");
 
-		letters.add("à¦•");
-		letters.add("à¦–");
-		letters.add("à¦—");
-		letters.add("à¦˜");
-		letters.add("à¦™");
+		letters.add("Ã Â¦â€¢");
+		letters.add("Ã Â¦â€“");
+		letters.add("Ã Â¦â€”");
+		letters.add("Ã Â¦Ëœ");
+		letters.add("Ã Â¦â„¢");
 
-		letters.add("à¦š");
-		letters.add("à¦›");
-		letters.add("à¦œ");
-		letters.add("à¦�");
-		letters.add("à¦ž");
+		letters.add("Ã Â¦Å¡");
+		letters.add("Ã Â¦â€º");
+		letters.add("Ã Â¦Å“");
+		letters.add("Ã Â¦ï¿½");
+		letters.add("Ã Â¦Å¾");
 
-		letters.add("à¦Ÿ");
-		letters.add("à¦ ");
-		letters.add("à¦¡");
-		letters.add("à¦¢");
-		letters.add("à¦£");
+		letters.add("Ã Â¦Å¸");
+		letters.add("Ã Â¦Â ");
+		letters.add("Ã Â¦Â¡");
+		letters.add("Ã Â¦Â¢");
+		letters.add("Ã Â¦Â£");
 
-		letters.add("à¦¤");
-		letters.add("à¦¥");
-		letters.add("à¦¦");
-		letters.add("à¦§");
-		letters.add("à¦¨");
+		letters.add("Ã Â¦Â¤");
+		letters.add("Ã Â¦Â¥");
+		letters.add("Ã Â¦Â¦");
+		letters.add("Ã Â¦Â§");
+		letters.add("Ã Â¦Â¨");
 
-		letters.add("à¦ª");
-		letters.add("à¦«");
-		letters.add("à¦¬");
-		letters.add("à¦­");
-		letters.add("à¦®");
+		letters.add("Ã Â¦Âª");
+		letters.add("Ã Â¦Â«");
+		letters.add("Ã Â¦Â¬");
+		letters.add("Ã Â¦Â­");
+		letters.add("Ã Â¦Â®");
 
-		letters.add("à¦¯");
-		letters.add("à¦°");
-		letters.add("à¦²");
+		letters.add("Ã Â¦Â¯");
+		letters.add("Ã Â¦Â°");
+		letters.add("Ã Â¦Â²");
 
-		letters.add("à¦¶");
-		letters.add("à¦¸");
-		letters.add("à¦·");
-		letters.add("à¦¹");
-		letters.add("à¦•à§�à¦·");
+		letters.add("Ã Â¦Â¶");
+		letters.add("Ã Â¦Â¸");
+		letters.add("Ã Â¦Â·");
+		letters.add("Ã Â¦Â¹");
+		letters.add("Ã Â¦â€¢Ã Â§ï¿½Ã Â¦Â·");
 
-		letters.add("à¦œà§�à¦ž");
-		letters.add("à§œ");
-		letters.add("à§�");
-		letters.add("à§Ÿ");
+		letters.add("Ã Â¦Å“Ã Â§ï¿½Ã Â¦Å¾");
+		letters.add("Ã Â§Å“");
+		letters.add("Ã Â§ï¿½");
+		letters.add("Ã Â§Å¸");
 	}
 
 	public void printCurrentLine(ArrayList<Integer> firstLine, ArrayList<Integer> secondLine,
