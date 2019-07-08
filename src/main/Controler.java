@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import imageProcessor.TextProcessor;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -63,7 +66,7 @@ public class Controler implements Initializable {
         File file = fileChooser.showSaveDialog(TempTest.STAGE);
 
         if (file != null) {
-            saveTextToFile(outputText, file);
+            saveTextToFile(output_textarea.getText(), file);
         }
 	}
 
@@ -85,9 +88,16 @@ public class Controler implements Initializable {
 			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getDialutedImageArray();
 			Utils.FUNCTIONS.writeInImageFile();
 
+			ArrayList<ArrayList<String>>text = new TextProcessor().getRectangularDottedFile(new File(Utils.IMAGE_FILE_NAME+"."+Utils.IMAGE_FILE_TYPE));
+			System.out.println(text.size() + " size");
+			for(int i = 0; i < text.size(); i++) {
+				for(int j = 0; j < text.get(i).size(); j++) {
+//					System.out.print(text.get(i).get(j));
+					output_textarea.appendText(text.get(i).get(j));
+				}
+				output_textarea.appendText("\n");
+			}
 
-			outputText = "new output "; // output will generate here.....;
-			output_textarea.setText(outputText);
 		}
 
 		else {
