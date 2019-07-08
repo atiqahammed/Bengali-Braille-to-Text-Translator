@@ -3,6 +3,7 @@ package main;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.swing.filechooser.FileSystemView;
@@ -22,6 +23,7 @@ import preProcessor.OtsuThresholding;
 import test.LineProcess;
 import test.Process;
 import test.Temp;
+import util.Utils;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.Button;
@@ -32,15 +34,33 @@ import javafx.scene.paint.Paint;
 
 public class Test extends Application {
 
-	private Desktop desktop = Desktop.getDesktop();
+	private static Desktop desktop = Desktop.getDesktop();
 	private double xOffset = 0;
 	private double yOffset = 0;
 
 	final FileChooser fileChooser = new FileChooser();
 
 	public static void main(String[] args) {
-		launch(args);
+//		launch(args);
 
+//		System.out.println("hello");
+		File imageFile = new File("C:\\Users\\IIT.DESKTOP-MUP0DOP\\Desktop\\1-1.jpg");
+//		openFile(imageFile);
+		Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getImageIn2DArray(imageFile);
+		Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.convertInGrayScale();
+		int threshold = Utils.FUNCTIONS.getOtsuThreshold();
+		Utils.FUNCTIONS.convertBinaryImage(threshold);
+		Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getMedianFilteredArray(1);
+		Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getDialutedImageArray();
+		Utils.FUNCTIONS.writeInImageFile();
+		
+		ArrayList<ArrayList<String>> allCharacters = new TextConvertor().getText(Utils.IMAGE_ARRAY_OF_PIXEL);
+		Utils.FUNCTIONS.writeInImageFile();
+		System.out.println("execution is completed");
+		
+		
+//		System.out.println(threshold);
+		
 	}
 
 	@Override
@@ -181,7 +201,7 @@ public class Test extends Application {
 
 	}
 
-	private void openFile(File file) {
+	private static void openFile(File file) {
 		try {
 			desktop.open(file);
 		} catch (IOException ex) {
