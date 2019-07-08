@@ -58,9 +58,6 @@ public class Controler implements Initializable {
 
 	@FXML
 	private void default_file_chooser_ui_save_button(MouseEvent mouseEvent) {
-
-		System.out.println("output");
-
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showSaveDialog(TempTest.STAGE);
@@ -124,7 +121,7 @@ public class Controler implements Initializable {
             writer.println(content);
             writer.close();
         } catch (IOException ex) {
-//            Logger.getLogger(SaveFileWithFileChooser.class.getName()).log(Level.SEVERE, null, ex);
+        	System.out.println("file not found to show output");
         }
     }
 
