@@ -44,7 +44,7 @@ public class TextProcessor {
 
 	public ArrayList<ArrayList<String>> getRectangularDottedFile(File imageFile) {
 		ArrayList<ArrayList<String>> text = new ArrayList<ArrayList<String>>();
-		
+
 		System.out.println("processing dot...");
 
 		BufferedImage image;
@@ -288,6 +288,11 @@ public class TextProcessor {
 		ArrayList<Integer> secondLine = getDotSequence(secondLineIndex);
 		ArrayList<Integer> thirdLine= getDotSequence(thirdLineIndex);
 
+		System.out.println(firstLine);
+		System.out.println(secondLine);
+		System.out.println(thirdLine);
+
+
 		ArrayList<String> letters = new ArrayList<String>();
 
 		int initialUpperDot = firstLine.get(0);
@@ -418,9 +423,16 @@ public class TextProcessor {
 
 				}
 			}
+
+			System.out.println(firstLine);
+			System.out.println(secondLine);
+			System.out.println(thirdLine);
+			System.out.println(letters);
+
+
 		}
 
-//		System.out.println(letters);
+
 		return letters;
 	}
 
