@@ -52,65 +52,65 @@ public class Functions {
 	}
 
 	public Functions() {
-		letters.add("Ã Â¦â€¦");
-		letters.add("Ã Â¦â€ ");
+		letters.add("অ");
+		letters.add("আ");
 
-		letters.add("Ã Â¦â€¡");
-		letters.add("Ã Â¦Ë†");
+		letters.add("ই");
+		letters.add("ঈ");
 
-		letters.add("Ã Â¦â€°");
-		letters.add("Ã Â¦Å ");
+		letters.add("উ");
+		letters.add("ঊ");
 
-		letters.add("Ã Â¦ï¿½");
-		letters.add("Ã Â¦ï¿½");
+		letters.add("এ");
+		letters.add("ঐ");
 
-		letters.add("Ã Â¦â€œ");
-		letters.add("Ã Â¦â€�");
+		letters.add("ও");
+		letters.add("ঔ");
 
-		letters.add("Ã Â¦â€¢");
-		letters.add("Ã Â¦â€“");
-		letters.add("Ã Â¦â€”");
-		letters.add("Ã Â¦Ëœ");
-		letters.add("Ã Â¦â„¢");
+		letters.add("ক");
+		letters.add("খ");
+		letters.add("গ");
+		letters.add("ঘ");
+		letters.add("ঙ");
 
-		letters.add("Ã Â¦Å¡");
-		letters.add("Ã Â¦â€º");
-		letters.add("Ã Â¦Å“");
-		letters.add("Ã Â¦ï¿½");
-		letters.add("Ã Â¦Å¾");
+		letters.add("চ");
+		letters.add("ছ");
+		letters.add("জ");
+		letters.add("ঝ");
+		letters.add("ঞ");
 
-		letters.add("Ã Â¦Å¸");
-		letters.add("Ã Â¦Â ");
-		letters.add("Ã Â¦Â¡");
-		letters.add("Ã Â¦Â¢");
-		letters.add("Ã Â¦Â£");
+		letters.add("ট");
+		letters.add("ঠ");
+		letters.add("ড");
+		letters.add("ঢ");
+		letters.add("ণ");
 
-		letters.add("Ã Â¦Â¤");
-		letters.add("Ã Â¦Â¥");
-		letters.add("Ã Â¦Â¦");
-		letters.add("Ã Â¦Â§");
-		letters.add("Ã Â¦Â¨");
+		letters.add("ত");
+		letters.add("থ");
+		letters.add("দ");
+		letters.add("ধ");
+		letters.add("ন");
 
-		letters.add("Ã Â¦Âª");
-		letters.add("Ã Â¦Â«");
-		letters.add("Ã Â¦Â¬");
-		letters.add("Ã Â¦Â­");
-		letters.add("Ã Â¦Â®");
+		letters.add("প");
+		letters.add("ফ");
+		letters.add("ব");
+		letters.add("ভ");
+		letters.add("ম");
 
-		letters.add("Ã Â¦Â¯");
-		letters.add("Ã Â¦Â°");
-		letters.add("Ã Â¦Â²");
+		letters.add("য");
+		letters.add("র");
+		letters.add("ল");
 
-		letters.add("Ã Â¦Â¶");
-		letters.add("Ã Â¦Â¸");
-		letters.add("Ã Â¦Â·");
-		letters.add("Ã Â¦Â¹");
-		letters.add("Ã Â¦â€¢Ã Â§ï¿½Ã Â¦Â·");
+		letters.add("শ");
+		letters.add("স");
+		letters.add("ষ");
+		letters.add("হ");
+		letters.add("ক্ষ");
 
-		letters.add("Ã Â¦Å“Ã Â§ï¿½Ã Â¦Å¾");
-		letters.add("Ã Â§Å“");
-		letters.add("Ã Â§ï¿½");
-		letters.add("Ã Â§Å¸");
+		letters.add("জ্ঞ");
+		letters.add("ড়");
+		letters.add("ঢ়");
+		letters.add("য়");
 	}
 
 	public void printCurrentLine(ArrayList<Integer> firstLine, ArrayList<Integer> secondLine,

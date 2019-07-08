@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.swing.filechooser.FileSystemView;
 
+import imageProcessor.TextProcessor;
 //import com.sun.javafx.logging.Logger;
 import javafx.application.Application;
 import javafx.stage.FileChooser;
@@ -44,7 +45,7 @@ public class Test extends Application {
 //		launch(args);
 
 //		System.out.println("hello");
-		File imageFile = new File("C:\\Users\\IIT.DESKTOP-MUP0DOP\\Desktop\\1-1.jpg");
+		File imageFile = new File("C:\\Users\\orion\\Desktop\\1-1.jpg");
 //		openFile(imageFile);
 		Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getImageIn2DArray(imageFile);
 		Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.convertInGrayScale();
@@ -54,8 +55,15 @@ public class Test extends Application {
 		Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getDialutedImageArray();
 		Utils.FUNCTIONS.writeInImageFile();
 		
-		ArrayList<ArrayList<String>> allCharacters = new TextConvertor().getText(Utils.IMAGE_ARRAY_OF_PIXEL);
-		Utils.FUNCTIONS.writeInImageFile();
+//		ArrayList<ArrayList<String>> allCharacters = new TextConvertor().getText(Utils.IMAGE_ARRAY_OF_PIXEL);
+//		Utils.FUNCTIONS.writeInImageFile();
+		ArrayList<ArrayList<String>>text = new TextProcessor().getRectangularDottedFile(new File(Utils.IMAGE_FILE_NAME+"."+Utils.IMAGE_FILE_TYPE));
+		for(int i = 0; i < text.size(); i++) {
+			for(int j = 0; j < text.get(i).size(); j++) {
+				System.out.print(text.get(i).get(j));
+			}
+			System.out.println();
+		}
 		System.out.println("execution is completed");
 		
 		

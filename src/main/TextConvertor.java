@@ -40,9 +40,10 @@ public class TextConvertor {
 		ArrayList<Dot> firstStepSelectedDot = selectDotInFirstStep();
 		initializeOutputImage();
 		ArrayList<Point> allCenter = getAllCenter();
-//
-		processLineInformation(allCenter);
-//
+		System.out.println(twoDString.size());
+////
+//		processLineInformation(allCenter);
+////
 //		Collections.sort(lineIndex);
 		
 		
@@ -62,11 +63,18 @@ public class TextConvertor {
 	private ArrayList<Point> getAllCenter() {
 		ArrayList<Point> allCenter = new ArrayList<>();
 
+//		for(int i = 0; i < 100; i++) 
+//			for(int j = 0; j < 100; j++) {
+//				Utils.IMAGE_ARRAY_OF_PIXEL.get(i).set(j, Utils.YELLOW);
+//			}
+		
 		for(int index = 0; index< twoDString.size(); index++) {
+//			System.out.println(index);
 
 			ArrayList<String> xx = twoDString.get(index);
 			BrailleDor brailleDor = new BrailleDor(xx);
 			Point center = brailleDor.getCenter();
+			System.out.println(center.getX() + " " + center.getY());
 			allCenter.add(center);
 
 			for(int x = -1 ; x <= 1; x++) {
@@ -76,7 +84,7 @@ public class TextConvertor {
 
 					if(tempY >= 0 && tempY < Utils.APPLICATION_HEIGHT && tempX >= 0 && tempX < Utils.IMAGE_WEIDTH)
 //						outputImage.setRGB(tempX, tempY, Color.WHITE.getRGB());
-						Utils.IMAGE_ARRAY_OF_PIXEL.get(tempY).set(tempX, Utils.wha)
+						Utils.IMAGE_ARRAY_OF_PIXEL.get(tempY).set(tempX, Utils.WHITE);
 				}
 			}
 		}
