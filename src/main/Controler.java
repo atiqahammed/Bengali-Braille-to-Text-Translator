@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import preProcessor.Dilation;
 import util.Utils;
 
 public class Controler implements Initializable {
@@ -80,15 +81,30 @@ public class Controler implements Initializable {
 
 		if (validFile) {
 			System.out.println("valid\nGo to next page with output");
-			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getImageIn2DArray(choosedFile);
-			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.convertInGrayScale();
-			int threshold = Utils.FUNCTIONS.getOtsuThreshold();
-			Utils.FUNCTIONS.convertBinaryImage(threshold);
-			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getMedianFilteredArray(1);
-			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getDialutedImageArray();
-			Utils.FUNCTIONS.writeInImageFile();
+			File grayScaleImage = Utils.GRAY_SCALE_IMAGE_PROCESSOR.process(choosedFile);
+			System.out.println("Gray Scale Conversion completed...");
 
-			ArrayList<ArrayList<String>>text = new TextProcessor().getRectangularDottedFile(new File(Utils.IMAGE_FILE_NAME+"."+Utils.IMAGE_FILE_TYPE));
+			int thresholdingLavel = Utils.OTSU_SHRESHOLDER.getThresholdGrayLevel(grayScaleImage);
+			System.out.println("Otsu thresholding : " + thresholdingLavel);
+
+			File binaryImage = Utils.BINARY_IMAGE_CONVERTOR.getBinaryImage(grayScaleImage, thresholdingLavel);
+			System.out.println("binary image conversion is completed...");
+
+			File medianImmage = Utils.MEDIAN_FILTER.getFilteredImage(binaryImage, 1);
+			System.out.println("median filter is done...");
+
+			File dImage = new Dilation().getImage(medianImmage);
+			System.out.println("Dilation is completed...");
+			
+//			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getImageIn2DArray(choosedFile);
+//			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.convertInGrayScale();
+//			int threshold = Utils.FUNCTIONS.getOtsuThreshold();
+//			Utils.FUNCTIONS.convertBinaryImage(threshold);
+//			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getMedianFilteredArray(1);
+//			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getDialutedImageArray();
+//			Utils.FUNCTIONS.writeInImageFile();
+
+			ArrayList<ArrayList<String>>text = new TextProcessor().getRectangularDottedFile(dImage);
 			System.out.println(text.size() + " size");
 			for(int i = 0; i < text.size(); i++) {
 				for(int j = 0; j < text.get(i).size(); j++) {
