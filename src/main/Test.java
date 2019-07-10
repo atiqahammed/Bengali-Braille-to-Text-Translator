@@ -45,18 +45,26 @@ public class Test extends Application {
 //		launch(args);
 
 //		System.out.println("hello");
-		File imageFile = new File("data/data1.jpg");
+		File imageFile = new File("C:\\Users\\Shamim\\Desktop\\test.jpg");
 //		openFile(imageFile);
-		Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getImageIn2DArray(imageFile);
-		Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.convertInGrayScale();
-		int threshold = Utils.FUNCTIONS.getOtsuThreshold();
-		Utils.FUNCTIONS.convertBinaryImage(threshold);
-		Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getMedianFilteredArray(1);
-		Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getDialutedImageArray();
-		Utils.FUNCTIONS.writeInImageFile();
+		System.out.println("valid\nGo to next page with output");
+		File grayScaleImage = Utils.GRAY_SCALE_IMAGE_PROCESSOR.process(imageFile);
+		System.out.println("Gray Scale Conversion completed...");
+
+		int thresholdingLavel = Utils.OTSU_SHRESHOLDER.getThresholdGrayLevel(grayScaleImage);
+		System.out.println("Otsu thresholding : " + thresholdingLavel);
+
+		File binaryImage = Utils.BINARY_IMAGE_CONVERTOR.getBinaryImage(grayScaleImage, thresholdingLavel);
+		System.out.println("binary image conversion is completed...");
+
+//		File medianImmage = Utils.MEDIAN_FILTER.getFilteredImage(binaryImage, 1);
+//		System.out.println("median filter is done...");
+
+//		File dImage = new Dilation().getImage(medianImmage);
+//		System.out.println("Dilation is completed...");
 
 
-		ArrayList<ArrayList<String>>text = new TextProcessor().getRectangularDottedFile(new File(Utils.IMAGE_FILE_NAME+"."+Utils.IMAGE_FILE_TYPE));
+		ArrayList<ArrayList<String>>text = new TextProcessor().getRectangularDottedFile(binaryImage);
 		for(int i = 0; i < text.size(); i++) {
 			for(int j = 0; j < text.get(i).size(); j++) {
 				System.out.print(text.get(i).get(j));

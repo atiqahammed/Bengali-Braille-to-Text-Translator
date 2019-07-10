@@ -71,10 +71,6 @@ public class TextProcessor {
 
 		}
 
-
-
-//		int allDot = 0;
-
 		ArrayList<Integer> primaryLineIndexCopy = (ArrayList<Integer>) lineIndex.clone();
 		ArrayList<Integer> allAverage = new ArrayList<Integer>();
 
@@ -184,7 +180,13 @@ public class TextProcessor {
 		int acceptanceOfLineDistance = (int) ((double) lineDistance * 0.50);
 
 
+
+
 		for(int i = 0; i < lineIndex.size(); i++) {
+
+			System.out.println(".........................");
+			System.out.println("this is the line.......................................................");
+			System.out.println(".........................");
 
 			System.out.println(i);
 
@@ -194,6 +196,9 @@ public class TextProcessor {
 				int secondLineIndex = lineIndex.get(i + 1);
 				int thirdLineIndex = lineIndex.get(i + 2);
 				int forthLineIndex = lineIndex.get(i + 3);
+
+//				System.out.println(firstLineIndex);
+//				System.out.println(secon);
 
 				Boolean isFirstThreeLineShouldTake = isPartOfLine(firstLineIndex, secondLineIndex, thirdLineIndex, lineDistance, acceptanceOfLineDistance);
 				Boolean isLastThreeLineShouldTake = isPartOfLine(secondLineIndex, thirdLineIndex, forthLineIndex, lineDistance, acceptanceOfLineDistance);
@@ -219,17 +224,19 @@ public class TextProcessor {
 					}
 
 				}
+//
+//
+//
+				else if(isFirstThreeLineShouldTake) {////////
 
-
-
-				else if(isFirstThreeLineShouldTake) {
+//					System.out.println("in if function");
 					System.out.println(firstLineIndex + " " + secondLineIndex + " " + thirdLineIndex + " f");
 					ArrayList<String> lettersInFirstSequence = getWords(firstLineIndex, secondLineIndex, thirdLineIndex);
 					System.out.println("single first " + lettersInFirstSequence);
 					text.add(lettersInFirstSequence);
 					i += 2;
 				}
-
+//
 				else if(isLastThreeLineShouldTake) {
 					System.out.println(secondLineIndex + " " + thirdLineIndex + " " + forthLineIndex + " l");
 					ArrayList<String> lettersInLastSequence = getWords(secondLineIndex, thirdLineIndex, forthLineIndex);
@@ -287,6 +294,8 @@ public class TextProcessor {
 		System.out.println(secondLine);
 		System.out.println(thirdLine);
 
+		System.out.println("ok ok ok line");
+
 
 		ArrayList<String> letters = new ArrayList<String>();
 
@@ -343,10 +352,10 @@ public class TextProcessor {
 			if(currentIndex < 0 && lowerDot > 0) currentIndex = lowerDot;
 			if(lowerDot > 0 && lowerDot < currentIndex) currentIndex = lowerDot;
 
-//			System.out.println(upperDot +" "+ middelDot+ " "+ lowerDot);
-//			System.out.println("current Index " + currentIndex);
+			System.out.println(upperDot +" "+ middelDot+ " "+ lowerDot);
+			System.out.println("current Index " + currentIndex);
 
-//			Utils.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
+			Utils.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
 
 						// second level identification....
 			if(firstLine.size() > 0) {
@@ -370,7 +379,7 @@ public class TextProcessor {
 				}
 			}
 
-//			System.out.println(nextUpperDot+" "+ nextMiddelDot +" "+ nextLowerDot+ "  >");
+			System.out.println(nextUpperDot+" "+ nextMiddelDot +" "+ nextLowerDot+ "  >");
 			if(nextUpperDot == -1 && nextMiddelDot == -1 && nextLowerDot == -1) {
 				if(upperDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
 				if(middelDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
@@ -389,7 +398,7 @@ public class TextProcessor {
 					previousIndex = tempIndex.get(0) - 25;
 				if(tempIndex.size() > 0 && tempIndex.get(0) - currentIndex >= 90)
 					letters.add("    ");
-//					System.out.println("previous index " + previousIndex);
+					System.out.println("previous index " + previousIndex);
 
 			}
 
@@ -402,7 +411,7 @@ public class TextProcessor {
 				if(nextMiddelDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 4);
 				if(nextLowerDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 5);
 
-//				System.out.println(letter);
+				System.out.println(letter);
 				letters.add(Utils.LETTERS.getLetters(letter));
 
 				ArrayList<Integer> tempIndex = new ArrayList<Integer>();
@@ -419,9 +428,9 @@ public class TextProcessor {
 				}
 			}
 
-			System.out.println(firstLine);
-			System.out.println(secondLine);
-			System.out.println(thirdLine);
+//			System.out.println(firstLine);
+//			System.out.println(secondLine);
+//			System.out.println(thirdLine);
 			System.out.println(letters);
 
 
