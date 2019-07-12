@@ -1,16 +1,37 @@
 package dataStructure;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Letters {
 
 	Map<String, String> symbolToLetter;
+	Map<String, String> symbolToKar;
+	ArrayList<String> shoroBorno;
 
 	public Letters() {
 
 		symbolToLetter = new TreeMap<String, String>();
+		symbolToKar =  new TreeMap<String, String>();
 
+		shoroBorno = new ArrayList<>(Arrays.asList("অ", "আ", "ই", "ঈ", "উ", "ঊ", "এ", "ঐ", "ও", "ঔ", "ঋ"));
+
+		//this map if for symbol to kar symbol
+		symbolToKar.put("অ", "");
+		symbolToKar.put("আ", "া");
+		symbolToKar.put("ই", "ি");
+		symbolToKar.put("ঈ", "ী");
+		symbolToKar.put("উ", "ু");
+		symbolToKar.put("ঊ", "ূ");
+		symbolToKar.put("এ", "ে");
+		symbolToKar.put("ঐ", "ৈ");
+		symbolToKar.put("ও", "ো");
+		symbolToKar.put("ঔ", "ৌ");
+		symbolToKar.put("ঋ", "ৃ");
+
+		// symbol map
 		symbolToLetter.put("100000", "অ");
 		symbolToLetter.put("001110", "আ");
 
@@ -85,6 +106,9 @@ public class Letters {
 
 		//symbolToLetter.put("011010", "!");
 		//symbolToLetter.put("010010", ":");
+
+
+
 
 
 	}

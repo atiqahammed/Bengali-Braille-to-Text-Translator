@@ -3,7 +3,7 @@ package dataStructure;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class BrailleDor {
+public class BrailleDot {
 
 
 	private Point center;
@@ -18,7 +18,7 @@ public class BrailleDor {
 	private ArrayList<Point> indexsOfPixels;
 
 
-	public BrailleDor(ArrayList<String> indexsOfPixels) {
+	public BrailleDot(ArrayList<String> indexsOfPixels) {
 
 		ArrayList<Integer> allXIndexs = new ArrayList<Integer>();
 		ArrayList<Integer> allYIndexs = new ArrayList<Integer>();

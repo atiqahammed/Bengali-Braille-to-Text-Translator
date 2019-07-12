@@ -11,7 +11,7 @@ import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
-import dataStructure.BrailleDor;
+import dataStructure.BrailleDot;
 import dataStructure.Dot;
 import dataStructure.Point;
 import util.Utils;
@@ -72,8 +72,8 @@ public class TextConvertor {
 //			System.out.println(index);
 
 			ArrayList<String> xx = twoDString.get(index);
-			BrailleDor brailleDor = new BrailleDor(xx);
-			Point center = brailleDor.getCenter();
+			BrailleDot brailleDot = new BrailleDot(xx);
+			Point center = brailleDot.getCenter();
 			System.out.println(center.getX() + " " + center.getY());
 			allCenter.add(center);
 

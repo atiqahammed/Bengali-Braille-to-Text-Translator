@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 
 //import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
-import dataStructure.BrailleDor;
+import dataStructure.BrailleDot;
 import dataStructure.Dot;
 import dataStructure.Point;
 import fileManager.FileWithPrintWriter;
@@ -631,8 +631,8 @@ public class DotProcessor {
 		for(int index = 0; index< twoDString.size(); index++) {
 
 			ArrayList<String> xx = twoDString.get(index);
-			BrailleDor brailleDor = new BrailleDor(xx);
-			Point center = brailleDor.getCenter();
+			BrailleDot brailleDot = new BrailleDot(xx);
+			Point center = brailleDot.getCenter();
 			allCenter.add(center);
 
 			for(int x = -1 ; x <= 1; x++) {
