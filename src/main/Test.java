@@ -45,7 +45,7 @@ public class Test extends Application {
 //		launch(args);
 
 //		System.out.println("hello");
-		File imageFile = new File("C:\\Users\\Shamim\\Desktop\\test.jpg");
+		File imageFile = new File("data/data4.jpg");
 //		openFile(imageFile);
 		System.out.println("valid\nGo to next page with output");
 		File grayScaleImage = Utils.GRAY_SCALE_IMAGE_PROCESSOR.process(imageFile);
@@ -57,24 +57,47 @@ public class Test extends Application {
 		File binaryImage = Utils.BINARY_IMAGE_CONVERTOR.getBinaryImage(grayScaleImage, thresholdingLavel);
 		System.out.println("binary image conversion is completed...");
 
-//		File medianImmage = Utils.MEDIAN_FILTER.getFilteredImage(binaryImage, 1);
-//		System.out.println("median filter is done...");
+		File medianImmage = Utils.MEDIAN_FILTER.getFilteredImage(binaryImage, 1);
+		System.out.println("median filter is done...");
 
-//		File dImage = new Dilation().getImage(medianImmage);
-//		System.out.println("Dilation is completed...");
+		File dImage = new Dilation().getImage(medianImmage);
+		System.out.println("Dilation is completed...");
 
 
-		ArrayList<ArrayList<String>>text = new TextProcessor().getRectangularDottedFile(binaryImage);
+		ArrayList<ArrayList<String>>text = new TextProcessor().getRectangularDottedFile(dImage);
 		for(int i = 0; i < text.size(); i++) {
 			for(int j = 0; j < text.get(i).size(); j++) {
 				System.out.print(text.get(i).get(j));
 			}
 			System.out.println();
 		}
+		System.out.println(".........................................");
+		for(int i = 0; i < text.size(); i++) {
+			for(int j = 1; j < text.get(i).size(); j++) {
+				String previousLetter = text.get(i).get(j - 1);
+				String currentLetter = text.get(i).get(j);
+
+				if(Utils.LETTERS.isShoroBorno(currentLetter) && Utils.LETTERS.isBanjonBorno(previousLetter)) {
+					currentLetter = Utils.LETTERS.getRepresentativeKarSymbol(currentLetter);
+					text.get(i).set(j, currentLetter);
+
+				}
+
+//				System.out.print(text.get(i).get(j));
+			}
+			System.out.println();
+		}
+
+		System.out.println("........................................");
+		for(int i = 0; i < text.size(); i++) {
+			for(int j = 0; j < text.get(i).size(); j++) {
+				System.out.print(text.get(i).get(j));
+			}
+			System.out.println();
+		}
+
+
 		System.out.println("execution is completed");
-
-
-//		System.out.println(threshold);
 
 	}
 

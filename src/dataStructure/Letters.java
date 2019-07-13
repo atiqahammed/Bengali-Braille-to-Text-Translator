@@ -9,7 +9,9 @@ public class Letters {
 
 	Map<String, String> symbolToLetter;
 	Map<String, String> symbolToKar;
+
 	ArrayList<String> shoroBorno;
+	ArrayList<String> banjonBorno;
 
 	public Letters() {
 
@@ -17,6 +19,9 @@ public class Letters {
 		symbolToKar =  new TreeMap<String, String>();
 
 		shoroBorno = new ArrayList<>(Arrays.asList("অ", "আ", "ই", "ঈ", "উ", "ঊ", "এ", "ঐ", "ও", "ঔ", "ঋ"));
+		banjonBorno = new ArrayList<>(Arrays.asList("ক", "খ", "গ", "ঘ", "ঙ", "চ", "ছ", "জ", "ঝ", "ঞ", "ট", "ঠ", "ড",
+				"ঢ","ণ", "ত", "থ", "দ", "ধ", "ন", "প", "ফ", "ব", "ভ", "ম", "য", "র", "ল", "শ", "স", "ষ", "হ", "ক্ষ", "জ্ঞ",
+				"ড়", "ঢ়", "য়", "ং", "ঃ", "ঁ"));
 
 		//this map if for symbol to kar symbol
 		symbolToKar.put("অ", "");
@@ -107,12 +112,19 @@ public class Letters {
 		//symbolToLetter.put("011010", "!");
 		//symbolToLetter.put("010010", ":");
 
-
-
-
-
 	}
 
+	public String getRepresentativeKarSymbol(String shoroBornoLetter) {
+		return symbolToKar.get(shoroBornoLetter);
+	}
+
+	public boolean isBanjonBorno(String letter) {
+		return banjonBorno.contains(letter);
+	}
+
+	public boolean isShoroBorno(String letter) {
+		return shoroBorno.contains(letter);
+	}
 
 	public String getLetters(String symbol) {
 
