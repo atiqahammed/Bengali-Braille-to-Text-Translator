@@ -23,6 +23,8 @@ public class Utils {
 	public static int NEIGHBOUR_DOT_SIZE_FOR_PART_OF_DOT_SELECTION = 9;
 	public static int INITAL_DIFFRENCE_BETWEEN_LINE = 10;
 	public static int SAME_POINT_COVERAGE = 20;
+	public static int MAXIMUM_DISTANCE = 15;
+	public static int LINE_INDEX_MERGED_UNIT = 3;
 
 	public static Color WHITE = new Color(255, 255, 255);
 	public static Color BLACK = new Color(0, 0, 0);
