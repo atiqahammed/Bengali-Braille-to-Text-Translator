@@ -150,8 +150,9 @@ public class TextProcessorAdvance {
 		Collections.sort(differenceBetweenLines);
 		int lineDistance = differenceBetweenLines.get(differenceBetweenLines.size() / 2);
 		int acceptanceOfLineDistance = (int) ((double) lineDistance * 0.50);
+		Utils.DIFFERENCE_BETWEEN_WORDS = lineDistance * 3 - (lineDistance / 2);
 
-
+		Utils.OUTPUT_LIST.add("line distance:: " + lineDistance);
 
 
 		int traverseIndex = 4;
@@ -183,12 +184,89 @@ public class TextProcessorAdvance {
 
 				Utils.OUTPUT_LIST.add("Size of column :: " + listOfLineColumn.size());
 				int count = 0;
-				for(int i = 0; i < wordSegmentList.size(); i++) {
+				for(int i = 0; i < 1/*wordSegmentList.size()*/; i++) {
 
-					ArrayList<LineColumn> currentLineColumnSegment = wordSegmentList.get(i);
-					int sizeOfCurrentLineColumnSegment = currentLineColumnSegment.size();
-					for(int j = 0; j < sizeOfCurrentLineColumnSegment; j++)
-						Utils.OUTPUT_LIST.add(currentLineColumnSegment.get(j).getAverageIndex() + " " + currentLineColumnSegment.get(j).getSymbol());
+					ArrayList<LineColumn> currentWordSegment = (ArrayList<LineColumn>) wordSegmentList.get(i).clone();
+					int sizeOfCurrentLineColumnSegment = currentWordSegment.size();
+
+					// using initial column as 1st one---
+					int currentColumnIndex = currentWordSegment.get(0).getAverageIndex();
+					int estimatedNextColumnIndex = currentColumnIndex + lineDistance;
+					String symbol1 = currentWordSegment.get(0).getSymbol();
+
+					Utils.OUTPUT_LIST.add("initial size:: " + currentWordSegment.size());
+
+					currentWordSegment.remove(0);
+
+//					for(int j = 0; j < sizeOfCurrentLineColumnSegment; j++) {
+//
+//					}
+					int nextColumnLimit = (lineDistance * 5) / 10;
+					Utils.OUTPUT_LIST.add("lineDistance " + lineDistance);
+					Utils.OUTPUT_LIST.add("next column limit " + nextColumnLimit);
+
+					while(currentWordSegment.size() > 0) {
+
+						int nextColumnIndex = currentWordSegment.get(0).getAverageIndex();
+						int difference = nextColumnIndex - currentColumnIndex;
+
+						Utils.OUTPUT_LIST.add("current column information :: " + currentColumnIndex +"  -- " + symbol1 + " next column Index :: " + nextColumnIndex);
+						Utils.OUTPUT_LIST.add("difference " + difference);
+						// next column found
+						if(difference >= lineDistance - nextColumnLimit && difference <= lineDistance + nextColumnLimit) {
+							String symbol2 = currentWordSegment.get(0).getSymbol();
+							String symbol = symbol1 + symbol2;
+							Utils.OUTPUT_LIST.add(symbol);
+
+							String Letter = Utils.LETTERS.getLetters(symbol);
+							Utils.OUTPUT_LIST.add(Letter);
+
+							currentWordSegment.remove(0);
+//							currentColumnIndex =
+						}
+
+						else {
+
+							String symbol = symbol1 + "000";
+							Utils.OUTPUT_LIST.add(symbol);
+							String Letter = Utils.LETTERS.getLetters(symbol);
+							Utils.OUTPUT_LIST.add(Letter);
+
+
+						}
+
+						currentColumnIndex = currentColumnIndex + lineDistance * 2;
+						symbol1 = "000";
+
+						int tempIndex = currentWordSegment.get(0).getAverageIndex();
+						difference = Math.abs(tempIndex - currentColumnIndex);
+						Utils.OUTPUT_LIST.add("Actual next index:: " + tempIndex);
+						Utils.OUTPUT_LIST.add("Predected column index:: " + currentColumnIndex);
+						Utils.OUTPUT_LIST.add("difference for next column index:: " + difference);
+
+						if(difference <= 2 * nextColumnLimit) {
+
+
+
+							currentColumnIndex = tempIndex;
+							symbol1 = currentWordSegment.get(0).getSymbol();
+
+							Utils.OUTPUT_LIST.add("next line found:: " + currentColumnIndex);
+							Utils.OUTPUT_LIST.add("symbol of next:: " + symbol1);
+
+							currentWordSegment.remove(0);
+
+
+						}
+
+						// test
+
+
+					}
+
+
+//					for(int j = 0; j < sizeOfCurrentLineColumnSegment; j++)
+//						Utils.OUTPUT_LIST.add(currentLineColumnSegment.get(j).getAverageIndex() + " " + currentLineColumnSegment.get(j).getSymbol());
 					Utils.OUTPUT_LIST.add("---------------------------------------------------------------------");
 
 				}
@@ -405,7 +483,7 @@ public class TextProcessorAdvance {
 			currentColumn = listOfLineColumn.get(i);
 			int tempAverageIndex = currentColumn.getAverageIndex();
 
-			if(tempAverageIndex - currentColumnAverageIndex >= Utils.MAXIMUM_DISTANCE * 4) {
+			if(tempAverageIndex - currentColumnAverageIndex >= Utils.DIFFERENCE_BETWEEN_WORDS) {
 				segmentedColumnList.add((ArrayList<LineColumn>) currentCulmnList.clone());
 				currentCulmnList = new ArrayList<LineColumn>();
 			}

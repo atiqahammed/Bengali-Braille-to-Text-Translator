@@ -26,7 +26,7 @@ public class Utils {
 	public static int SAME_POINT_COVERAGE = 20;
 	public static int MAXIMUM_DISTANCE = 20;
 	public static int LINE_INDEX_MERGED_UNIT = 3;
-	public static int DIFFERENCE_BETWEEN_WORDS = 90;
+	public static int DIFFERENCE_BETWEEN_WORDS = 100;
 
 	public static Color WHITE = new Color(255, 255, 255);
 	public static Color BLACK = new Color(0, 0, 0);
