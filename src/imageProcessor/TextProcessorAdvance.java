@@ -11,8 +11,11 @@ import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
+import com.sun.xml.internal.messaging.saaj.packaging.mime.util.LineInputStream;
+
 import dataStructure.BrailleDot;
 import dataStructure.Dot;
+import dataStructure.LineColumn;
 import dataStructure.Point;
 import fileManager.FileWithPrintWriter;
 import util.Utils;
@@ -34,6 +37,12 @@ public class TextProcessorAdvance {
 	ArrayList<Integer> lineIndex = new ArrayList<Integer>();
 	ArrayList<Point> pointInLine = new ArrayList<Point>();
 
+
+//	public TextProcessorAdvance() {
+//		height = Utils.IMAGE_HEIGHT;
+//		width = Utils.IMAGE_WEIDTH;
+//	}
+
 	public ArrayList<ArrayList<String>> getRectangularDottedFile(File imageFile) {
 		ArrayList<ArrayList<String>> text = new ArrayList<ArrayList<String>>();
 		BufferedImage image;
@@ -42,36 +51,18 @@ public class TextProcessorAdvance {
 		findDots();
 		initializeOutputImage();
 		processUniqueDots();
-
 		ArrayList<Dot> firstStepSelectedDot = selectDotInFirstStep();
 		initializeOutputImage();
 		ArrayList<Point> allCenter = getAllCenter();
-//
+
 		processLineInformation(allCenter);
 		Collections.sort(lineIndex);
 
-//		colorLine(lineIndex, Utils.GREEN);
-		System.out.println(lineIndex);
-		lineIndex = getAverageLineIndexBasedOnDots(lineIndex);//allAverage;
-//		System.out.println(lineIndex);
-//		colorLine(lineIndex, Utils.YELLOW);
 
-
-//		ArrayList<Integer> allDistanceBetweenLine = new ArrayList<Integer>();
-//		for(int i = 1; i < lineIndex.size(); i++) {
-//			allDistanceBetweenLine.add(lineIndex.get(i) - lineIndex.get(i-1));
-//		}
-//		Collections.sort(allDistanceBetweenLine);
-//		int median = allDistanceBetweenLine.get(allDistanceBetweenLine.size() / 2);
-//		System.out.println(median);
-
-//		lineIndex = getMergedLineIndex((ArrayList<Integer>) lineIndex.clone());
-
-
+		// merging line which has small distance between
 		int differenceLimit = Utils.INITAL_DIFFRENCE_BETWEEN_LINE;
 
 		while(differenceLimit <= Utils.MAXIMUM_DISTANCE) {
-//			System.out.println("diff :: " + differenceLimit);
 
 			ArrayList<Integer> copyOfLineIndex = (ArrayList<Integer>) lineIndex.clone();
 			ArrayList<Integer> newLineIndexList = new ArrayList<>();
@@ -134,189 +125,252 @@ public class TextProcessorAdvance {
 			differenceLimit += Utils.LINE_INDEX_MERGED_UNIT;
 		}
 
-//		System.out.println(Utils.LINE_INDEX_MERGED_UNIT);
-
+		//////////////////////////////////////////////////////////////////////////////
 		colorLine(lineIndex, Utils.RED);
 
+		for(int i = 0; i < lineIndex.size(); i++) {
 
+			int currentLineIndexY = lineIndex.get(i);
+			ArrayList<Point> allPointsInThisLine = (ArrayList<Point>) lineIndexToDotListMap.get(currentLineIndexY).clone();
 
+			for(int j = 0; j < allPointsInThisLine.size(); j++) {
+				Point currentPointInThisLine = allPointsInThisLine.get(j);
+				int nearestLineIndex = getNearestLineIndex(currentPointInThisLine.getY(), lineIndex);
+				lineIndexToDotListMap.get(currentLineIndexY).remove(currentPointInThisLine);
+				lineIndexToDotListMap.get(nearestLineIndex).add(currentPointInThisLine);
+			}
 
-//		for (int i = 0; i < allCenter.size(); i++) {
-//
-//
-//
-//		}
-//
-//
-//		for(int i = 0; i < lineIndex.size(); i++) {
-//			int currentLineIndexY = lineIndex.get(i);
-//			ArrayList<Point> allPointsInThisLine = (ArrayList<Point>) lineMapped2.get(currentLineIndexY).clone();
-//
-////			System.out.println("line number: " + i + " .. > indexY : " + currentLineIndexY + "  dot size: " + allPointsInThisLine.size());
-//			for(int j = 0; j < allPointsInThisLine.size(); j++) {
-//				Point currentPointInThisLine = allPointsInThisLine.get(j);
-//				int nearestLineIndex = getNearestLineIndex(currentPointInThisLine.getY(), lineIndex);
-//				lineMapped2.get(currentLineIndexY).remove(currentPointInThisLine);
-//				lineMapped2.get(currentLineIndexY).add(currentPointInThisLine);
-//			}
-//
-//		}
-
-		for(int i = 0; i < 5; i++) {
-			System.out.println("--");
-			System.out.println(lineIndexToDotListMap.get(lineIndex.get(i)).size());
 		}
 
 
 
-
-		System.out.println(allCenter.size());
 		ArrayList<Integer> differenceBetweenLines = new ArrayList<Integer>();
-//
-//
-		for(int i = 1; i < lineIndex.size(); i++) {
+		for(int i = 1; i < lineIndex.size(); i++)
 			differenceBetweenLines.add(lineIndex.get(i) - lineIndex.get(i - 1));
-		}
 		Collections.sort(differenceBetweenLines);
-
 		int lineDistance = differenceBetweenLines.get(differenceBetweenLines.size() / 2);
 		int acceptanceOfLineDistance = (int) ((double) lineDistance * 0.50);
 
-		System.out.println("line distance " + lineDistance);
-//
-//
-////////
-////		initializeOutputImage();
-		ArrayList<Integer> selectedLineIndexForLine = new ArrayList<Integer>();
-//
-		for(int i = 2; i < 4; i++) {
 
-//			System.out.println(i);
 
-//			if(i + 3 < lineIndex.size()) {
+
+		int traverseIndex = 4;
+		while(traverseIndex < 5/*lineIndex.size() - 2*/) {
+
+
+			int firstLineIndex = lineIndex.get(traverseIndex);
+			int secondLineIndex = lineIndex.get(traverseIndex + 1);
+			int thirdLineIndex = lineIndex.get(traverseIndex + 2);
+
+			if(isPartOfLine(firstLineIndex, secondLineIndex, thirdLineIndex, lineDistance, acceptanceOfLineDistance)) {
+
+				// collecting all point of individual lines
+				ArrayList<Point> dotListOfFirstLine = lineIndexToDotListMap.get(firstLineIndex);
+				ArrayList<Point> dotListOfSecondLine = lineIndexToDotListMap.get(secondLineIndex);
+				ArrayList<Point> dotListOfThirdLine = lineIndexToDotListMap.get(thirdLineIndex);
+
+				// collecting all x index from points of an individual lines
+				ArrayList<Integer> xIndexsOfFirstLineDots = getXOfDosFromLine(dotListOfFirstLine);
+				ArrayList<Integer> xIndexsOfSecondLineDots = getXOfDosFromLine(dotListOfSecondLine);
+				ArrayList<Integer> xIndexsOfThirdLineDots = getXOfDosFromLine(dotListOfThirdLine);
+
+				ArrayList<LineColumn> listOfLineColumn = convertLineIntoColumn(xIndexsOfFirstLineDots, xIndexsOfSecondLineDots, xIndexsOfThirdLineDots);
+				ArrayList<ArrayList<LineColumn>> wordSegmentList = convertWordSegment(listOfLineColumn);
+
+				for(int i = 0; i < listOfLineColumn.size(); i++) {
+					listOfLineColumn.get(i).printColumn();
+				}
+
+				System.out.println("***********************************************************");
+				System.out.println(xIndexsOfFirstLineDots);
+				System.out.println(xIndexsOfSecondLineDots);
+				System.out.println(xIndexsOfThirdLineDots);
+				System.out.println("--------------------------------------------");
+			}
+
+
+
+
+
+//			for(int i = 0; i < dotListOfFirstLine.size(); i++) {
+//				Point dot= dotListOfFirstLine.get(i);
+//				System.out.print("[x: " + dot.getX() + ", Y: " + dot.getY() + "]");
+//			}
+//			System.out.println();
 //
+//			for(int i = 0; i < dotListOfSecondLine.size(); i++) {
+//				Point dot= dotListOfSecondLine.get(i);
+//				System.out.print("[x: " + dot.getX() + ", Y: " + dot.getY() + "]");
+//			}
+//			System.out.println();
+//
+//			for(int i = 0; i < dotListOfThirdLine.size(); i++) {
+//				Point dot= dotListOfThirdLine.get(i);
+//				System.out.print("[x: " + dot.getX() + ", Y: " + dot.getY() + "]");
+//			}
+//			System.out.println();
+
+//			System.out.println(dotListOfFirstLine);
+//			System.out.println(dotListOfSecondLine);
+//			System.out.println(dotListOfThirdLine);
+
+
+
+			traverseIndex++;
+			System.out.println("----------------------------------------------------------");
+
+		}
+
+//
+//
+//
+//		System.out.println(allCenter.size());
+//		ArrayList<Integer> differenceBetweenLines = new ArrayList<Integer>();
+////
+////
+//		for(int i = 1; i < lineIndex.size(); i++) {
+//			differenceBetweenLines.add(lineIndex.get(i) - lineIndex.get(i - 1));
+//		}
+//		Collections.sort(differenceBetweenLines);
+//
+//		int lineDistance = differenceBetweenLines.get(differenceBetweenLines.size() / 2);
+//		int acceptanceOfLineDistance = (int) ((double) lineDistance * 0.50);
+//
+//		System.out.println("line distance " + lineDistance);
+////
+////
+//////////
+//////		initializeOutputImage();
+//		ArrayList<Integer> selectedLineIndexForLine = new ArrayList<Integer>();
+////
+//		for(int i = 2; i < 4; i++) {
+//
+////			System.out.println(i);
+//
+////			if(i + 3 < lineIndex.size()) {
+////
+////				int firstLineIndex = lineIndex.get(i);
+////				int secondLineIndex = lineIndex.get(i + 1);
+////				int thirdLineIndex = lineIndex.get(i + 2);
+////				int forthLineIndex = lineIndex.get(i + 3);
+////
+////
+////
+////
+////				Boolean isFirstThreeLineShouldTake = isPartOfLine(firstLineIndex, secondLineIndex, thirdLineIndex, lineDistance, acceptanceOfLineDistance);
+////				Boolean isLastThreeLineShouldTake = isPartOfLine(secondLineIndex, thirdLineIndex, forthLineIndex, lineDistance, acceptanceOfLineDistance);
+////
+////
+////
+////
+////
+////				if(isFirstThreeLineShouldTake && isLastThreeLineShouldTake) {
+////					System.out.println(" both cann be taken....");
+////
+////					ArrayList<String> lettersInFirstSequence = getWords(firstLineIndex, secondLineIndex, thirdLineIndex);
+////					ArrayList<String> lettersInLastSequence = getWords(secondLineIndex, thirdLineIndex, forthLineIndex);
+////
+////					int lettersInFirstLine = Utils.FUNCTIONS.getLetterCount(lettersInFirstSequence);
+////					int lettersInLastLine = Utils.FUNCTIONS.getLetterCount(lettersInLastSequence);
+////
+////					if(lettersInFirstLine >= lettersInLastLine) {
+////						System.out.println("First " + lettersInFirstSequence);
+////						text.add(lettersInFirstSequence);
+////						i += 2;
+////
+////						selectedLineIndexForLine.add(firstLineIndex);
+////						selectedLineIndexForLine.add(secondLineIndex);
+////						selectedLineIndexForLine.add(thirdLineIndex);
+////
+////					} else {
+////						System.out.println("Last " + lettersInLastSequence);
+////						text.add(lettersInLastSequence);
+////						i += 3;
+////
+////
+////						selectedLineIndexForLine.add(secondLineIndex);
+////						selectedLineIndexForLine.add(thirdLineIndex);
+////						selectedLineIndexForLine.add(forthLineIndex);
+////
+////					}
+////
+////				}
+////
+////				else if(isFirstThreeLineShouldTake) {
+////
+//////					System.out.println("in if function");
+////					System.out.println(firstLineIndex + " " + secondLineIndex + " " + thirdLineIndex + " f");
+////					ArrayList<String> lettersInFirstSequence = getWords(firstLineIndex, secondLineIndex, thirdLineIndex);
+////					System.out.println("single first " + lettersInFirstSequence);
+////					text.add(lettersInFirstSequence);
+////					i += 2;
+////
+////					selectedLineIndexForLine.add(firstLineIndex);
+////					selectedLineIndexForLine.add(secondLineIndex);
+////					selectedLineIndexForLine.add(thirdLineIndex);
+////
+////				}
+//////
+////				else if(isLastThreeLineShouldTake) {
+////					System.out.println(secondLineIndex + " " + thirdLineIndex + " " + forthLineIndex + " l");
+////					ArrayList<String> lettersInLastSequence = getWords(secondLineIndex, thirdLineIndex, forthLineIndex);
+////					System.out.println("single first " + lettersInLastSequence);
+////					text.add(lettersInLastSequence);
+////					i += 3;
+////
+////					selectedLineIndexForLine.add(secondLineIndex);
+////					selectedLineIndexForLine.add(thirdLineIndex);
+////					selectedLineIndexForLine.add(forthLineIndex);
+////
+////				}
+////			}
+//
+//			if(i + 2 < lineIndex.size()) {
 //				int firstLineIndex = lineIndex.get(i);
 //				int secondLineIndex = lineIndex.get(i + 1);
 //				int thirdLineIndex = lineIndex.get(i + 2);
-//				int forthLineIndex = lineIndex.get(i + 3);
-//
-//
-//
 //
 //				Boolean isFirstThreeLineShouldTake = isPartOfLine(firstLineIndex, secondLineIndex, thirdLineIndex, lineDistance, acceptanceOfLineDistance);
-//				Boolean isLastThreeLineShouldTake = isPartOfLine(secondLineIndex, thirdLineIndex, forthLineIndex, lineDistance, acceptanceOfLineDistance);
-//
-//
-//
-//
-//
-//				if(isFirstThreeLineShouldTake && isLastThreeLineShouldTake) {
-//					System.out.println(" both cann be taken....");
-//
-//					ArrayList<String> lettersInFirstSequence = getWords(firstLineIndex, secondLineIndex, thirdLineIndex);
-//					ArrayList<String> lettersInLastSequence = getWords(secondLineIndex, thirdLineIndex, forthLineIndex);
-//
-//					int lettersInFirstLine = Utils.FUNCTIONS.getLetterCount(lettersInFirstSequence);
-//					int lettersInLastLine = Utils.FUNCTIONS.getLetterCount(lettersInLastSequence);
-//
-//					if(lettersInFirstLine >= lettersInLastLine) {
-//						System.out.println("First " + lettersInFirstSequence);
-//						text.add(lettersInFirstSequence);
-//						i += 2;
-//
-//						selectedLineIndexForLine.add(firstLineIndex);
-//						selectedLineIndexForLine.add(secondLineIndex);
-//						selectedLineIndexForLine.add(thirdLineIndex);
-//
-//					} else {
-//						System.out.println("Last " + lettersInLastSequence);
-//						text.add(lettersInLastSequence);
-//						i += 3;
-//
-//
-//						selectedLineIndexForLine.add(secondLineIndex);
-//						selectedLineIndexForLine.add(thirdLineIndex);
-//						selectedLineIndexForLine.add(forthLineIndex);
-//
-//					}
-//
-//				}
-//
-//				else if(isFirstThreeLineShouldTake) {
-//
-////					System.out.println("in if function");
+//				if(isFirstThreeLineShouldTake) {
 //					System.out.println(firstLineIndex + " " + secondLineIndex + " " + thirdLineIndex + " f");
-//					ArrayList<String> lettersInFirstSequence = getWords(firstLineIndex, secondLineIndex, thirdLineIndex);
-//					System.out.println("single first " + lettersInFirstSequence);
-//					text.add(lettersInFirstSequence);
-//					i += 2;
 //
-//					selectedLineIndexForLine.add(firstLineIndex);
-//					selectedLineIndexForLine.add(secondLineIndex);
-//					selectedLineIndexForLine.add(thirdLineIndex);
+//					ArrayList<String> allLetters = getWords(firstLineIndex, secondLineIndex, thirdLineIndex);
+//					ArrayList<String> allLettersFromLast = getLettersFromLast(firstLineIndex, secondLineIndex, thirdLineIndex);
 //
-//				}
+//
+////					System.out.println("single first " + lettersInFirstSequence);
+////					text.add(lettersInFirstSequence);
+////					i += 2;
 ////
-//				else if(isLastThreeLineShouldTake) {
-//					System.out.println(secondLineIndex + " " + thirdLineIndex + " " + forthLineIndex + " l");
-//					ArrayList<String> lettersInLastSequence = getWords(secondLineIndex, thirdLineIndex, forthLineIndex);
-//					System.out.println("single first " + lettersInLastSequence);
-//					text.add(lettersInLastSequence);
-//					i += 3;
-//
-//					selectedLineIndexForLine.add(secondLineIndex);
-//					selectedLineIndexForLine.add(thirdLineIndex);
-//					selectedLineIndexForLine.add(forthLineIndex);
-//
+////					selectedLineIndexForLine.add(firstLineIndex);
+////					selectedLineIndexForLine.add(secondLineIndex);
+////					selectedLineIndexForLine.add(thirdLineIndex);
 //				}
-//			}
-
-			if(i + 2 < lineIndex.size()) {
-				int firstLineIndex = lineIndex.get(i);
-				int secondLineIndex = lineIndex.get(i + 1);
-				int thirdLineIndex = lineIndex.get(i + 2);
-
-				Boolean isFirstThreeLineShouldTake = isPartOfLine(firstLineIndex, secondLineIndex, thirdLineIndex, lineDistance, acceptanceOfLineDistance);
-				if(isFirstThreeLineShouldTake) {
-					System.out.println(firstLineIndex + " " + secondLineIndex + " " + thirdLineIndex + " f");
-
-					ArrayList<String> allLetters = getWords(firstLineIndex, secondLineIndex, thirdLineIndex);
-					ArrayList<String> allLettersFromLast = getLettersFromLast(firstLineIndex, secondLineIndex, thirdLineIndex);
-
-
-//					System.out.println("single first " + lettersInFirstSequence);
-//					text.add(lettersInFirstSequence);
-//					i += 2;
 //
-//					selectedLineIndexForLine.add(firstLineIndex);
-//					selectedLineIndexForLine.add(secondLineIndex);
-//					selectedLineIndexForLine.add(thirdLineIndex);
-				}
-
-			}
-		}
-
-		System.out.println(selectedLineIndexForLine);
-
-
-		int arraySizeOfSelectedLineIndex = 3;//selectedLineIndexForLine.size();
-		for(int i = 0; i < arraySizeOfSelectedLineIndex; i += 3) {
-			ArrayList<Point> dotsInFirstLine = lineIndexToDotListMap.get(selectedLineIndexForLine.get(i));
-			ArrayList<Point> dotsInSecondLine = lineIndexToDotListMap.get(selectedLineIndexForLine.get(i + 1));
-			ArrayList<Point> dotsInThirdLine = lineIndexToDotListMap.get(selectedLineIndexForLine.get(i + 2));
-
-			System.out.println(dotsInFirstLine.size());
-			System.out.println(dotsInSecondLine.size());
-			System.out.println(dotsInThirdLine.size());
-
-		}
-
-
-
-
-//		colorLine(lineIndex, Utils.YELLOW);
-//		colorLine(newLineIndexList, Utils.YELLOW);
-		colorLine(selectedLineIndexForLine, Utils.BLUE);
+//			}
+//		}
+//
+//		System.out.println(selectedLineIndexForLine);
+//
+//
+//		int arraySizeOfSelectedLineIndex = 3;//selectedLineIndexForLine.size();
+//		for(int i = 0; i < arraySizeOfSelectedLineIndex; i += 3) {
+//			ArrayList<Point> dotsInFirstLine = lineIndexToDotListMap.get(selectedLineIndexForLine.get(i));
+//			ArrayList<Point> dotsInSecondLine = lineIndexToDotListMap.get(selectedLineIndexForLine.get(i + 1));
+//			ArrayList<Point> dotsInThirdLine = lineIndexToDotListMap.get(selectedLineIndexForLine.get(i + 2));
+//
+//			System.out.println(dotsInFirstLine.size());
+//			System.out.println(dotsInSecondLine.size());
+//			System.out.println(dotsInThirdLine.size());
+//
+//		}
+//
+//
+//
+//
+////		colorLine(lineIndex, Utils.YELLOW);
+////		colorLine(newLineIndexList, Utils.YELLOW);
+//		colorLine(selectedLineIndexForLine, Utils.BLUE);
 		FileWithPrintWriter printWriter = null;
 		File outputfile = new File("dotDetected.jpg");
 
@@ -328,6 +382,88 @@ public class TextProcessorAdvance {
 
 //		return null;
 		return text;
+	}
+
+	private ArrayList<ArrayList<LineColumn>> convertWordSegment(ArrayList<LineColumn> listOfLineColumn) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private ArrayList<LineColumn> convertLineIntoColumn(ArrayList<Integer> xIndexsOfFirstLineDots,
+		ArrayList<Integer> xIndexsOfSecondLineDots, ArrayList<Integer> xIndexsOfThirdLineDots) {
+
+		ArrayList<LineColumn> columnList = new ArrayList<LineColumn>();
+		int limit = Utils.MAXIMUM_DISTANCE;
+
+
+		while(anyDotExistInThreeLine(xIndexsOfFirstLineDots, xIndexsOfSecondLineDots, xIndexsOfThirdLineDots)) {
+			System.out.println(xIndexsOfFirstLineDots.size() + " - " + xIndexsOfSecondLineDots.size() + " - " + xIndexsOfThirdLineDots.size());
+			int smallestIndex = width + 100;
+
+			if(xIndexsOfFirstLineDots.size() > 0) smallestIndex = Math.min(smallestIndex, xIndexsOfFirstLineDots.get(0));
+			if(xIndexsOfSecondLineDots.size() > 0) smallestIndex = Math.min(smallestIndex, xIndexsOfSecondLineDots.get(0));
+			if(xIndexsOfThirdLineDots.size() > 0) smallestIndex = Math.min(smallestIndex, xIndexsOfThirdLineDots.get(0));
+			System.out.println(smallestIndex + " small index");
+
+			int upperDot = -1;
+			int middledot = -1;
+			int lowerDot = -1;
+
+			if(xIndexsOfFirstLineDots.size() > 0 && isDotBetweenLimit(xIndexsOfFirstLineDots.get(0), limit, smallestIndex)) {
+				upperDot = xIndexsOfFirstLineDots.get(0);
+				xIndexsOfFirstLineDots.remove(0);
+			}
+			if(xIndexsOfSecondLineDots.size() > 0 && isDotBetweenLimit(xIndexsOfSecondLineDots.get(0), limit, smallestIndex)) {
+				middledot = xIndexsOfSecondLineDots.get(0);
+				xIndexsOfSecondLineDots.remove(0);
+			}
+			if(xIndexsOfThirdLineDots.size() > 0 && isDotBetweenLimit(xIndexsOfThirdLineDots.get(0), limit, smallestIndex)) {
+				lowerDot = xIndexsOfThirdLineDots.get(0);
+				xIndexsOfThirdLineDots.remove(0);
+			}
+
+			System.out.println(upperDot + "*" + middledot + "*" + lowerDot);
+
+			columnList.add(new LineColumn(upperDot, middledot, lowerDot));
+		}
+
+		return columnList;
+	}
+
+	private boolean isDotBetweenLimit(int integer, int limit, int smallestIndex) {
+		int difference = integer - smallestIndex;
+		return (difference <= (limit + limit / 4)) ;
+	}
+
+	private boolean anyDotExistInThreeLine(ArrayList<Integer> xIndexsOfFirstLineDots,
+			ArrayList<Integer> xIndexsOfSecondLineDots, ArrayList<Integer> xIndexsOfThirdLineDots) {
+		return (xIndexsOfFirstLineDots.size() > 0 || xIndexsOfSecondLineDots.size() > 0 || xIndexsOfThirdLineDots.size() > 0);
+	}
+
+	private ArrayList<Integer> getXOfDosFromLine(ArrayList<Point> dotListOfLine) {
+
+		ArrayList<Integer> allXs = new ArrayList<>();
+		int dotListSize = dotListOfLine.size();
+
+		// collecting all x from dots
+		for(int i = 0; i < dotListSize; i++)
+			allXs.add(dotListOfLine.get(i).getX());
+
+		Collections.sort(allXs);
+
+		int previousXIndexOfDot = allXs.get(0);
+		ArrayList<Integer> dotsToRemove = new ArrayList<Integer>();
+
+		for(int j = 1; j < allXs.size(); j++) {
+			if(allXs.get(j) - previousXIndexOfDot < Utils.SAME_POINT_COVERAGE)
+				dotsToRemove.add(previousXIndexOfDot);
+			previousXIndexOfDot = allXs.get(j);
+		}
+
+		for(int j = 0; j < dotsToRemove.size(); j++)
+			allXs.remove(dotsToRemove.get(j));
+
+		return allXs;
 	}
 
 	private ArrayList<String> getLettersFromLast(int firstLineIndex, int secondLineIndex, int thirdLineIndex) {
@@ -1015,9 +1151,11 @@ public class TextProcessorAdvance {
 
 	private void initializeVariables(File imageFile) {
 		try {
+
 			inputImage = ImageIO.read(imageFile);
 			width = inputImage.getWidth();
 			height = inputImage.getHeight();
+
 		} catch (IOException e) {
 			System.out.println("no input file");
 		}

@@ -15,6 +15,9 @@ public class Test {
 	public static void main(String[] args) {
 
 		File imageFile = new File("data/data1.jpg");
+//		File imageFile = new File("data/data5.jpg");
+//		File imageFile = new File("data/data6.png");
+//		File imageFile = new File("data/data7.jpg");
 
 
 		imageFile = Utils.GRAY_SCALE_IMAGE_PROCESSOR.process(imageFile);
@@ -33,34 +36,34 @@ public class Test {
 		System.out.println("Dilation is completed...");
 
 
-		ArrayList<ArrayList<String>>text = new TextProcessor().getRectangularDottedFile(imageFile);
-		for(int i = 0; i < text.size(); i++) {
-			for(int j = 0; j < text.get(i).size(); j++) {
-				System.out.print(text.get(i).get(j));
-			}
-			System.out.println();
-		}
-		System.out.println(".........................................");
-		for(int i = 0; i < text.size(); i++) {
-			for(int j = 1; j < text.get(i).size(); j++) {
-				String previousLetter = text.get(i).get(j - 1);
-				String currentLetter = text.get(i).get(j);
-
-				if(Utils.LETTERS.isShoroBorno(currentLetter) && Utils.LETTERS.isBanjonBorno(previousLetter)) {
-					currentLetter = Utils.LETTERS.getRepresentativeKarSymbol(currentLetter);
-					text.get(i).set(j, currentLetter);
-
-				}
-			}
-		}
-
-		System.out.println("........................................");
-		for(int i = 0; i < text.size(); i++) {
-			for(int j = 0; j < text.get(i).size(); j++) {
-				System.out.print(text.get(i).get(j));
-			}
-			System.out.println();
-		}
+		ArrayList<ArrayList<String>>text = new TextProcessorAdvance().getRectangularDottedFile(imageFile);
+//		for(int i = 0; i < text.size(); i++) {
+//			for(int j = 0; j < text.get(i).size(); j++) {
+//				System.out.print(text.get(i).get(j));
+//			}
+//			System.out.println();
+//		}
+//		System.out.println(".........................................");
+//		for(int i = 0; i < text.size(); i++) {
+//			for(int j = 1; j < text.get(i).size(); j++) {
+//				String previousLetter = text.get(i).get(j - 1);
+//				String currentLetter = text.get(i).get(j);
+//
+//				if(Utils.LETTERS.isShoroBorno(currentLetter) && Utils.LETTERS.isBanjonBorno(previousLetter)) {
+//					currentLetter = Utils.LETTERS.getRepresentativeKarSymbol(currentLetter);
+//					text.get(i).set(j, currentLetter);
+//
+//				}
+//			}
+//		}
+//
+//		System.out.println("........................................");
+//		for(int i = 0; i < text.size(); i++) {
+//			for(int j = 0; j < text.get(i).size(); j++) {
+//				System.out.print(text.get(i).get(j));
+//			}
+//			System.out.println();
+//		}
 
 
 		System.out.println("execution is completed");
