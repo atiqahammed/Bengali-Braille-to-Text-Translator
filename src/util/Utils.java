@@ -11,6 +11,7 @@ import imageProcessor.GrayScale;
 import imageProcessor.ImageProcessor;
 import imageProcessor.MedianFilter;
 import preProcessor.OtsuThresholding;
+import test.FileReadWriter;
 
 public class Utils {
 
@@ -25,6 +26,7 @@ public class Utils {
 	public static int SAME_POINT_COVERAGE = 20;
 	public static int MAXIMUM_DISTANCE = 20;
 	public static int LINE_INDEX_MERGED_UNIT = 3;
+	public static int DIFFERENCE_BETWEEN_WORDS = 90;
 
 	public static Color WHITE = new Color(255, 255, 255);
 	public static Color BLACK = new Color(0, 0, 0);
@@ -49,6 +51,8 @@ public class Utils {
 	public static String IMAGE_FILE_TYPE = "abc";
 
 	public static ArrayList<ArrayList<Color>> IMAGE_ARRAY_OF_PIXEL = null;
+	public static ArrayList<String> OUTPUT_LIST = new ArrayList<String>();
+	public static FileReadWriter FILE_READ_WRITER = new FileReadWriter();
 
 
 

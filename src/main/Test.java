@@ -66,6 +66,7 @@ public class Test {
 //		}
 
 
+		Utils.FILE_READ_WRITER.writeOutput(Utils.OUTPUT_LIST, "output.txt");
 		System.out.println("execution is completed");
 
 	}

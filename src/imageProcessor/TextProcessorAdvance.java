@@ -181,11 +181,19 @@ public class TextProcessorAdvance {
 					listOfLineColumn.get(i).printColumn();
 				}
 
-				System.out.println("***********************************************************");
-				System.out.println(xIndexsOfFirstLineDots);
-				System.out.println(xIndexsOfSecondLineDots);
-				System.out.println(xIndexsOfThirdLineDots);
-				System.out.println("--------------------------------------------");
+				Utils.OUTPUT_LIST.add("Size of column :: " + listOfLineColumn.size());
+				int count = 0;
+				for(int i = 0; i < wordSegmentList.size(); i++) {
+
+					ArrayList<LineColumn> currentLineColumnSegment = wordSegmentList.get(i);
+					int sizeOfCurrentLineColumnSegment = currentLineColumnSegment.size();
+					for(int j = 0; j < sizeOfCurrentLineColumnSegment; j++)
+						Utils.OUTPUT_LIST.add(currentLineColumnSegment.get(j).getAverageIndex() + " " + currentLineColumnSegment.get(j).getSymbol());
+					Utils.OUTPUT_LIST.add("---------------------------------------------------------------------");
+
+				}
+
+				Utils.OUTPUT_LIST.add("Size of column after segmentation of column for words :: " + count);
 			}
 
 
@@ -385,8 +393,30 @@ public class TextProcessorAdvance {
 	}
 
 	private ArrayList<ArrayList<LineColumn>> convertWordSegment(ArrayList<LineColumn> listOfLineColumn) {
-		// TODO Auto-generated method stub
-		return null;
+
+		ArrayList<ArrayList<LineColumn>> segmentedColumnList = new ArrayList<ArrayList<LineColumn>>();
+		ArrayList<LineColumn> currentCulmnList = new ArrayList<LineColumn>();
+		LineColumn currentColumn = listOfLineColumn.get(0);
+		int currentColumnAverageIndex = currentColumn.getAverageIndex();
+		int listSize = listOfLineColumn.size();
+		currentCulmnList.add(currentColumn);
+
+		for(int i = 1; i < listSize; i++) {
+			currentColumn = listOfLineColumn.get(i);
+			int tempAverageIndex = currentColumn.getAverageIndex();
+
+			if(tempAverageIndex - currentColumnAverageIndex >= Utils.MAXIMUM_DISTANCE * 4) {
+				segmentedColumnList.add((ArrayList<LineColumn>) currentCulmnList.clone());
+				currentCulmnList = new ArrayList<LineColumn>();
+			}
+
+			currentCulmnList.add(currentColumn);
+			currentColumnAverageIndex = tempAverageIndex;
+		}
+
+		segmentedColumnList.add((ArrayList<LineColumn>) currentCulmnList.clone());
+
+		return segmentedColumnList;
 	}
 
 	private ArrayList<LineColumn> convertLineIntoColumn(ArrayList<Integer> xIndexsOfFirstLineDots,
