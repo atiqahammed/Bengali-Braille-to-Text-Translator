@@ -155,8 +155,8 @@ public class TextProcessorAdvance {
 		Utils.OUTPUT_LIST.add("line distance:: " + lineDistance);
 
 
-		int traverseIndex = 4;
-		while(traverseIndex < 5/*lineIndex.size() - 2*/) {
+		int traverseIndex = 1;
+		while(traverseIndex < 2/*lineIndex.size() - 2*/) {
 
 
 			int firstLineIndex = lineIndex.get(traverseIndex);
@@ -178,13 +178,15 @@ public class TextProcessorAdvance {
 				ArrayList<LineColumn> listOfLineColumn = convertLineIntoColumn(xIndexsOfFirstLineDots, xIndexsOfSecondLineDots, xIndexsOfThirdLineDots);
 				ArrayList<ArrayList<LineColumn>> wordSegmentList = convertWordSegment(listOfLineColumn);
 
+				System.out.println(wordSegmentList.size());
+
 				for(int i = 0; i < listOfLineColumn.size(); i++) {
 					listOfLineColumn.get(i).printColumn();
 				}
 
 				Utils.OUTPUT_LIST.add("Size of column :: " + listOfLineColumn.size());
 
-				for(int i = 0; i < 1/*wordSegmentList.size()*/; i++) {
+				for(int i = 0; i < wordSegmentList.size(); i++) {
 
 					ArrayList<LineColumn> currentWordSegment = (ArrayList<LineColumn>) wordSegmentList.get(i).clone();
 					int sizeOfCurrentLineColumnSegment = currentWordSegment.size();
@@ -233,6 +235,7 @@ public class TextProcessorAdvance {
 
 						currentColumnIndex = currentColumnIndex + lineDistance * 2;
 						symbol1 = "000";
+						if(columnCovered >= sizeOfCurrentLineColumnSegment) break;
 						int tempIndex = currentWordSegment.get(0).getAverageIndex();
 						difference = Math.abs(tempIndex - currentColumnIndex);
 
@@ -262,6 +265,128 @@ public class TextProcessorAdvance {
 
 
 					Utils.OUTPUT_LIST.add("-----------------------// using first column as first letters first column completed //-------------------------");
+
+					// using initial column as 2nd one---
+
+					currentWordSegment = (ArrayList<LineColumn>) wordSegmentList.get(i).clone();
+					currentColumnIndex = currentWordSegment.get(0).getAverageIndex();
+					Utils.OUTPUT_LIST.add("initial current column index as 2nd column of word is -> " + currentColumnIndex);
+
+
+					symbol1 = currentWordSegment.get(0).getSymbol();
+					String symbol = "000" + symbol1;
+					String letter = Utils.LETTERS.getLetters(symbol);
+					currentWordSegment.remove(0);
+					columnCovered = 1;
+
+					Utils.OUTPUT_LIST.add(symbol);
+					Utils.OUTPUT_LIST.add(letter);
+
+					Utils.OUTPUT_LIST.add("initial size:: " + sizeOfCurrentLineColumnSegment);
+					Utils.OUTPUT_LIST.add("lineDistance " + lineDistance);
+					Utils.OUTPUT_LIST.add("next column limit " + nextColumnLimit);
+
+
+
+					int estimatedNextColumnIndex = currentColumnIndex + lineDistance;
+					if(columnCovered == sizeOfCurrentLineColumnSegment) {
+						Utils.OUTPUT_LIST.add("ding ding not found any thing...");
+						continue;
+					}
+					int tempIndex = currentWordSegment.get(0).getAverageIndex();
+					int difference = Math.abs(estimatedNextColumnIndex - tempIndex);
+
+
+					Utils.OUTPUT_LIST.add("estimated next column :: " + estimatedNextColumnIndex);
+					Utils.OUTPUT_LIST.add("actual next column :: " + tempIndex);
+
+
+					if(difference <= nextColumnLimit * 2) {
+						Utils.OUTPUT_LIST.add("next column is found immediate column");
+
+						currentColumnIndex = tempIndex;
+						symbol1 = currentWordSegment.get(0).getSymbol();
+						currentWordSegment.remove(0);
+
+
+					}
+
+					else {
+						Utils.OUTPUT_LIST.add("after next column is found immediate column");
+
+						difference = Math.abs((estimatedNextColumnIndex + lineDistance) - tempIndex);
+						Utils.OUTPUT_LIST.add("after next difference " + difference);
+
+						if(difference <= nextColumnLimit * 2) {
+							Utils.OUTPUT_LIST.add("next column is found next column of the letter column");
+
+							currentColumnIndex = estimatedNextColumnIndex;
+							symbol1 = "000";
+//							currentWordSegment.remove(0);
+						}
+
+						else {
+							Utils.OUTPUT_LIST.add("not found eny thing :( ******");
+							continue;
+						}
+					}
+
+					while(currentWordSegment.size() > 0) {
+
+						int nextColumnIndex = currentWordSegment.get(0).getAverageIndex();
+						difference = nextColumnIndex - currentColumnIndex;
+
+						Utils.OUTPUT_LIST.add("current column information :: " + currentColumnIndex +"  -- " + symbol1 + " next column Index :: " + nextColumnIndex);
+						Utils.OUTPUT_LIST.add("difference " + difference);
+						// next column found
+						if(difference >= lineDistance - nextColumnLimit && difference <= lineDistance + nextColumnLimit) {
+							String symbol2 = currentWordSegment.get(0).getSymbol();
+							symbol = symbol1 + symbol2;
+
+							if(symbol1.equals("000")) columnCovered += 1;
+							else columnCovered += 2;
+
+							letter = Utils.LETTERS.getLetters(symbol);
+							currentWordSegment.remove(0);
+
+							Utils.OUTPUT_LIST.add(symbol);
+							Utils.OUTPUT_LIST.add(letter);
+						}
+
+						else {
+							symbol = symbol1 + "000";
+							String Letter = Utils.LETTERS.getLetters(symbol);
+							columnCovered += 1;
+
+							Utils.OUTPUT_LIST.add(symbol);
+							Utils.OUTPUT_LIST.add(Letter);
+						}
+
+						currentColumnIndex = currentColumnIndex + lineDistance * 2;
+						symbol1 = "000";
+						if(columnCovered >= sizeOfCurrentLineColumnSegment) break;
+						tempIndex = currentWordSegment.get(0).getAverageIndex();
+						difference = Math.abs(tempIndex - currentColumnIndex);
+
+						Utils.OUTPUT_LIST.add("Actual next index:: " + tempIndex);
+						Utils.OUTPUT_LIST.add("Predected column index:: " + currentColumnIndex);
+						Utils.OUTPUT_LIST.add("difference for next column index:: " + difference);
+
+						if(difference <= 2 * nextColumnLimit) {
+							currentColumnIndex = tempIndex;
+							symbol1 = currentWordSegment.get(0).getSymbol();
+							currentWordSegment.remove(0);
+
+							Utils.OUTPUT_LIST.add("next line found:: " + currentColumnIndex);
+							Utils.OUTPUT_LIST.add("symbol of next:: " + symbol1);
+						}
+
+						Utils.OUTPUT_LIST.add("column covered:: " + columnCovered);
+					}
+
+
+					Utils.OUTPUT_LIST.add("*************************//done with the next one//----------------------------------");
+
 				}
 			}
 
