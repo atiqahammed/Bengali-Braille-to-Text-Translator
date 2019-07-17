@@ -47,7 +47,7 @@ public class LineColumn {
 	}
 
 	public void printColumn() {
-		System.out.println("this is a column with index = " + averageIndex);
-		System.out.println(symbol);
+		Utils.OUTPUT_LIST.add("this is a column with index = " + averageIndex);
+		Utils.OUTPUT_LIST.add(symbol);
 	}
 }

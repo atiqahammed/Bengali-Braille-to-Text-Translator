@@ -37,12 +37,6 @@ public class TextProcessorAdvance {
 	ArrayList<Integer> lineIndex = new ArrayList<Integer>();
 	ArrayList<Point> pointInLine = new ArrayList<Point>();
 
-
-//	public TextProcessorAdvance() {
-//		height = Utils.IMAGE_HEIGHT;
-//		width = Utils.IMAGE_WEIDTH;
-//	}
-
 	public ArrayList<ArrayList<String>> getRectangularDottedFile(File imageFile) {
 		ArrayList<ArrayList<String>> text = new ArrayList<ArrayList<String>>();
 		BufferedImage image;
@@ -139,7 +133,6 @@ public class TextProcessorAdvance {
 				lineIndexToDotListMap.get(currentLineIndexY).remove(currentPointInThisLine);
 				lineIndexToDotListMap.get(nearestLineIndex).add(currentPointInThisLine);
 			}
-
 		}
 
 
@@ -149,6 +142,7 @@ public class TextProcessorAdvance {
 			differenceBetweenLines.add(lineIndex.get(i) - lineIndex.get(i - 1));
 		Collections.sort(differenceBetweenLines);
 		int lineDistance = differenceBetweenLines.get(differenceBetweenLines.size() / 2);
+		Utils.DIFFERENCE_BETWEEN_LINE = lineDistance;
 		int acceptanceOfLineDistance = (int) ((double) lineDistance * 0.50);
 		Utils.DIFFERENCE_BETWEEN_WORDS = lineDistance * 3 - (lineDistance / 2);
 
@@ -156,7 +150,7 @@ public class TextProcessorAdvance {
 
 
 		int traverseIndex = 1;
-		while(traverseIndex < 2/*lineIndex.size() - 2*/) {
+		while(traverseIndex < lineIndex.size() - 2) {
 
 
 			int firstLineIndex = lineIndex.get(traverseIndex);
@@ -392,32 +386,6 @@ public class TextProcessorAdvance {
 
 
 
-
-
-//			for(int i = 0; i < dotListOfFirstLine.size(); i++) {
-//				Point dot= dotListOfFirstLine.get(i);
-//				System.out.print("[x: " + dot.getX() + ", Y: " + dot.getY() + "]");
-//			}
-//			System.out.println();
-//
-//			for(int i = 0; i < dotListOfSecondLine.size(); i++) {
-//				Point dot= dotListOfSecondLine.get(i);
-//				System.out.print("[x: " + dot.getX() + ", Y: " + dot.getY() + "]");
-//			}
-//			System.out.println();
-//
-//			for(int i = 0; i < dotListOfThirdLine.size(); i++) {
-//				Point dot= dotListOfThirdLine.get(i);
-//				System.out.print("[x: " + dot.getX() + ", Y: " + dot.getY() + "]");
-//			}
-//			System.out.println();
-
-//			System.out.println(dotListOfFirstLine);
-//			System.out.println(dotListOfSecondLine);
-//			System.out.println(dotListOfThirdLine);
-
-
-
 			traverseIndex++;
 			System.out.println("----------------------------------------------------------");
 
@@ -617,17 +585,17 @@ public class TextProcessorAdvance {
 		ArrayList<Integer> xIndexsOfSecondLineDots, ArrayList<Integer> xIndexsOfThirdLineDots) {
 
 		ArrayList<LineColumn> columnList = new ArrayList<LineColumn>();
-		int limit = Utils.MAXIMUM_DISTANCE;
+		int limit = Utils.DIFFERENCE_BETWEEN_LINE / 2;
 
 
 		while(anyDotExistInThreeLine(xIndexsOfFirstLineDots, xIndexsOfSecondLineDots, xIndexsOfThirdLineDots)) {
-			System.out.println(xIndexsOfFirstLineDots.size() + " - " + xIndexsOfSecondLineDots.size() + " - " + xIndexsOfThirdLineDots.size());
+			Utils.OUTPUT_LIST.add(xIndexsOfFirstLineDots.size() + " - " + xIndexsOfSecondLineDots.size() + " - " + xIndexsOfThirdLineDots.size());
 			int smallestIndex = width + 100;
 
 			if(xIndexsOfFirstLineDots.size() > 0) smallestIndex = Math.min(smallestIndex, xIndexsOfFirstLineDots.get(0));
 			if(xIndexsOfSecondLineDots.size() > 0) smallestIndex = Math.min(smallestIndex, xIndexsOfSecondLineDots.get(0));
 			if(xIndexsOfThirdLineDots.size() > 0) smallestIndex = Math.min(smallestIndex, xIndexsOfThirdLineDots.get(0));
-			System.out.println(smallestIndex + " small index");
+			Utils.OUTPUT_LIST.add(smallestIndex + " small index");
 
 			int upperDot = -1;
 			int middledot = -1;
@@ -646,7 +614,7 @@ public class TextProcessorAdvance {
 				xIndexsOfThirdLineDots.remove(0);
 			}
 
-			System.out.println(upperDot + "*" + middledot + "*" + lowerDot);
+			Utils.OUTPUT_LIST.add(upperDot + "*" + middledot + "*" + lowerDot);
 
 			columnList.add(new LineColumn(upperDot, middledot, lowerDot));
 		}
