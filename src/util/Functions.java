@@ -424,4 +424,21 @@ public class Functions {
 		return newImageArray;
 
 	}
+
+	public ArrayList<String> getReadableMergedWord(ArrayList<String> letters) {
+
+		int wordLength = letters.size();
+
+		for(int i = 1; i < wordLength; i++) {
+			String previousLetter = letters.get(i - 1);
+			String currentLetter = letters.get(i);
+
+			if(Utils.LETTERS.isShoroBorno(currentLetter) && Utils.LETTERS.isBanjonBorno(previousLetter)) {
+				currentLetter = Utils.LETTERS.getRepresentativeKarSymbol(currentLetter);
+				letters.set(i, currentLetter);
+			}
+		}
+
+		return letters;
+	}
 }
