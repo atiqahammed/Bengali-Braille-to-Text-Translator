@@ -52,7 +52,6 @@ public class Test {
 //				if(Utils.LETTERS.isShoroBorno(currentLetter) && Utils.LETTERS.isBanjonBorno(previousLetter)) {
 //					currentLetter = Utils.LETTERS.getRepresentativeKarSymbol(currentLetter);
 //					text.get(i).set(j, currentLetter);
-//
 //				}
 //			}
 //		}
