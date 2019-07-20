@@ -14,9 +14,7 @@ public class BanglaDictonary {
 	}
 
 	public void test() {
-
 		Utils.FILE_READ_WRITER.writeOutput(wordList, Utils.OUTPUT_FILE_NAME);
-
 	}
 
 	public int calculate(String x, String y) {
@@ -67,4 +65,25 @@ public class BanglaDictonary {
      
         return dp[x.length()][y.length()];
     }
+
+    public String getWordWithLessEditDistance(String word1, String word2) {
+
+	    String selectedWord = word2;
+	    int wordListSize = wordList.size();
+
+	    for(int i = 0; i < wordListSize; i++) {
+
+	        String listedWord = wordList.get(i);
+	        int firstWordEditDistance = calculateDP(word1, listedWord);
+	        int secondWordEditDistance = calculateDP(word2, listedWord);
+
+	        if(firstWordEditDistance <= secondWordEditDistance)
+	            selectedWord = word1;
+	        else
+	            selectedWord = word2;
+        }
+
+	    return selectedWord;
+    }
+
 }
