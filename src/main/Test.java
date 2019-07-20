@@ -35,35 +35,7 @@ public class Test {
 		imageFile = new Dilation().getImage(imageFile);
 		System.out.println("Dilation is completed...");
 
-
 		ArrayList<ArrayList<String>>text = new TextProcessorAdvance().getRectangularDottedFile(imageFile);
-//		for(int i = 0; i < text.size(); i++) {
-//			for(int j = 0; j < text.get(i).size(); j++) {
-//				System.out.print(text.get(i).get(j));
-//			}
-//			System.out.println();
-//		}
-//		System.out.println(".........................................");
-//		for(int i = 0; i < text.size(); i++) {
-//			for(int j = 1; j < text.get(i).size(); j++) {
-//				String previousLetter = text.get(i).get(j - 1);
-//				String currentLetter = text.get(i).get(j);
-//
-//				if(Utils.LETTERS.isShoroBorno(currentLetter) && Utils.LETTERS.isBanjonBorno(previousLetter)) {
-//					currentLetter = Utils.LETTERS.getRepresentativeKarSymbol(currentLetter);
-//					text.get(i).set(j, currentLetter);
-//				}
-//			}
-//		}
-//
-//		System.out.println("........................................");
-//		for(int i = 0; i < text.size(); i++) {
-//			for(int j = 0; j < text.get(i).size(); j++) {
-//				System.out.print(text.get(i).get(j));
-//			}
-//			System.out.println();
-//		}
-
 
 		Utils.FILE_READ_WRITER.writeOutput(Utils.OUTPUT_LIST, Utils.OUTPUT_FILE_NAME);
 		System.out.println("execution is completed");
