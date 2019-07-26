@@ -21,7 +21,7 @@ public class Letters {
 		shoroBorno = new ArrayList<>(Arrays.asList("অ", "আ", "ই", "ঈ", "উ", "ঊ", "এ", "ঐ", "ও", "ঔ", "ঋ"));
 		banjonBorno = new ArrayList<>(Arrays.asList("ক", "খ", "গ", "ঘ", "ঙ", "চ", "ছ", "জ", "ঝ", "ঞ", "ট", "ঠ", "ড",
 				"ঢ","ণ", "ত", "থ", "দ", "ধ", "ন", "প", "ফ", "ব", "ভ", "ম", "য", "র", "ল", "শ", "স", "ষ", "হ", "ক্ষ", "জ্ঞ",
-				"ড়", "ঢ়", "য়", "ং", "ঃ", "ঁ"));
+				"ড়", "ঢ়", "য়"/* ,"ং", "ঃ", "ঁ"*/));
 
 		//this map if for symbol to kar symbol
 		symbolToKar.put("অ", "");

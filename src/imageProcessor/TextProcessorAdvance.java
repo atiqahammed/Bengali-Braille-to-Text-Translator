@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
@@ -17,6 +18,7 @@ import dataStructure.BrailleDot;
 import dataStructure.Dot;
 import dataStructure.LineColumn;
 import dataStructure.Point;
+import dataStructure.Word;
 import fileManager.FileWithPrintWriter;
 import util.Utils;
 
@@ -36,6 +38,8 @@ public class TextProcessorAdvance {
 
 	ArrayList<Integer> lineIndex = new ArrayList<Integer>();
 	ArrayList<Point> pointInLine = new ArrayList<Point>();
+
+	ArrayList<Word> all_word = new ArrayList<Word>();
 
 	public ArrayList<ArrayList<String>> getRectangularDottedFile(File imageFile) {
 		ArrayList<ArrayList<String>> text = new ArrayList<ArrayList<String>>();
@@ -149,8 +153,8 @@ public class TextProcessorAdvance {
 		Utils.OUTPUT_LIST.add("line distance:: " + lineDistance);
 
 
-		int traverseIndex = 31;
-		while(traverseIndex < 32/*lineIndex.size() - 2*/) {
+		int traverseIndex = 0;
+		while(traverseIndex < lineIndex.size() - 2) {
 
 
 			int firstLineIndex = lineIndex.get(traverseIndex);
@@ -262,16 +266,22 @@ public class TextProcessorAdvance {
 						letters.add(letter);
 					}
 
-					String stringWord = "";
-					for(int x = 0; x < letters.size(); x++)
-						stringWord = stringWord + letters.get(x);
+					letters = Utils.FUNCTIONS.getReadableMergedWord(letters);
 
-					Utils.OUTPUT_LIST.add("found word is :: .... \\**   " + stringWord);
+
+					String stringWord1 = getwordInString(letters);
+
+					Utils.OUTPUT_LIST.add("found word is :: .... \\**   " + stringWord1);
 
 
 					Utils.OUTPUT_LIST.add("-----------------------// using first column as first letters first column completed //-------------------------");
 
+
+
+
 					// using initial column as 2nd one---
+
+					letters = new ArrayList<String>();
 
 					currentWordSegment = (ArrayList<LineColumn>) wordSegmentList.get(i).clone();
 					currentColumnIndex = currentWordSegment.get(0).getAverageIndex();
@@ -281,6 +291,7 @@ public class TextProcessorAdvance {
 					symbol1 = currentWordSegment.get(0).getSymbol();
 					String symbol = "000" + symbol1;
 					String letter = Utils.LETTERS.getLetters(symbol);
+					letters.add(letter);
 					currentWordSegment.remove(0);
 					columnCovered = 1;
 
@@ -352,6 +363,7 @@ public class TextProcessorAdvance {
 							else columnCovered += 2;
 
 							letter = Utils.LETTERS.getLetters(symbol);
+							letters.add(letter);
 							currentWordSegment.remove(0);
 
 							Utils.OUTPUT_LIST.add(symbol);
@@ -361,6 +373,7 @@ public class TextProcessorAdvance {
 						else {
 							symbol = symbol1 + "000";
 							String Letter = Utils.LETTERS.getLetters(symbol);
+							letters.add(letter);
 							columnCovered += 1;
 
 							Utils.OUTPUT_LIST.add(symbol);
@@ -390,6 +403,16 @@ public class TextProcessorAdvance {
 					}
 
 
+
+
+
+
+					String stringWord2 = getwordInString(letters);
+					Utils.OUTPUT_LIST.add("Second word of :: " + stringWord2);
+					Word word = new Word(stringWord1, stringWord2, firstLineIndex, secondLineIndex, thirdLineIndex);
+					all_word.add(word);
+
+
 					Utils.OUTPUT_LIST.add("*************************//done with the next one//----------------------------------");
 				}
 			}
@@ -397,6 +420,41 @@ public class TextProcessorAdvance {
 			traverseIndex++;
 			System.out.println("----------------------------------------------------------");
 		}
+
+
+		for(int i = 0; i < all_word.size(); i++) {
+			all_word.get(i).print_all_information_of_word();
+			Utils.OUTPUT_LIST.add("---------------------------------");
+		}
+
+		System.out.println(all_word.size());
+
+
+//		Utils.BANGLA_DICTIONARY.calculate_edit_distance(all_word);
+
+
+		Utils.OUTPUT_LIST.add("/////////////////*************// edit distance calculation completed // ************");
+
+
+
+//		for(int i = 0; i < all_word.size(); i++) {
+//			all_word.get(i).print_all_information_of_word();
+//			Utils.OUTPUT_LIST.add("---------------------------------");
+//		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 		FileWithPrintWriter printWriter = null;
@@ -410,6 +468,13 @@ public class TextProcessorAdvance {
 
 //		return null;
 		return text;
+	}
+
+	private String getwordInString(ArrayList<String> letters) {
+		String stringWord1 = "";
+		for(int x = 0; x < letters.size(); x++)
+			stringWord1 = stringWord1 + letters.get(x);
+		return stringWord1;
 	}
 
 	private ArrayList<ArrayList<LineColumn>> convertWordSegment(ArrayList<LineColumn> listOfLineColumn) {
