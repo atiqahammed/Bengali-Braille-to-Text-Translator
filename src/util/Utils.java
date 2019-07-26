@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import dataStructure.Letters;
+import dictonary.BanglaDictonary;
 import fileManager.FileWithPrintWriter;
 import imageProcessor.BinaryImageConvertor;
 import imageProcessor.GrayScale;
@@ -22,7 +23,7 @@ public class Utils {
 	public static int NEIGHBOUR_DOT_SIZE_FOR_PART_OF_DOT_SELECTION = 9;
 	public static int INITAL_DIFFRENCE_BETWEEN_LINE = 10;
 	public static int SAME_POINT_COVERAGE = 20;
-	public static int MAXIMUM_DISTANCE = 20;
+	public static int MAXIMUM_DISTANCE = 16;
 	public static int LINE_INDEX_MERGED_UNIT = 3;
 	public static int DIFFERENCE_BETWEEN_WORDS = 100;
 	public static int DIFFERENCE_BETWEEN_LINE = 10;
@@ -52,10 +53,6 @@ public class Utils {
 	public static ArrayList<ArrayList<Color>> IMAGE_ARRAY_OF_PIXEL = null;
 	public static ArrayList<String> OUTPUT_LIST = new ArrayList<String>();
 	public static FileReadWriter FILE_READ_WRITER = new FileReadWriter();
-
-
-
-
-
+	public static BanglaDictonary BANGLA_DICTIONARY = new BanglaDictonary();
 
 }
