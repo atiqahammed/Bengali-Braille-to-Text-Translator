@@ -16,8 +16,8 @@ public class Test {
 
 //		File imageFile = new File("braille-data/data_0.png");
 //		File imageFile = new File("braille-data/data_1.jpg");
-		File imageFile = new File("braille-data/data_2.jpg");
-//		File imageFile = new File("braille-data/data_3.jpg");
+//		File imageFile = new File("braille-data/data_2.jpg");
+		File imageFile = new File("braille-data/data_3.jpg");
 //		File imageFile = new File("braille-data/data_4.jpg");
 //		File imageFile = new File("braille-data/data_5.jpg");
 //		File imageFile = new File("braille-data/data_6.jpg");
@@ -43,6 +43,7 @@ public class Test {
 
 		ArrayList<ArrayList<String>>text = new TextProcessorAdvance().getRectangularDottedFile(imageFile);
 
+		System.out.println("execution completed...");
 		Utils.FILE_READ_WRITER.writeOutput(Utils.OUTPUT_LIST, Utils.OUTPUT_FILE_NAME);
 //		System.out.println("execution is completed");
 
