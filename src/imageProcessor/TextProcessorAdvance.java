@@ -12,8 +12,6 @@ import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.util.LineInputStream;
-
 import dataStructure.BrailleDot;
 import dataStructure.Dot;
 import dataStructure.LineColumn;
@@ -26,6 +24,8 @@ public class TextProcessorAdvance {
 
 	int height;
 	int width;
+	int lineDistance;
+	int acceptanceOfLineDistance;
 
 	BufferedImage inputImage = null;
 	BufferedImage outputImage;
@@ -146,18 +146,18 @@ public class TextProcessorAdvance {
 //			}
 //		}
 
+		processDistance();
 
-
-		ArrayList<Integer> differenceBetweenLines = new ArrayList<Integer>();
-		for(int i = 1; i < lineIndex.size(); i++)
-			differenceBetweenLines.add(lineIndex.get(i) - lineIndex.get(i - 1));
-		Collections.sort(differenceBetweenLines);
-		int lineDistance = differenceBetweenLines.get(differenceBetweenLines.size() / 2);
-		Utils.DIFFERENCE_BETWEEN_LINE = lineDistance;
-		int acceptanceOfLineDistance = (int) ((double) lineDistance * 0.50);
-		Utils.DIFFERENCE_BETWEEN_WORDS = lineDistance * 3 - (lineDistance / 2);
-
-		Utils.OUTPUT_LIST.add("line distance:: " + lineDistance);
+//		ArrayList<Integer> differenceBetweenLines = new ArrayList<Integer>();
+//		for(int i = 1; i < lineIndex.size(); i++)
+//			differenceBetweenLines.add(lineIndex.get(i) - lineIndex.get(i - 1));
+//		Collections.sort(differenceBetweenLines);
+//		int lineDistance = differenceBetweenLines.get(differenceBetweenLines.size() / 2);
+//		Utils.DIFFERENCE_BETWEEN_LINE = lineDistance;
+//		int acceptanceOfLineDistance = (int) ((double) lineDistance * 0.50);
+//		Utils.DIFFERENCE_BETWEEN_WORDS = lineDistance * 3 - (lineDistance / 2);
+//
+//		Utils.OUTPUT_LIST.add("line distance:: " + lineDistance);
 
 
 		int traverseIndex = 0;
@@ -475,6 +475,20 @@ public class TextProcessorAdvance {
 
 //		return null;
 		return text;
+	}
+
+	private void processDistance() {
+		ArrayList<Integer> differenceBetweenLines = new ArrayList<Integer>();
+		for(int i = 1; i < lineIndex.size(); i++)
+			differenceBetweenLines.add(lineIndex.get(i) - lineIndex.get(i - 1));
+		Collections.sort(differenceBetweenLines);
+		lineDistance = differenceBetweenLines.get(differenceBetweenLines.size() / 2);
+		Utils.DIFFERENCE_BETWEEN_LINE = lineDistance;
+		acceptanceOfLineDistance = (int) ((double) lineDistance * 0.50);
+		Utils.DIFFERENCE_BETWEEN_WORDS = lineDistance * 3 - (lineDistance / 2);
+
+		Utils.OUTPUT_LIST.add("line distance:: " + lineDistance);
+		
 	}
 
 	private ArrayList<Integer> mergeLineIndexs(ArrayList<Integer> lineIndex) {
