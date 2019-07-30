@@ -15,9 +15,9 @@ public class Test {
 	public static void main(String[] args) {
 
 //		File imageFile = new File("braille-data/data_0.png");
-//		File imageFile = new File("braille-data/data_1.jpg");
+		File imageFile = new File("braille-data/data_1.jpg");
 //		File imageFile = new File("braille-data/data_2.jpg");
-		File imageFile = new File("braille-data/data_3.jpg");
+//		File imageFile = new File("braille-data/data_3.jpg");
 //		File imageFile = new File("braille-data/data_4.jpg");
 //		File imageFile = new File("braille-data/data_5.jpg");
 //		File imageFile = new File("braille-data/data_6.jpg");

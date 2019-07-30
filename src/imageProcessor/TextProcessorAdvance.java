@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 
 import dataStructure.BrailleDot;
 import dataStructure.Dot;
+import dataStructure.Line;
 import dataStructure.LineColumn;
 import dataStructure.Point;
 import dataStructure.Word;
@@ -61,105 +62,17 @@ public class TextProcessorAdvance {
 		lineIndex = mergeLineIndexs(lineIndex);
 
 		System.out.println(lineIndex.size());
-
-
-		// merging line which has small distance between
-//		int differenceLimit = Utils.INITAL_DIFFRENCE_BETWEEN_LINE;
-//
-//		while(differenceLimit <= Utils.MAXIMUM_DISTANCE) {
-//
-//			ArrayList<Integer> copyOfLineIndex = (ArrayList<Integer>) lineIndex.clone();
-//			ArrayList<Integer> newLineIndexList = new ArrayList<>();
-//
-//			for(int i = 0; i < copyOfLineIndex.size(); i++) {
-//				int currentLineIndex = lineIndex.get(i);
-//				ArrayList<Point> dotsOfCurrentLine = lineIndexToDotListMap.get(currentLineIndex);
-//
-//				int nextLineIndex = -1;
-//				int secondLineIndex = -1;
-//
-//
-//				if(i + 2 < copyOfLineIndex.size()) {
-//					nextLineIndex = lineIndex.get(i + 1);
-//					secondLineIndex = lineIndex.get(i + 2);
-//
-//				}
-//
-//				else if (i + 1 < copyOfLineIndex.size()) {
-//					nextLineIndex = lineIndex.get(i + 1);
-//				}
-//
-//				if(secondLineIndex >= 0 && nextLineIndex - currentLineIndex < differenceLimit && secondLineIndex - nextLineIndex < differenceLimit) {
-//
-//					ArrayList<Point> newDotList = new ArrayList<>();
-//					newDotList.addAll(lineIndexToDotListMap.get(currentLineIndex));
-//					newDotList.addAll(lineIndexToDotListMap.get(nextLineIndex));
-//					newDotList.addAll(lineIndexToDotListMap.get(secondLineIndex));
-//					int average = 0;
-//					for(int k = 0; k < newDotList.size(); k++)
-//						average += newDotList.get(k).getY();
-//					average = average / newDotList.size();
-//
-//					newLineIndexList.add(average);
-//					lineIndexToDotListMap.put(average, newDotList);
-//					i += 2;
-//				}
-//
-//				else if(nextLineIndex >= 0 && nextLineIndex - currentLineIndex < differenceLimit) {
-//					ArrayList<Point> newDotList = new ArrayList<>();
-//					newDotList.addAll(lineIndexToDotListMap.get(currentLineIndex));
-//					newDotList.addAll(lineIndexToDotListMap.get(nextLineIndex));
-//
-//					int average = 0;
-//					for(int k = 0; k < newDotList.size(); k++)
-//						average += newDotList.get(k).getY();
-//					average = average / newDotList.size();
-//
-//					newLineIndexList.add(average);
-//					lineIndexToDotListMap.put(average, newDotList);
-//					i += 1;
-//				}
-//				else {
-//					newLineIndexList.add(currentLineIndex);
-//				}
-//			}
-//
-//			lineIndex = newLineIndexList;
-//			lineIndex = getAverageLineIndexBasedOnDots(lineIndex);
-//			differenceLimit += Utils.LINE_INDEX_MERGED_UNIT;
-//		}
-//
-//		System.out.println(lineIndex.size());
-		//////////////////////////////////////////////////////////////////////////////
+		
 		colorLine(lineIndex, Utils.RED);
-
-//		for(int i = 0; i < lineIndex.size(); i++) {
-//
-//			int currentLineIndexY = lineIndex.get(i);
-//			ArrayList<Point> allPointsInThisLine = (ArrayList<Point>) lineIndexToDotListMap.get(currentLineIndexY).clone();
-//
-//			for(int j = 0; j < allPointsInThisLine.size(); j++) {
-//				Point currentPointInThisLine = allPointsInThisLine.get(j);
-//				int nearestLineIndex = getNearestLineIndex(currentPointInThisLine.getY(), lineIndex);
-//				lineIndexToDotListMap.get(currentLineIndexY).remove(currentPointInThisLine);
-//				lineIndexToDotListMap.get(nearestLineIndex).add(currentPointInThisLine);
-//			}
-//		}
 
 		processDistance();
 
-//		ArrayList<Integer> differenceBetweenLines = new ArrayList<Integer>();
-//		for(int i = 1; i < lineIndex.size(); i++)
-//			differenceBetweenLines.add(lineIndex.get(i) - lineIndex.get(i - 1));
-//		Collections.sort(differenceBetweenLines);
-//		int lineDistance = differenceBetweenLines.get(differenceBetweenLines.size() / 2);
-//		Utils.DIFFERENCE_BETWEEN_LINE = lineDistance;
-//		int acceptanceOfLineDistance = (int) ((double) lineDistance * 0.50);
-//		Utils.DIFFERENCE_BETWEEN_WORDS = lineDistance * 3 - (lineDistance / 2);
-//
-//		Utils.OUTPUT_LIST.add("line distance:: " + lineDistance);
 
-
+		ArrayList<Line> allSegmentedLines = getAllLine();
+		
+		Utils.OUTPUT_LIST.add("Line size " + allSegmentedLines.size());
+		
+		
 		int traverseIndex = 0;
 		while(traverseIndex < lineIndex.size() - 2) {
 
@@ -475,6 +388,29 @@ public class TextProcessorAdvance {
 
 //		return null;
 		return text;
+	}
+
+	private ArrayList<Line> getAllLine() {
+		ArrayList<Line> lines = new ArrayList<Line>();
+		
+		int traverseIndex = 0;
+		while(traverseIndex < lineIndex.size() - 2) {
+
+
+			int firstLineIndex = lineIndex.get(traverseIndex);
+			int secondLineIndex = lineIndex.get(traverseIndex + 1);
+			int thirdLineIndex = lineIndex.get(traverseIndex + 2);
+
+			if(isPartOfLine(firstLineIndex, secondLineIndex, thirdLineIndex, lineDistance, acceptanceOfLineDistance)) {
+				lines.add(new Line(firstLineIndex, secondLineIndex, thirdLineIndex));
+				traverseIndex += 3;
+				continue;
+			}
+			traverseIndex++;
+			
+		}
+		
+		return lines;
 	}
 
 	private void processDistance() {
@@ -1220,15 +1156,15 @@ public class TextProcessorAdvance {
 			Point center = brailleDot.getCenter();
 			allCenter.add(center);
 
-//			for(int x = -1 ; x <= 1; x++) {
-//				for(int y = -1; y <= 1; y++) {
-//					int tempX = center.getX() + x;
-//					int tempY = center.getY() + y;
-//
-//					if(tempY >= 0 && tempY < height && tempX >= 0 && tempX < width)
-//						outputImage.setRGB(tempX, tempY, Color.WHITE.getRGB());
-//				}
-//			}
+			for(int x = -1 ; x <= 1; x++) {
+				for(int y = -1; y <= 1; y++) {
+					int tempX = center.getX() + x;
+					int tempY = center.getY() + y;
+
+					if(tempY >= 0 && tempY < height && tempX >= 0 && tempX < width)
+						outputImage.setRGB(tempX, tempY, Color.WHITE.getRGB());
+				}
+			}
 		}
 		return allCenter;
 	}
