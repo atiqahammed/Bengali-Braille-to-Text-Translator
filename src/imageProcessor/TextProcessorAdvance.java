@@ -44,7 +44,7 @@ public class TextProcessorAdvance {
 
 	public ArrayList<ArrayList<String>> getRectangularDottedFile(File imageFile) {
 		ArrayList<ArrayList<String>> text = new ArrayList<ArrayList<String>>();
-		BufferedImage image;
+//		BufferedImage image;
 
 		initializeVariables(imageFile);
 		findDots();
