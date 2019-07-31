@@ -102,10 +102,12 @@ public class BanglaDictonary {
     	int wordListSize = wordList.size();
     	int editDistance = word.length() + 100;
     	for(int i = 0; i < wordListSize; i++) {
+    		
     		 String listedWord = wordList.get(i);
     		 int distance = calculate(word, listedWord);
     		 if(editDistance > distance)
     			 editDistance = distance;
+    	
     	}
 
     	return editDistance;

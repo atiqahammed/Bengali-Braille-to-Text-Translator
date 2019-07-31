@@ -76,12 +76,7 @@ public class TextProcessorAdvance {
 			ArrayList<Integer> xIndexsOfThirdLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(line.getLowerLineIndex()));
 		
 			ArrayList<LineColumn> listOfLineColumn = convertLineIntoColumn(xIndexsOfFirstLineDots, xIndexsOfSecondLineDots, xIndexsOfThirdLineDots);
-			ArrayList<ArrayList<LineColumn>> wordSegmentList = convertWordSegment(listOfLineColumn);
-			
-//			for(int i = 0; i < listOfLineColumn.size(); i++) {
-//				listOfLineColumn.get(i).printColumn();
-//			}
-			
+			ArrayList<ArrayList<LineColumn>> wordSegmentList = convertWordSegment(listOfLineColumn);			
 			
 			ArrayList<String> selectedWords = new ArrayList<String>();
 			
@@ -91,9 +86,21 @@ public class TextProcessorAdvance {
 				String probableWord2 = secondProbableWord(wordWithColumnSegment);
 				System.out.println(probableWord1);
 				System.out.println(probableWord2);
+
+				String word = ".";
+				
+				int editDistance1 = Utils.BANGLA_DICTIONARY.getEditDistance(probableWord1);
+				int editDistance2 = Utils.BANGLA_DICTIONARY.getEditDistance(probableWord2);
+				System.out.println(editDistance1 + " " + editDistance2);
+				if(editDistance1 <= editDistance2)
+					word = probableWord1;
+				else word = probableWord2;
+				System.out.println(word);
+				
+//				String word = Utils.BANGLA_DICTIONARY.getWordWithLessEditDistance(probableWord1, probableWord2);
+//				System.out.println(":: " + word);
 			}
 			
-		
 		}
 		
 		
@@ -364,7 +371,7 @@ public class TextProcessorAdvance {
 			}
 
 			traverseIndex++;
-			System.out.println("----------------------------------------------------------");
+//			System.out.println("----------------------------------------------------------");
 		}
 
 
