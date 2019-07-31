@@ -66,348 +66,22 @@ public class TextProcessorAdvance {
 		
 		Utils.OUTPUT_LIST.add("Line size " + allSegmentedLines.size());
 		
+		ArrayList<ArrayList<String>> bangla_text = new ArrayList<ArrayList<String>>();
 		
 		for(int i = 0; i < allSegmentedLines.size(); i++) {
-			
 			Line line = allSegmentedLines.get(i);
+			ArrayList<String> wordsInLine = getWords(line);
+			bangla_text.add(wordsInLine);
 			
-			ArrayList<Integer> xIndexsOfFirstLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(line.getUpperLineIndex()));
-			ArrayList<Integer> xIndexsOfSecondLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(line.getMiddleLineIndex()));
-			ArrayList<Integer> xIndexsOfThirdLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(line.getLowerLineIndex()));
+		}
 		
-			ArrayList<LineColumn> listOfLineColumn = convertLineIntoColumn(xIndexsOfFirstLineDots, xIndexsOfSecondLineDots, xIndexsOfThirdLineDots);
-			ArrayList<ArrayList<LineColumn>> wordSegmentList = convertWordSegment(listOfLineColumn);			
+		for(int i = 0; i < bangla_text.size(); i++) {
 			
-			ArrayList<String> selectedWords = new ArrayList<String>();
-			
-			for(int j = 0; j < wordSegmentList.size(); j++) {
-				ArrayList<LineColumn> wordWithColumnSegment = wordSegmentList.get(j);
-				String probableWord1 = firstProbableWord(wordWithColumnSegment);
-				String probableWord2 = secondProbableWord(wordWithColumnSegment);
-				System.out.println(probableWord1);
-				System.out.println(probableWord2);
-
-				String word = ".";
-				
-				int editDistance1 = Utils.BANGLA_DICTIONARY.getEditDistance(probableWord1);
-				int editDistance2 = Utils.BANGLA_DICTIONARY.getEditDistance(probableWord2);
-				System.out.println(editDistance1 + " " + editDistance2);
-				if(editDistance1 <= editDistance2)
-					word = probableWord1;
-				else word = probableWord2;
-				System.out.println(word);
-				
-//				String word = Utils.BANGLA_DICTIONARY.getWordWithLessEditDistance(probableWord1, probableWord2);
-//				System.out.println(":: " + word);
+			for(int j = 0; j < bangla_text.get(i).size(); j++) {
+				System.out.print(bangla_text.get(i).get(j) + " ");
 			}
-			
+			System.out.println();
 		}
-		
-		
-		
-		
-		int traverseIndex = 0;
-		while(traverseIndex < lineIndex.size() - 2) {
-
-
-			int firstLineIndex = lineIndex.get(traverseIndex);
-			int secondLineIndex = lineIndex.get(traverseIndex + 1);
-			int thirdLineIndex = lineIndex.get(traverseIndex + 2);
-
-			if(isPartOfLine(firstLineIndex, secondLineIndex, thirdLineIndex, lineDistance, acceptanceOfLineDistance)) {
-
-				// collecting all point of individual lines
-				ArrayList<Point> dotListOfFirstLine = lineIndexToDotListMap.get(firstLineIndex);
-				ArrayList<Point> dotListOfSecondLine = lineIndexToDotListMap.get(secondLineIndex);
-				ArrayList<Point> dotListOfThirdLine = lineIndexToDotListMap.get(thirdLineIndex);
-
-				// collecting all x index from points of an individual lines
-				ArrayList<Integer> xIndexsOfFirstLineDots = getXOfDosFromLine(dotListOfFirstLine);
-				ArrayList<Integer> xIndexsOfSecondLineDots = getXOfDosFromLine(dotListOfSecondLine);
-				ArrayList<Integer> xIndexsOfThirdLineDots = getXOfDosFromLine(dotListOfThirdLine);
-
-				ArrayList<LineColumn> listOfLineColumn = convertLineIntoColumn(xIndexsOfFirstLineDots, xIndexsOfSecondLineDots, xIndexsOfThirdLineDots);
-				ArrayList<ArrayList<LineColumn>> wordSegmentList = convertWordSegment(listOfLineColumn);
-
-//				System.out.println(wordSegmentList.size());
-
-				for(int i = 0; i < listOfLineColumn.size(); i++) {
-					listOfLineColumn.get(i).printColumn();
-				}
-
-				Utils.OUTPUT_LIST.add("Size of column :: " + listOfLineColumn.size());
-
-				for(int i = 0; i < wordSegmentList.size(); i++) {
-
-					ArrayList<LineColumn> currentWordSegment = (ArrayList<LineColumn>) wordSegmentList.get(i).clone();
-					int sizeOfCurrentLineColumnSegment = currentWordSegment.size();
-
-					ArrayList<String> letters = new ArrayList<String>();
-
-					// using initial column as 1st one---
-					int currentColumnIndex = currentWordSegment.get(0).getAverageIndex();
-					int columnCovered = 0;
-					int nextColumnLimit = (lineDistance * 5) / 10;
-					String symbol1 = currentWordSegment.get(0).getSymbol();
-					currentWordSegment.remove(0);
-
-					Utils.OUTPUT_LIST.add("initial size:: " + sizeOfCurrentLineColumnSegment);
-					Utils.OUTPUT_LIST.add("lineDistance " + lineDistance);
-					Utils.OUTPUT_LIST.add("next column limit " + nextColumnLimit);
-
-					while(currentWordSegment.size() > 0) {
-
-						int nextColumnIndex = currentWordSegment.get(0).getAverageIndex();
-						int difference = nextColumnIndex - currentColumnIndex;
-
-						Utils.OUTPUT_LIST.add("current column information :: " + currentColumnIndex +"  -- " + symbol1 + " next column Index :: " + nextColumnIndex);
-						Utils.OUTPUT_LIST.add("difference " + difference);
-						// next column found
-						if(difference >= lineDistance - nextColumnLimit && difference <= lineDistance + nextColumnLimit) {
-							String symbol2 = currentWordSegment.get(0).getSymbol();
-							String symbol = symbol1 + symbol2;
-
-							if(symbol1.equals("000")) columnCovered += 1;
-							else columnCovered += 2;
-
-							String letter = Utils.LETTERS.getLetters(symbol);
-							currentWordSegment.remove(0);
-							letters.add(letter);
-
-							Utils.OUTPUT_LIST.add(symbol);
-							Utils.OUTPUT_LIST.add(letter);
-						}
-
-						else {
-							String symbol = symbol1 + "000";
-							String letter = Utils.LETTERS.getLetters(symbol);
-							columnCovered += 1;
-							letters.add(letter);
-
-							Utils.OUTPUT_LIST.add(symbol);
-							Utils.OUTPUT_LIST.add(letter);
-						}
-
-						currentColumnIndex = currentColumnIndex + lineDistance * 2;
-						symbol1 = "000";
-						if(columnCovered >= sizeOfCurrentLineColumnSegment) break;
-						int tempIndex = currentWordSegment.get(0).getAverageIndex();
-						difference = Math.abs(tempIndex - currentColumnIndex);
-
-						Utils.OUTPUT_LIST.add("Actual next index:: " + tempIndex);
-						Utils.OUTPUT_LIST.add("Predected column index:: " + currentColumnIndex);
-						Utils.OUTPUT_LIST.add("difference for next column index:: " + difference);
-
-						if(difference <= 2 * nextColumnLimit) {
-							currentColumnIndex = tempIndex;
-							symbol1 = currentWordSegment.get(0).getSymbol();
-							currentWordSegment.remove(0);
-
-							Utils.OUTPUT_LIST.add("next line found:: " + currentColumnIndex);
-							Utils.OUTPUT_LIST.add("symbol of next:: " + symbol1);
-						}
-
-						Utils.OUTPUT_LIST.add("column covered:: " + columnCovered);
-					}
-
-					if(columnCovered != sizeOfCurrentLineColumnSegment) {
-						String symbol = symbol1 + "000";
-						String letter = Utils.LETTERS.getLetters(symbol);
-
-						Utils.OUTPUT_LIST.add("all column is not covered properly...");
-						Utils.OUTPUT_LIST.add(letter);
-						letters.add(letter);
-					}
-
-					letters = Utils.FUNCTIONS.getReadableMergedWord(letters);
-
-
-					String stringWord1 = getwordInString(letters);
-
-					Utils.OUTPUT_LIST.add("found word is :: .... \\**   " + stringWord1);
-
-
-					Utils.OUTPUT_LIST.add("-----------------------// using first column as first letters first column completed //-------------------------");
-
-
-
-
-					// using initial column as 2nd one---
-
-					letters = new ArrayList<String>();
-
-					currentWordSegment = (ArrayList<LineColumn>) wordSegmentList.get(i).clone();
-					currentColumnIndex = currentWordSegment.get(0).getAverageIndex();
-					Utils.OUTPUT_LIST.add("initial current column index as 2nd column of word is -> " + currentColumnIndex);
-
-
-					symbol1 = currentWordSegment.get(0).getSymbol();
-					String symbol = "000" + symbol1;
-					String letter = Utils.LETTERS.getLetters(symbol);
-					letters.add(letter);
-					currentWordSegment.remove(0);
-					columnCovered = 1;
-
-					Utils.OUTPUT_LIST.add(symbol);
-					Utils.OUTPUT_LIST.add(letter);
-
-					Utils.OUTPUT_LIST.add("initial size:: " + sizeOfCurrentLineColumnSegment);
-					Utils.OUTPUT_LIST.add("lineDistance " + lineDistance);
-					Utils.OUTPUT_LIST.add("next column limit " + nextColumnLimit);
-
-
-
-					int estimatedNextColumnIndex = currentColumnIndex + lineDistance;
-					if(columnCovered == sizeOfCurrentLineColumnSegment) {
-						Utils.OUTPUT_LIST.add("ding ding not found any thing...");
-						continue;
-					}
-					int tempIndex = currentWordSegment.get(0).getAverageIndex();
-					int difference = Math.abs(estimatedNextColumnIndex - tempIndex);
-
-
-					Utils.OUTPUT_LIST.add("estimated next column :: " + estimatedNextColumnIndex);
-					Utils.OUTPUT_LIST.add("actual next column :: " + tempIndex);
-
-
-					if(difference <= nextColumnLimit * 2) {
-						Utils.OUTPUT_LIST.add("next column is found immediate column");
-
-						currentColumnIndex = tempIndex;
-						symbol1 = currentWordSegment.get(0).getSymbol();
-						currentWordSegment.remove(0);
-
-
-					}
-
-					else {
-						Utils.OUTPUT_LIST.add("after next column is found immediate column");
-
-						difference = Math.abs((estimatedNextColumnIndex + lineDistance) - tempIndex);
-						Utils.OUTPUT_LIST.add("after next difference " + difference);
-
-						if(difference <= nextColumnLimit * 2) {
-							Utils.OUTPUT_LIST.add("next column is found next column of the letter column");
-
-							currentColumnIndex = estimatedNextColumnIndex;
-							symbol1 = "000";
-//							currentWordSegment.remove(0);
-						}
-
-						else {
-							Utils.OUTPUT_LIST.add("not found eny thing :( ******");
-							continue;
-						}
-					}
-
-					while(currentWordSegment.size() > 0) {
-
-						int nextColumnIndex = currentWordSegment.get(0).getAverageIndex();
-						difference = nextColumnIndex - currentColumnIndex;
-
-						Utils.OUTPUT_LIST.add("current column information :: " + currentColumnIndex +"  -- " + symbol1 + " next column Index :: " + nextColumnIndex);
-						Utils.OUTPUT_LIST.add("difference " + difference);
-						// next column found
-						if(difference >= lineDistance - nextColumnLimit && difference <= lineDistance + nextColumnLimit) {
-							String symbol2 = currentWordSegment.get(0).getSymbol();
-							symbol = symbol1 + symbol2;
-
-							if(symbol1.equals("000")) columnCovered += 1;
-							else columnCovered += 2;
-
-							letter = Utils.LETTERS.getLetters(symbol);
-							letters.add(letter);
-							currentWordSegment.remove(0);
-
-							Utils.OUTPUT_LIST.add(symbol);
-							Utils.OUTPUT_LIST.add(letter);
-						}
-
-						else {
-							symbol = symbol1 + "000";
-							String Letter = Utils.LETTERS.getLetters(symbol);
-							letters.add(letter);
-							columnCovered += 1;
-
-							Utils.OUTPUT_LIST.add(symbol);
-							Utils.OUTPUT_LIST.add(Letter);
-						}
-
-						currentColumnIndex = currentColumnIndex + lineDistance * 2;
-						symbol1 = "000";
-						if(columnCovered >= sizeOfCurrentLineColumnSegment) break;
-						tempIndex = currentWordSegment.get(0).getAverageIndex();
-						difference = Math.abs(tempIndex - currentColumnIndex);
-
-						Utils.OUTPUT_LIST.add("Actual next index:: " + tempIndex);
-						Utils.OUTPUT_LIST.add("Predected column index:: " + currentColumnIndex);
-						Utils.OUTPUT_LIST.add("difference for next column index:: " + difference);
-
-						if(difference <= 2 * nextColumnLimit) {
-							currentColumnIndex = tempIndex;
-							symbol1 = currentWordSegment.get(0).getSymbol();
-							currentWordSegment.remove(0);
-
-							Utils.OUTPUT_LIST.add("next line found:: " + currentColumnIndex);
-							Utils.OUTPUT_LIST.add("symbol of next:: " + symbol1);
-						}
-
-						Utils.OUTPUT_LIST.add("column covered:: " + columnCovered);
-					}
-
-
-
-
-
-
-					String stringWord2 = getwordInString(letters);
-					Utils.OUTPUT_LIST.add("Second word of :: " + stringWord2);
-					Word word = new Word(stringWord1, stringWord2, firstLineIndex, secondLineIndex, thirdLineIndex);
-					all_word.add(word);
-
-
-					Utils.OUTPUT_LIST.add("*************************//done with the next one//----------------------------------");
-				}
-			}
-
-			traverseIndex++;
-//			System.out.println("----------------------------------------------------------");
-		}
-
-
-		for(int i = 0; i < all_word.size(); i++) {
-			all_word.get(i).print_all_information_of_word();
-			Utils.OUTPUT_LIST.add("---------------------------------");
-		}
-
-		System.out.println(all_word.size());
-
-
-//		Utils.BANGLA_DICTIONARY.calculate_edit_distance(all_word);
-
-
-		Utils.OUTPUT_LIST.add("/////////////////*************// edit distance calculation completed // ************");
-
-
-
-//		for(int i = 0; i < all_word.size(); i++) {
-//			all_word.get(i).print_all_information_of_word();
-//			Utils.OUTPUT_LIST.add("---------------------------------");
-//		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 		FileWithPrintWriter printWriter = null;
@@ -418,8 +92,43 @@ public class TextProcessorAdvance {
 		} catch (IOException e1) {
 
 		}
-		
+		text = bangla_text;
 		return text;
+	}
+
+	private ArrayList<String> getWords(Line line) {
+		ArrayList<String> words = new ArrayList<String>();
+		ArrayList<Integer> xIndexsOfFirstLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(line.getUpperLineIndex()));
+		ArrayList<Integer> xIndexsOfSecondLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(line.getMiddleLineIndex()));
+		ArrayList<Integer> xIndexsOfThirdLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(line.getLowerLineIndex()));
+	
+		ArrayList<LineColumn> listOfLineColumn = convertLineIntoColumn(xIndexsOfFirstLineDots, xIndexsOfSecondLineDots, xIndexsOfThirdLineDots);
+		ArrayList<ArrayList<LineColumn>> wordSegmentList = convertWordSegment(listOfLineColumn);			
+		
+		ArrayList<String> selectedWords = new ArrayList<String>();
+		
+		for(int j = 0; j < wordSegmentList.size(); j++) {
+			ArrayList<LineColumn> wordWithColumnSegment = wordSegmentList.get(j);
+			String probableWord1 = firstProbableWord(wordWithColumnSegment);
+			String probableWord2 = secondProbableWord(wordWithColumnSegment);
+//			System.out.println(probableWord1);
+//			System.out.println(probableWord2);
+
+			String word = Utils.BANGLA_DICTIONARY.getWordWithLessEditDistance(probableWord1, probableWord2);
+			words.add(word);
+			
+//			int editDistance1 = Utils.BANGLA_DICTIONARY.getEditDistance(probableWord1);
+//			int editDistance2 = Utils.BANGLA_DICTIONARY.getEditDistance(probableWord2);
+//			System.out.println(editDistance1 + " " + editDistance2);
+//			if(editDistance1 <= editDistance2)
+//				word = probableWord1;
+//			else word = probableWord2;
+//			System.out.println(word);
+			
+//			String word = Utils.BANGLA_DICTIONARY.getWordWithLessEditDistance(probableWord1, probableWord2);
+//			System.out.println(":: " + word);
+		}
+		return words;
 	}
 
 	private String secondProbableWord(ArrayList<LineColumn> wordWithColumnSegment) {
@@ -681,7 +390,7 @@ public class TextProcessorAdvance {
 		lineDistance = differenceBetweenLines.get(differenceBetweenLines.size() / 2);
 		Utils.DIFFERENCE_BETWEEN_LINE = lineDistance;
 		acceptanceOfLineDistance = (int) ((double) lineDistance * 0.50);
-		Utils.DIFFERENCE_BETWEEN_WORDS = lineDistance * 3 - (lineDistance / 2);
+		Utils.DIFFERENCE_BETWEEN_WORDS = lineDistance * 3 - (lineDistance / 4);
 
 		Utils.OUTPUT_LIST.add("line distance:: " + lineDistance);
 		
