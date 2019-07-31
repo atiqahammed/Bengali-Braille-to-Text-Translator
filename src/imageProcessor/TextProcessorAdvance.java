@@ -56,19 +56,16 @@ public class TextProcessorAdvance {
 
 		processLineInformation(allCenter);
 		Collections.sort(lineIndex);
-
-
-
-		lineIndex = mergeLineIndexs(lineIndex);
-
-		System.out.println(lineIndex.size());
 		
+		lineIndex = mergeLineIndexs(lineIndex);
 		colorLine(lineIndex, Utils.RED);
-
+		
 		processDistance();
-
-
 		ArrayList<Line> allSegmentedLines = getAllLine();
+		colorSegmentedLine(allSegmentedLines);
+		
+		
+		
 		
 		Utils.OUTPUT_LIST.add("Line size " + allSegmentedLines.size());
 		
@@ -388,6 +385,16 @@ public class TextProcessorAdvance {
 
 //		return null;
 		return text;
+	}
+
+	private void colorSegmentedLine(ArrayList<Line> allSegmentedLines) {
+		ArrayList<Integer> allSelectedSingleLine = new ArrayList<Integer>();
+		for(int i = 0; i < allSegmentedLines.size(); i++) {
+			allSelectedSingleLine.add(allSegmentedLines.get(i).getUpperLineIndex());
+			allSelectedSingleLine.add(allSegmentedLines.get(i).getMiddleLineIndex());
+			allSelectedSingleLine.add(allSegmentedLines.get(i).getLowerLineIndex());
+		}
+		colorLine(allSelectedSingleLine, Utils.YELLOW);
 	}
 
 	private ArrayList<Line> getAllLine() {
