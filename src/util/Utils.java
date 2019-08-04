@@ -11,6 +11,7 @@ import imageProcessor.BinaryImageConvertor;
 import imageProcessor.GrayScale;
 import imageProcessor.ImageProcessor;
 import imageProcessor.MedianFilter;
+import imageProcessor.OpositeBinaryImageConvertor;
 import preProcessor.OtsuThresholding;
 import test.FileReadWriter;
 
@@ -39,6 +40,7 @@ public class Utils {
 	public static OtsuThresholding OTSU_SHRESHOLDER = new OtsuThresholding();
 	public static BinaryImageConvertor BINARY_IMAGE_CONVERTOR = new BinaryImageConvertor();
 	public static MedianFilter MEDIAN_FILTER = new MedianFilter();
+	public static OpositeBinaryImageConvertor OPOSITE_BINARY_CONVERTOR = new OpositeBinaryImageConvertor();
 
 	public static Functions FUNCTIONS = new Functions();
 	public static Letters LETTERS = new Letters();

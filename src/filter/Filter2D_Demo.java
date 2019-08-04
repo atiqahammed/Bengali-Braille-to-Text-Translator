@@ -1,5 +1,6 @@
 package filter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,9 @@ import org.opencv.core.Point;
 import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+
+import imageProcessor.TextProcessorAdvance;
+import util.Utils;
 
 class Filter2D_DemoRun {
 
@@ -85,7 +89,7 @@ public class Filter2D_Demo {
 
     	Mat kernel = Mat.ones(3,3, CvType.CV_32F);
 
-    	String imageName = "braille-data/data_3.jpg";
+    	String imageName = "braille-data/data_2.jpg";
         Mat src = Imgcodecs.imread(imageName);
         Mat dst = new Mat();
         Imgproc.cvtColor(src, dst, Imgproc.COLOR_RGB2GRAY);
@@ -95,20 +99,14 @@ public class Filter2D_Demo {
 //        Imgproc.medianBlur(dst, dst, 3);
 
         Imgproc.morphologyEx(dst, dst, Imgproc.MORPH_ERODE, kernel);
+        Imgcodecs.imwrite("pre_processed_image.jpg", dst);
 
-
-
-
-
-
-
-
-
-
-
-
-        Imgcodecs.imwrite("b.jpg", dst);
         System.out.println("The image is successfully to Grayscale");
+
+        File image_file = new File("pre_processed_image.jpg");
+
+        image_file = Utils.OPOSITE_BINARY_CONVERTOR.getOpositBinaryImage(image_file);
+        new TextProcessorAdvance().getRectangularDottedFile(image_file);
 
 
     }
