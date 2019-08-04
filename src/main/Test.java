@@ -16,8 +16,8 @@ public class Test {
 
 //		File imageFile = new File("braille-data/data_0.png");
 //		File imageFile = new File("braille-data/data_1.jpg");
-		File imageFile = new File("braille-data/data_2.jpg");
-//		File imageFile = new File("braille-data/data_3.jpg");
+//		File imageFile = new File("braille-data/data_2.jpg");
+		File imageFile = new File("braille-data/data_3.jpg");
 //		File imageFile = new File("braille-data/data_4.jpg");
 //		File imageFile = new File("braille-data/data_5.jpg");
 //		File imageFile = new File("braille-data/data_6.jpg");
@@ -35,11 +35,11 @@ public class Test {
 		imageFile = Utils.BINARY_IMAGE_CONVERTOR.getBinaryImage(imageFile, thresholdingLavel);
 		System.out.println("binary image conversion is completed...");
 
-//		imageFile = Utils.MEDIAN_FILTER.getFilteredImage(imageFile, 1);
-//		System.out.println("median filter is done...");
+		imageFile = Utils.MEDIAN_FILTER.getFilteredImage(imageFile, 1);
+		System.out.println("median filter is done...");
 
-//		imageFile = new Dilation().getImage(imageFile);
-//		System.out.println("Dilation is completed...");
+		imageFile = new Dilation().getImage(imageFile);
+		System.out.println("Dilation is completed...");
 
 		ArrayList<ArrayList<String>>text = new TextProcessorAdvance().getRectangularDottedFile(imageFile);
 
