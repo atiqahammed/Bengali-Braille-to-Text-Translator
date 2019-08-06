@@ -44,7 +44,6 @@ public class TextProcessorAdvance {
 
 	public ArrayList<ArrayList<String>> getRectangularDottedFile(File imageFile) {
 		ArrayList<ArrayList<String>> text = new ArrayList<ArrayList<String>>();
-//		BufferedImage image;
 
 		initializeVariables(imageFile);
 		findDots();
@@ -120,22 +119,9 @@ public class TextProcessorAdvance {
 			ArrayList<LineColumn> wordWithColumnSegment = wordSegmentList.get(j);
 			String probableWord1 = firstProbableWord(wordWithColumnSegment);
 			String probableWord2 = secondProbableWord(wordWithColumnSegment);
-//			System.out.println(probableWord1);
-//			System.out.println(probableWord2);
 
 			String word = Utils.BANGLA_DICTIONARY.getWordWithLessEditDistance(probableWord1, probableWord2);
 			words.add(word);
-
-//			int editDistance1 = Utils.BANGLA_DICTIONARY.getEditDistance(probableWord1);
-//			int editDistance2 = Utils.BANGLA_DICTIONARY.getEditDistance(probableWord2);
-//			System.out.println(editDistance1 + " " + editDistance2);
-//			if(editDistance1 <= editDistance2)
-//				word = probableWord1;
-//			else word = probableWord2;
-//			System.out.println(word);
-
-//			String word = Utils.BANGLA_DICTIONARY.getWordWithLessEditDistance(probableWord1, probableWord2);
-//			System.out.println(":: " + word);
 		}
 		return words;
 	}
@@ -489,31 +475,6 @@ public class TextProcessorAdvance {
 
 				}
 
-//				if(takeFirstThreeLine) {
-//
-//					lines.add(new Line(firstLineIndex, secondLineIndex, thirdLineIndex));
-//					traverseIndex += 3;
-//					continue;
-//
-//				}
-//
-//				if(takeSecondThreeLine) {
-//
-//					lines.add(new Line(secondLineIndex, thirdLineIndex, forthLineIndex));
-//					traverseIndex += 4;
-//					continue;
-//
-//				}
-//
-//				if(takeThirdThreeLine) {
-//
-//					lines.add(new Line(thirdLineIndex, forthLineIndex, fifthLineIndex));
-//					traverseIndex += 5;
-//					continue;
-//
-//				}
-
-
 			}
 
 			if(traverseIndex + 3 < lineIndex.size()) {
@@ -550,25 +511,7 @@ public class TextProcessorAdvance {
 
 				}
 
-//				if(takeFirstThreeLine) {
-//
-//					lines.add(new Line(firstLineIndex, secondLineIndex, thirdLineIndex));
-//					traverseIndex += 3;
-//					continue;
-//
-//				}
-//
-//				if(takeSecondThreeLine) {
-//
-//					lines.add(new Line(secondLineIndex, thirdLineIndex, forthLineIndex));
-//					traverseIndex += 4;
-//					continue;
-//
-//				}
-
 			}
-
-
 
 			int firstLineIndex = lineIndex.get(traverseIndex);
 			int secondLineIndex = lineIndex.get(traverseIndex + 1);
@@ -579,8 +522,8 @@ public class TextProcessorAdvance {
 				traverseIndex += 3;
 				continue;
 			}
-			traverseIndex++;
 
+			traverseIndex++;
 		}
 
 		return lines;
