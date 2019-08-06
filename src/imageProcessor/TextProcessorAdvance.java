@@ -50,40 +50,49 @@ public class TextProcessorAdvance {
 		findDots();
 		initializeOutputImage();
 		processUniqueDots();
+		System.out.println("unique dot processing is completed");
+
+
 		ArrayList<Dot> firstStepSelectedDot = selectDotInFirstStep();
 		initializeOutputImage();
 		ArrayList<Point> allCenter = getAllCenter();
 
 		processLineInformation(allCenter);
+		System.out.println("lines are found");
 		Collections.sort(lineIndex);
-		
+
 		lineIndex = mergeLineIndexs(lineIndex);
 		colorLine(lineIndex, Utils.RED);
-		
+
 		processDistance();
+		System.out.println("distances are calculated...");
+
+
 		ArrayList<Line> allSegmentedLines = getAllLine();
 		colorSegmentedLine(allSegmentedLines);
-		
+
+
+		/*
 		Utils.OUTPUT_LIST.add("Line size " + allSegmentedLines.size());
-		
+
 		ArrayList<ArrayList<String>> bangla_text = new ArrayList<ArrayList<String>>();
-		
+
 		for(int i = 0; i < allSegmentedLines.size(); i++) {
 			Line line = allSegmentedLines.get(i);
 			ArrayList<String> wordsInLine = getWords(line);
 			bangla_text.add(wordsInLine);
-			
+
 		}
-		
+
 		for(int i = 0; i < bangla_text.size(); i++) {
-			
+
 			for(int j = 0; j < bangla_text.get(i).size(); j++) {
 				System.out.print(bangla_text.get(i).get(j) + " ");
 			}
 			System.out.println();
 		}
 
-
+*/
 		FileWithPrintWriter printWriter = null;
 		File outputfile = new File("dotDetected.jpg");
 
@@ -92,7 +101,7 @@ public class TextProcessorAdvance {
 		} catch (IOException e1) {
 
 		}
-		text = bangla_text;
+//		text = bangla_text;
 		return text;
 	}
 
@@ -101,12 +110,12 @@ public class TextProcessorAdvance {
 		ArrayList<Integer> xIndexsOfFirstLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(line.getUpperLineIndex()));
 		ArrayList<Integer> xIndexsOfSecondLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(line.getMiddleLineIndex()));
 		ArrayList<Integer> xIndexsOfThirdLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(line.getLowerLineIndex()));
-	
+
 		ArrayList<LineColumn> listOfLineColumn = convertLineIntoColumn(xIndexsOfFirstLineDots, xIndexsOfSecondLineDots, xIndexsOfThirdLineDots);
-		ArrayList<ArrayList<LineColumn>> wordSegmentList = convertWordSegment(listOfLineColumn);			
-		
+		ArrayList<ArrayList<LineColumn>> wordSegmentList = convertWordSegment(listOfLineColumn);
+
 		ArrayList<String> selectedWords = new ArrayList<String>();
-		
+
 		for(int j = 0; j < wordSegmentList.size(); j++) {
 			ArrayList<LineColumn> wordWithColumnSegment = wordSegmentList.get(j);
 			String probableWord1 = firstProbableWord(wordWithColumnSegment);
@@ -116,7 +125,7 @@ public class TextProcessorAdvance {
 
 			String word = Utils.BANGLA_DICTIONARY.getWordWithLessEditDistance(probableWord1, probableWord2);
 			words.add(word);
-			
+
 //			int editDistance1 = Utils.BANGLA_DICTIONARY.getEditDistance(probableWord1);
 //			int editDistance2 = Utils.BANGLA_DICTIONARY.getEditDistance(probableWord2);
 //			System.out.println(editDistance1 + " " + editDistance2);
@@ -124,7 +133,7 @@ public class TextProcessorAdvance {
 //				word = probableWord1;
 //			else word = probableWord2;
 //			System.out.println(word);
-			
+
 //			String word = Utils.BANGLA_DICTIONARY.getWordWithLessEditDistance(probableWord1, probableWord2);
 //			System.out.println(":: " + word);
 		}
@@ -160,7 +169,7 @@ public class TextProcessorAdvance {
 			Utils.OUTPUT_LIST.add("ding ding not found any thing...");
 			return getwordInString(letters);
 		}
-		
+
 		int tempIndex = currentWordSegment.get(0).getAverageIndex();
 		int difference = Math.abs(estimatedNextColumnIndex - tempIndex);
 
@@ -259,7 +268,7 @@ public class TextProcessorAdvance {
 
 		letters = Utils.FUNCTIONS.getReadableMergedWord(letters);
 		return getwordInString(letters);
-		
+
 	}
 
 	private String firstProbableWord(ArrayList<LineColumn> arrayList) {
@@ -361,9 +370,204 @@ public class TextProcessorAdvance {
 
 	private ArrayList<Line> getAllLine() {
 		ArrayList<Line> lines = new ArrayList<Line>();
-		
+
+
+		System.out.println(lineIndex);
 		int traverseIndex = 0;
 		while(traverseIndex < lineIndex.size() - 2) {
+
+
+			if(traverseIndex + 4 < lineIndex.size()) {
+
+				int firstLineIndex = lineIndex.get(traverseIndex);
+				int secondLineIndex = lineIndex.get(traverseIndex + 1);
+				int thirdLineIndex = lineIndex.get(traverseIndex + 2);
+				int forthLineIndex = lineIndex.get(traverseIndex + 3);
+				int fifthLineIndex = lineIndex.get(traverseIndex + 4);
+
+				int firstLineDotCount = getXOfDosFromLine(lineIndexToDotListMap.get(firstLineIndex)).size();
+				int secondLineDotCount = getXOfDosFromLine(lineIndexToDotListMap.get(secondLineIndex)).size();
+				int thirdLineDotCount = getXOfDosFromLine(lineIndexToDotListMap.get(thirdLineIndex)).size();
+				int forthLineDotCount = getXOfDosFromLine(lineIndexToDotListMap.get(forthLineIndex)).size();
+				int fifthLineDotCount = getXOfDosFromLine(lineIndexToDotListMap.get(fifthLineIndex)).size();
+
+				boolean takeFirstThreeLine = isPartOfLine(firstLineIndex, secondLineIndex, thirdLineIndex, lineDistance, acceptanceOfLineDistance);
+				boolean takeSecondThreeLine = isPartOfLine(secondLineIndex, thirdLineIndex, forthLineIndex, lineDistance, acceptanceOfLineDistance);
+				boolean takeThirdThreeLine = isPartOfLine(thirdLineIndex, forthLineIndex, fifthLineIndex, lineDistance, acceptanceOfLineDistance);
+
+
+				System.out.println(firstLineIndex + " " + secondLineIndex + " " + thirdLineIndex + " " + forthLineIndex + " " + fifthLineIndex);
+				System.out.println(takeFirstThreeLine +" "+secondLineIndex+" "+thirdLineIndex);
+
+				if(takeFirstThreeLine && takeSecondThreeLine && takeThirdThreeLine) {
+
+					int firstThreeCount = firstLineDotCount + secondLineDotCount + thirdLineDotCount;
+					int secondThreeCount = secondLineDotCount + thirdLineDotCount + forthLineDotCount;
+					int thirdThreeCount = thirdLineDotCount + forthLineDotCount + fifthLineDotCount;
+
+					if(firstThreeCount >= secondThreeCount && firstThreeCount >= thirdThreeCount) {
+						lines.add(new Line(firstLineIndex, secondLineIndex, thirdLineIndex));
+						traverseIndex += 3;
+						continue;
+					}
+
+					if(secondThreeCount >= firstThreeCount && secondThreeCount >= thirdThreeCount) {
+						lines.add(new Line(secondLineIndex, thirdLineIndex, forthLineIndex));
+						traverseIndex += 4;
+						continue;
+					}
+
+					if(thirdThreeCount >= firstThreeCount && thirdThreeCount >= secondThreeCount) {
+						lines.add(new Line(thirdLineIndex, forthLineIndex, fifthLineIndex));
+						traverseIndex += 5;
+						continue;
+					}
+
+				}
+
+				if(takeFirstThreeLine && takeSecondThreeLine) {
+
+					int firstThreeCount = firstLineDotCount + secondLineDotCount + thirdLineDotCount;
+					int secondThreeCount = secondLineDotCount + thirdLineDotCount + forthLineDotCount;
+
+					System.out.println(firstLineIndex + " " + secondLineIndex);
+					System.out.println("co: " + firstThreeCount + " " + secondThreeCount);
+
+					if(firstThreeCount >= secondThreeCount) {
+						lines.add(new Line(firstLineIndex, secondLineIndex, thirdLineIndex));
+						traverseIndex += 3;
+						continue;
+					}
+
+					if(secondThreeCount >= firstThreeCount) {
+						lines.add(new Line(secondLineIndex, thirdLineIndex, forthLineIndex));
+						traverseIndex += 4;
+						continue;
+					}
+
+				}
+
+				if(takeFirstThreeLine && takeThirdThreeLine) {
+
+					int firstThreeCount = firstLineDotCount + secondLineDotCount + thirdLineDotCount;
+					int thirdThreeCount = thirdLineDotCount + forthLineDotCount + fifthLineDotCount;
+
+					if(firstThreeCount >= thirdThreeCount) {
+						lines.add(new Line(firstLineIndex, secondLineIndex, thirdLineIndex));
+						traverseIndex += 3;
+						continue;
+					}
+
+					if(thirdThreeCount >= firstThreeCount) {
+						lines.add(new Line(thirdLineIndex, forthLineIndex, fifthLineIndex));
+						traverseIndex += 5;
+						continue;
+					}
+
+				}
+
+				if(takeSecondThreeLine && takeThirdThreeLine) {
+
+					int secondThreeCount = secondLineDotCount + thirdLineDotCount + forthLineDotCount;
+					int thirdThreeCount = thirdLineDotCount + forthLineDotCount + fifthLineDotCount;
+
+					System.out.println("ok");
+
+					if(secondThreeCount >= thirdThreeCount) {
+						System.out.println("ok1");
+						lines.add(new Line(secondLineIndex, thirdLineIndex, forthLineIndex));
+						traverseIndex += 4;
+						continue;
+					}
+
+					if(thirdThreeCount >= secondThreeCount) {
+						System.out.println("ok2");
+						lines.add(new Line(thirdLineIndex, forthLineIndex, fifthLineIndex));
+						traverseIndex += 5;
+						continue;
+					}
+
+				}
+
+//				if(takeFirstThreeLine) {
+//
+//					lines.add(new Line(firstLineIndex, secondLineIndex, thirdLineIndex));
+//					traverseIndex += 3;
+//					continue;
+//
+//				}
+//
+//				if(takeSecondThreeLine) {
+//
+//					lines.add(new Line(secondLineIndex, thirdLineIndex, forthLineIndex));
+//					traverseIndex += 4;
+//					continue;
+//
+//				}
+//
+//				if(takeThirdThreeLine) {
+//
+//					lines.add(new Line(thirdLineIndex, forthLineIndex, fifthLineIndex));
+//					traverseIndex += 5;
+//					continue;
+//
+//				}
+
+
+			}
+
+			if(traverseIndex + 3 < lineIndex.size()) {
+
+				int firstLineIndex = lineIndex.get(traverseIndex);
+				int secondLineIndex = lineIndex.get(traverseIndex + 1);
+				int thirdLineIndex = lineIndex.get(traverseIndex + 2);
+				int forthLineIndex = lineIndex.get(traverseIndex + 3);
+
+				int firstLineDotCount = getXOfDosFromLine(lineIndexToDotListMap.get(firstLineIndex)).size();
+				int secondLineDotCount = getXOfDosFromLine(lineIndexToDotListMap.get(secondLineIndex)).size();
+				int thirdLineDotCount = getXOfDosFromLine(lineIndexToDotListMap.get(thirdLineIndex)).size();
+				int forthLineDotCount = getXOfDosFromLine(lineIndexToDotListMap.get(forthLineIndex)).size();
+
+				boolean takeFirstThreeLine = isPartOfLine(firstLineIndex, secondLineIndex, thirdLineIndex, lineDistance, acceptanceOfLineDistance);
+				boolean takeSecondThreeLine = isPartOfLine(secondLineIndex, thirdLineIndex, forthLineIndex, lineDistance, acceptanceOfLineDistance);
+
+				if(takeFirstThreeLine && takeSecondThreeLine) {
+
+					int firstThreeCount = firstLineDotCount + secondLineDotCount + thirdLineDotCount;
+					int secondThreeCount = secondLineDotCount + thirdLineDotCount + forthLineDotCount;
+
+					if(firstThreeCount >= secondThreeCount) {
+						lines.add(new Line(firstLineIndex, secondLineIndex, thirdLineIndex));
+						traverseIndex += 3;
+						continue;
+					}
+
+					if(secondThreeCount >= firstThreeCount) {
+						lines.add(new Line(secondLineIndex, thirdLineIndex, forthLineIndex));
+						traverseIndex += 4;
+						continue;
+					}
+
+				}
+
+//				if(takeFirstThreeLine) {
+//
+//					lines.add(new Line(firstLineIndex, secondLineIndex, thirdLineIndex));
+//					traverseIndex += 3;
+//					continue;
+//
+//				}
+//
+//				if(takeSecondThreeLine) {
+//
+//					lines.add(new Line(secondLineIndex, thirdLineIndex, forthLineIndex));
+//					traverseIndex += 4;
+//					continue;
+//
+//				}
+
+			}
+
 
 
 			int firstLineIndex = lineIndex.get(traverseIndex);
@@ -376,9 +580,9 @@ public class TextProcessorAdvance {
 				continue;
 			}
 			traverseIndex++;
-			
+
 		}
-		
+
 		return lines;
 	}
 
@@ -393,7 +597,7 @@ public class TextProcessorAdvance {
 		Utils.DIFFERENCE_BETWEEN_WORDS = lineDistance * 3 - (lineDistance / 4);
 
 		Utils.OUTPUT_LIST.add("line distance:: " + lineDistance);
-		
+
 	}
 
 	private ArrayList<Integer> mergeLineIndexs(ArrayList<Integer> lineIndex) {
