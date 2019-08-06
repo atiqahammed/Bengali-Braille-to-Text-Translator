@@ -89,7 +89,7 @@ public class Filter2D_Demo {
 
     	Mat kernel = Mat.ones(3,3, CvType.CV_32F);
 
-    	String imageName = "braille-data/data_2.jpg";
+    	String imageName = "braille-data/data_8.jpg";
         Mat src = Imgcodecs.imread(imageName);
         Mat dst = new Mat();
         Imgproc.cvtColor(src, dst, Imgproc.COLOR_RGB2GRAY);
@@ -101,12 +101,14 @@ public class Filter2D_Demo {
         Imgproc.morphologyEx(dst, dst, Imgproc.MORPH_ERODE, kernel);
         Imgcodecs.imwrite("pre_processed_image.jpg", dst);
 
-        System.out.println("The image is successfully to Grayscale");
+        System.out.println("pre processing is completed");
 
         File image_file = new File("pre_processed_image.jpg");
 
         image_file = Utils.OPOSITE_BINARY_CONVERTOR.getOpositBinaryImage(image_file);
         new TextProcessorAdvance().getRectangularDottedFile(image_file);
+
+        System.out.println("Execution is completed");
 
 
     }
