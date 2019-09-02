@@ -64,32 +64,56 @@ public class TextProcessorAdvance {
 		colorLine(lineIndex, Utils.RED);
 
 		processDistance();
+
+		System.out.println(Utils.DIFFERENCE_BETWEEN_LINE);
+
+
 		System.out.println("distances are calculated...");
-
-
+//
+//
 		ArrayList<Line> allSegmentedLines = getAllLine();
 		colorSegmentedLine(allSegmentedLines);
 
+		for(int i = 0; i < 1; i++) {
+			Line li = allSegmentedLines.get(i);
+			System.out.println("line : " + i + 1 + " -- " + li.getUpperLineIndex() + " " + li.getMiddleLineIndex() + " " +li.getLowerLineIndex());
+			ArrayList<Integer> XX = getXOfDosFromLine(lineIndexToDotListMap.get(li.getUpperLineIndex()));
+			System.out.println(XX);
+
+			XX = getXOfDosFromLine(lineIndexToDotListMap.get(li.getMiddleLineIndex()));
+			System.out.println(XX);
+
+			XX = getXOfDosFromLine(lineIndexToDotListMap.get(li.getLowerLineIndex()));
+			System.out.println(XX);
 
 
-		Utils.OUTPUT_LIST.add("Line size " + allSegmentedLines.size());
-
-		ArrayList<ArrayList<String>> bangla_text = new ArrayList<ArrayList<String>>();
-
-		for(int i = 0; i < allSegmentedLines.size(); i++) {
-			Line line = allSegmentedLines.get(i);
-			ArrayList<String> wordsInLine = getWords(line);
-			bangla_text.add(wordsInLine);
 
 		}
 
-		for(int i = 0; i < bangla_text.size(); i++) {
 
-			for(int j = 0; j < bangla_text.get(i).size(); j++) {
-				System.out.print(bangla_text.get(i).get(j) + " ");
-			}
-			System.out.println();
-		}
+
+
+//
+//
+//
+//		Utils.OUTPUT_LIST.add("Line size " + allSegmentedLines.size());
+//
+//		ArrayList<ArrayList<String>> bangla_text = new ArrayList<ArrayList<String>>();
+//
+//		for(int i = 0; i < allSegmentedLines.size(); i++) {
+//			Line line = allSegmentedLines.get(i);
+//			ArrayList<String> wordsInLine = getWords(line);
+//			bangla_text.add(wordsInLine);
+//
+//		}
+
+//		for(int i = 0; i < bangla_text.size(); i++) {
+//
+//			for(int j = 0; j < bangla_text.get(i).size(); j++) {
+//				System.out.print(bangla_text.get(i).get(j) + " ");
+//			}
+//			System.out.println();
+//		}
 
 
 		FileWithPrintWriter printWriter = null;
@@ -100,7 +124,7 @@ public class TextProcessorAdvance {
 		} catch (IOException e1) {
 
 		}
-		text = bangla_text;
+//		text = bangla_text;
 		return text;
 	}
 
