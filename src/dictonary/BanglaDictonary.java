@@ -102,12 +102,12 @@ public class BanglaDictonary {
     	int wordListSize = wordList.size();
     	int editDistance = word.length() + 100;
     	for(int i = 0; i < wordListSize; i++) {
-    		
+
     		 String listedWord = wordList.get(i);
     		 int distance = calculate(word, listedWord);
     		 if(editDistance > distance)
     			 editDistance = distance;
-    	
+
     	}
 
     	return editDistance;
@@ -119,15 +119,15 @@ public class BanglaDictonary {
 
     	for(int i = 0; i < word_list_size; i++) {
     		String listed_word = wordList.get(i);
-    		
+
     		for(int j = 0; j < collected_word_size; j ++) {
     			Word word = collected_word.get(j);
     			int edit_distance = 1000;
     			String selected_word = "";
-    			
+
     			int first_word_edit_distance = calculateDP(listed_word, word.get_first_word());
     			int second_word_edit_distance = calculateDP(listed_word, word.get_second_word());
-    			
+
     			if(first_word_edit_distance < edit_distance) {
     	        	edit_distance = first_word_edit_distance;
     	        	selected_word = word.get_first_word();
@@ -138,11 +138,27 @@ public class BanglaDictonary {
     	        	edit_distance = second_word_edit_distance;
     	        	selected_word = word.get_second_word();
     	        }
-    	        
+
     	        word.set_edit_distance(edit_distance);
     	        word.set_selected_word(selected_word);
     		}
     	}
+    }
+
+    public String getWord(String word) {
+    	String selectedWord = "";
+    	int distance = 1000;
+    	int word_list_size = wordList.size();
+//    	int collected_word_size = collected_word.size();
+    	for(int i = 0; i < word_list_size; i++) {
+    		int c_distance = calculateDP(word, wordList.get(i));
+    		if(c_distance <= distance) {
+    			distance = c_distance;
+    			selectedWord = wordList.get(i);
+    		}
+    	}
+
+    	return selectedWord;
     }
 
 

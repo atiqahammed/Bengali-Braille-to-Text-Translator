@@ -71,7 +71,7 @@ public class TextProcessorAdvance {
 		colorSegmentedLine(allSegmentedLines);
 
 
-		/*
+
 		Utils.OUTPUT_LIST.add("Line size " + allSegmentedLines.size());
 
 		ArrayList<ArrayList<String>> bangla_text = new ArrayList<ArrayList<String>>();
@@ -91,7 +91,7 @@ public class TextProcessorAdvance {
 			System.out.println();
 		}
 
-*/
+
 		FileWithPrintWriter printWriter = null;
 		File outputfile = new File("dotDetected.jpg");
 
@@ -100,7 +100,7 @@ public class TextProcessorAdvance {
 		} catch (IOException e1) {
 
 		}
-//		text = bangla_text;
+		text = bangla_text;
 		return text;
 	}
 
