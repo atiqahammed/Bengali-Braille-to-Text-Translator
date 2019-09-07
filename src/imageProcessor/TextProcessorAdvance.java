@@ -88,7 +88,7 @@ public class TextProcessorAdvance {
 //		int lineSize = 1;
 
 
-		for(int i = 0; i < lineSize; i++) {
+		for(int i = 1; i < lineSize; i++) {
 
 
 			Line li = allSegmentedLines.get(i);
@@ -115,15 +115,7 @@ public class TextProcessorAdvance {
 
 			ArrayList<BrailleWord> brailleWords = getBrailleWordsFromLine(listOfLineColumn);
 
-			Utils.OUTPUT_LIST.add(" ###################### ---- bug ---- ##########################");
 
-//			Utils.OUTPUT_LIST.add(brailleWords.get(2).getColList().size()+ "");
-//			for(int k = 0; k < brailleWords.get(2).getColList().size(); k++) {
-//				brailleWords.get(2).getColList().get(k).printColumn();
-//			}
-
-
-			Utils.OUTPUT_LIST.add(" ###################### ---- bug ---- ##########################");
 
 			ArrayList<String> bengaliWordList = getBengaliWordListOfLine(brailleWords);
 
@@ -249,14 +241,19 @@ public class TextProcessorAdvance {
 					Utils.OUTPUT_LIST.add("colIndex :: " + colIndex);
 
 					if(colIndex - 3 >= 0 && word.getColList().get(colIndex - 2).getAverageIndex() - word.getColList().get(colIndex - 3).getAverageIndex() < 40) {
-//						Utils.OUTPUT_LIST.add("bug is over here " + colIndex);
-						LetterInBrailleCode letter = new LetterInBrailleCode("000", previousColumn);
+////						Utils.OUTPUT_LIST.add("bug is over here " + colIndex);
+//
+//						Utils.OUTPUT_LIST.add(" ###################### ---- bug ---- ##########################");
+//
+//						Utils.OUTPUT_LIST.add(" ###################### ---- bug ---- ##########################");
+						LetterInBrailleCode letter = new LetterInBrailleCode(previousColumn, "000");
 						Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
 						coveredColSize++;
 						bengaliWord.addLetters(letter.getLetter());
 					}
 
 					else if(colIndex + 1 < coulmnToCovered && word.getColList().get(colIndex + 1).getAverageIndex() - currentColumn.getAverageIndex() < 40) {
+
 						Utils.OUTPUT_LIST.add("bug is over here " + colIndex);
 						LetterInBrailleCode letter = new LetterInBrailleCode(previousColumn, "000");
 						Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
