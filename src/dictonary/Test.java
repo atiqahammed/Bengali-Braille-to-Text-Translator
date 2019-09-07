@@ -35,29 +35,29 @@ public class Test {
 		 */
 
 
-		String test = "জনসংখ্‌যার";
-		ArrayList<Integer> inderToRemove = new ArrayList<>();
+//		String test = "জনসংখ্‌যার";
+//		ArrayList<Integer> inderToRemove = new ArrayList<>();
+//
+//		for(int i = 0; i < test.length(); i++) {
+//
+//			if((int)test.charAt(i) == 8204)
+//				inderToRemove.add(i);
+////				System.out.println("ok");
+//			System.out.println(test.charAt(i) + " "+ (int)test.charAt(i));
+//		}
+//
+//		String te = "";
+//		for(int i = 0; i < test.length(); i++) {
+//			if(!inderToRemove.contains(i))
+//				te += test.charAt(i);
+//		}
+//
+//		System.out.println(te);
+//
+//		System.out.println(inderToRemove);
 
-		for(int i = 0; i < test.length(); i++) {
 
-			if((int)test.charAt(i) == 8204)
-				inderToRemove.add(i);
-//				System.out.println("ok");
-			System.out.println(test.charAt(i) + " "+ (int)test.charAt(i));
-		}
-
-		String te = "";
-		for(int i = 0; i < test.length(); i++) {
-			if(!inderToRemove.contains(i))
-				te += test.charAt(i);
-		}
-
-		System.out.println(te);
-
-		System.out.println(inderToRemove);
-
-
-//		System.out.println(Utils.BANGLA_DICTIONARY.getWord("তোকাকে") );
+		System.out.println(Utils.BANGLA_DICTIONARY.getWord("মহানুদ্ধের") );
 
 	}
 

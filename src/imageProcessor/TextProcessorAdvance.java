@@ -85,7 +85,7 @@ public class TextProcessorAdvance {
 
 
 		int lineSize = allSegmentedLines.size();
-//		int lineSize = 1;
+//		int lineSize = 3;
 
 
 		for(int i = 0; i < lineSize; i++) {

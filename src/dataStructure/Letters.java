@@ -90,7 +90,7 @@ public class Letters {
 		symbolToLetter.put("100101", "শ");
 		symbolToLetter.put("011100", "স");
 		symbolToLetter.put("111101", "ষ");
-		symbolToLetter.put("110101", "হ");
+		symbolToLetter.put("110010", "হ");
 		symbolToLetter.put("111110", "ক্ষ");
 
 		symbolToLetter.put("100011", "জ্ঞ");
