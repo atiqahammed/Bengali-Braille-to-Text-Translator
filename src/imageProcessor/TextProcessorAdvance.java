@@ -88,7 +88,7 @@ public class TextProcessorAdvance {
 //		int lineSize = 1;
 
 
-		for(int i = 1; i < lineSize; i++) {
+		for(int i = 0; i < lineSize; i++) {
 
 
 			Line li = allSegmentedLines.get(i);
@@ -134,30 +134,6 @@ public class TextProcessorAdvance {
 		for(int i = 0; i < Lines.size(); i++)
 			System.out.println(Lines.get(i));
 
-
-
-
-//
-//
-//
-//		Utils.OUTPUT_LIST.add("Line size " + allSegmentedLines.size());
-//
-//		ArrayList<ArrayList<String>> bangla_text = new ArrayList<ArrayList<String>>();
-//
-//		for(int i = 0; i < allSegmentedLines.size(); i++) {
-//			Line line = allSegmentedLines.get(i);
-//			ArrayList<String> wordsInLine = getWords(line);
-//			bangla_text.add(wordsInLine);
-//
-//		}
-
-//		for(int i = 0; i < bangla_text.size(); i++) {
-//
-//			for(int j = 0; j < bangla_text.get(i).size(); j++) {
-//				System.out.print(bangla_text.get(i).get(j) + " ");
-//			}
-//			System.out.println();
-//		}
 
 
 		FileWithPrintWriter printWriter = null;
