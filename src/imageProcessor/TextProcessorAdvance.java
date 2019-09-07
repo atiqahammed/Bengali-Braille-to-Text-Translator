@@ -83,7 +83,12 @@ public class TextProcessorAdvance {
 
 		ArrayList<String> Lines = new ArrayList<String>();
 
-		for(int i = 0; i < allSegmentedLines.size(); i++) {
+
+		int lineSize = allSegmentedLines.size();
+//		int lineSize = 1;
+
+
+		for(int i = 0; i < lineSize; i++) {
 
 
 			Line li = allSegmentedLines.get(i);
@@ -109,6 +114,16 @@ public class TextProcessorAdvance {
 
 
 			ArrayList<BrailleWord> brailleWords = getBrailleWordsFromLine(listOfLineColumn);
+
+			Utils.OUTPUT_LIST.add(" ###################### ---- bug ---- ##########################");
+
+//			Utils.OUTPUT_LIST.add(brailleWords.get(2).getColList().size()+ "");
+//			for(int k = 0; k < brailleWords.get(2).getColList().size(); k++) {
+//				brailleWords.get(2).getColList().get(k).printColumn();
+//			}
+
+
+			Utils.OUTPUT_LIST.add(" ###################### ---- bug ---- ##########################");
 
 			ArrayList<String> bengaliWordList = getBengaliWordListOfLine(brailleWords);
 
@@ -206,6 +221,7 @@ public class TextProcessorAdvance {
 				currentColumn.printColumn();
 
 
+				Utils.OUTPUT_LIST.add(currentColumn.getAverageIndex() +"  "+ previousColumn.getAverageIndex());
 				int diff = currentColumn.getAverageIndex() - previousColumn.getAverageIndex();
 				Utils.OUTPUT_LIST.add("difference found:: " + diff);
 
@@ -221,6 +237,7 @@ public class TextProcessorAdvance {
 				}
 
 				else if(diff < 65) {
+
 					LetterInBrailleCode letter = new LetterInBrailleCode("000", previousColumn);
 					Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
 					coveredColSize++;
@@ -229,8 +246,10 @@ public class TextProcessorAdvance {
 
 				else if(diff < 85) {
 
+					Utils.OUTPUT_LIST.add("colIndex :: " + colIndex);
 
 					if(colIndex - 3 >= 0 && word.getColList().get(colIndex - 2).getAverageIndex() - word.getColList().get(colIndex - 3).getAverageIndex() < 40) {
+//						Utils.OUTPUT_LIST.add("bug is over here " + colIndex);
 						LetterInBrailleCode letter = new LetterInBrailleCode("000", previousColumn);
 						Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
 						coveredColSize++;
@@ -238,7 +257,8 @@ public class TextProcessorAdvance {
 					}
 
 					else if(colIndex + 1 < coulmnToCovered && word.getColList().get(colIndex + 1).getAverageIndex() - currentColumn.getAverageIndex() < 40) {
-						LetterInBrailleCode letter = new LetterInBrailleCode("000", previousColumn);
+						Utils.OUTPUT_LIST.add("bug is over here " + colIndex);
+						LetterInBrailleCode letter = new LetterInBrailleCode(previousColumn, "000");
 						Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
 						coveredColSize++;
 						bengaliWord.addLetters(letter.getLetter());
@@ -283,6 +303,8 @@ public class TextProcessorAdvance {
 	private ArrayList<BrailleWord> getBrailleWordsFromLine(ArrayList<LineColumn> listOfLineColumn) {
 		ArrayList<BrailleWord> brailleWords = new ArrayList<BrailleWord>();
 		ArrayList<LineColumn> tempColList = new ArrayList<LineColumn>();
+
+
 
 		LineColumn tempColumn = listOfLineColumn.get(0);
 		tempColList.add(tempColumn);
