@@ -206,10 +206,13 @@ public class TextProcessorAdvance {
 
 				else if(diff < 65) {
 
+
 					LetterInBrailleCode letter = new LetterInBrailleCode("000", previousColumn);
 					Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
 					coveredColSize++;
 					bengaliWord.addLetters(letter.getLetter());
+
+
 				}
 
 				else if(diff < 85) {
@@ -222,10 +225,30 @@ public class TextProcessorAdvance {
 //						Utils.OUTPUT_LIST.add(" ###################### ---- bug ---- ##########################");
 //
 //						Utils.OUTPUT_LIST.add(" ###################### ---- bug ---- ##########################");
-						LetterInBrailleCode letter = new LetterInBrailleCode(previousColumn, "000");
+
+						int currentDistance = previousColumn.getAverageIndex() - word.getColList().get(colIndex - 2).getAverageIndex();
+						Utils.OUTPUT_LIST.add("**** diff :: "  + currentDistance);
+
+						LetterInBrailleCode letter = null;
+						if(currentDistance < 65) {
+							letter = new LetterInBrailleCode(previousColumn, "000");
+						}
+						else
+							letter = new LetterInBrailleCode("000", previousColumn);
+
+//						LetterInBrailleCode letter = new LetterInBrailleCode(previousColumn, "000");
 						Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
 						coveredColSize++;
 						bengaliWord.addLetters(letter.getLetter());
+						Utils.OUTPUT_LIST.add("bengali letter:: eith bug " + letter.getLetter());
+
+
+
+
+
+
+
+
 					}
 
 					else if(colIndex + 1 < coulmnToCovered && word.getColList().get(colIndex + 1).getAverageIndex() - currentColumn.getAverageIndex() < 40) {
@@ -235,6 +258,9 @@ public class TextProcessorAdvance {
 						Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
 						coveredColSize++;
 						bengaliWord.addLetters(letter.getLetter());
+
+//						int currentDistance = previousColumn.getAverageIndex() - word.getColList().get(colIndex - 2).getAverageIndex();
+//						Utils.OUTPUT_LIST.add("**** diff :: "  + currentDistance);
 					}
 
 					else {
@@ -287,7 +313,7 @@ public class TextProcessorAdvance {
 			int difference = currentColumn.getAverageIndex() - tempColumn.getAverageIndex();
 			tempColumn = currentColumn;
 
-			if(difference >= 130) {
+			if(difference >= 120) {
 				brailleWords.add(new BrailleWord(tempColList));
 				tempColList = new ArrayList<>();
 				tempColList.add(tempColumn);
