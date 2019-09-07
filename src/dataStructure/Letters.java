@@ -114,6 +114,10 @@ public class Letters {
 
 	}
 
+	public boolean isConcateLetter(String letter) {
+		return letter.equals("্‌");
+	}
+
 	public String getRepresentativeKarSymbol(String shoroBornoLetter) {
 		return symbolToKar.get(shoroBornoLetter);
 	}
