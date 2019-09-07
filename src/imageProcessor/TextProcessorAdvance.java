@@ -81,16 +81,16 @@ public class TextProcessorAdvance {
 		ArrayList<Line> allSegmentedLines = getAllLine();
 		colorSegmentedLine(allSegmentedLines);
 
-		for(int i = 0; i < 1; i++) {
+		ArrayList<String> Lines = new ArrayList<String>();
+
+		for(int i = 0; i < allSegmentedLines.size(); i++) {
+
 
 			Line li = allSegmentedLines.get(i);
 			System.out.println("line : " + i + 1 + " -- " + li.getUpperLineIndex() + " " + li.getMiddleLineIndex() + " " +li.getLowerLineIndex());
 			ArrayList<Integer> xIndexsOfFirstLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(li.getUpperLineIndex()));
-
-
 			ArrayList<Integer> xIndexsOfSecondLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(li.getMiddleLineIndex()));
 //			System.out.println(XX);
-
 			ArrayList<Integer> xIndexsOfThirdLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(li.getLowerLineIndex()));
 //			System.out.println(XX);
 
@@ -107,199 +107,25 @@ public class TextProcessorAdvance {
 				col.printColumn();
 			}
 
-			ArrayList<BrailleWord> brailleWords = new ArrayList<BrailleWord>();
 
-			ArrayList<LineColumn> tempColList = new ArrayList<LineColumn>();
-			LineColumn tempColumn = listOfLineColumn.get(0);
-			tempColList.add(tempColumn);
+			ArrayList<BrailleWord> brailleWords = getBrailleWordsFromLine(listOfLineColumn);
 
-			for(int x = 1; x < listOfLineColumn.size(); x++) {
-				LineColumn currentColumn = listOfLineColumn.get(x);
-				int difference = currentColumn.getAverageIndex() - tempColumn.getAverageIndex();
-				tempColumn = currentColumn;
+			ArrayList<String> bengaliWordList = getBengaliWordListOfLine(brailleWords);
 
-				if(difference >= 130) {
-					brailleWords.add(new BrailleWord(tempColList));
-					tempColList = new ArrayList<>();
-					tempColList.add(tempColumn);
-				}
-
-				else {
-					tempColList.add(currentColumn);
-				}
+			String Line = "";
+			for(int index = 0; index < bengaliWordList.size(); index++) {
+				Line += bengaliWordList.get(index) + "   ";
 			}
 
-			brailleWords.add(new BrailleWord(tempColList));
-
-			Utils.OUTPUT_LIST.add("all word is identified in this line");
-			Utils.OUTPUT_LIST.add("previous columnlist size :: " + listOfLineColumn.size());
-
-			int cont = 0;
-			for(int x = 0; x < brailleWords.size(); x++) {
-				cont += brailleWords.get(x).getColList().size();
-			}
+			Lines.add(Line);
 
 
-			Utils.OUTPUT_LIST.add("after columnlist size :: " + listOfLineColumn.size());
-			Utils.OUTPUT_LIST.add("word size:: " + brailleWords.size());
-
-
-
-
-
-
-			for(int j = 0; j < brailleWords.size(); j++) {
-
-				Utils.OUTPUT_LIST.add("=====================================");
-
-				BengaliWord bengaliWord = new BengaliWord();
-
-
-				BrailleWord word = brailleWords.get(j);
-
-				Utils.OUTPUT_LIST.add("word no :: " + (j+1) + " and number of column in this word :: " + word.getColList().size());
-
-				int coulmnToCovered = word.getColList().size();
-				int coveredColSize = 0;
-
-				for(int colIndex = 1; colIndex < coulmnToCovered; colIndex++) {
-
-					LineColumn previousColumn = word.getColList().get(colIndex - 1);
-					LineColumn currentColumn = word.getColList().get(colIndex);
-
-					Utils.OUTPUT_LIST.add("previous column:: ");
-					previousColumn.printColumn();
-					Utils.OUTPUT_LIST.add("current column::  ");
-					currentColumn.printColumn();
-
-
-					int diff = currentColumn.getAverageIndex() - previousColumn.getAverageIndex();
-					Utils.OUTPUT_LIST.add("difference found:: " + diff);
-
-					if(diff < 40) {
-
-						LetterInBrailleCode letter = new LetterInBrailleCode(previousColumn, currentColumn);
-						Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
-						colIndex++;
-						coveredColSize += 2;
-
-						bengaliWord.addLetters(letter.getLetter());
-
-					}
-
-					else if(diff < 65) {
-						LetterInBrailleCode letter = new LetterInBrailleCode("000", previousColumn);
-						Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
-						coveredColSize++;
-						bengaliWord.addLetters(letter.getLetter());
-					}
-
-					else if(diff < 85) {
-
-
-						if(colIndex - 3 >= 0 && word.getColList().get(colIndex - 2).getAverageIndex() - word.getColList().get(colIndex - 3).getAverageIndex() < 40) {
-							LetterInBrailleCode letter = new LetterInBrailleCode("000", previousColumn);
-							Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
-							coveredColSize++;
-							bengaliWord.addLetters(letter.getLetter());
-						}
-
-						else if(colIndex + 1 < coulmnToCovered && word.getColList().get(colIndex + 1).getAverageIndex() - currentColumn.getAverageIndex() < 40) {
-							LetterInBrailleCode letter = new LetterInBrailleCode("000", previousColumn);
-							Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
-							coveredColSize++;
-							bengaliWord.addLetters(letter.getLetter());
-						}
-
-						else {
-							Utils.OUTPUT_LIST.add("output is here...");
-							LetterInBrailleCode letter = new LetterInBrailleCode(previousColumn, "000");
-							Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
-							coveredColSize++;
-							bengaliWord.addLetters(letter.getLetter());
-						}
-
-
-					}
-
-					else {
-
-						LetterInBrailleCode letter = new LetterInBrailleCode(previousColumn, "000");
-						Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
-						coveredColSize++;
-						bengaliWord.addLetters(letter.getLetter());
-					}
-				}
-
-
-
-
-
-				Utils.OUTPUT_LIST.add("column covered :: " + coveredColSize);
-				Utils.OUTPUT_LIST.add("------------------- * word covered * -------------------");
-				bengaliWord.getBengaliWord();
-
-
-//				ArrayList<LetterInBrailleCode> lettersList = new ArrayList<>();
-//
-//				LineColumn tempWordColumn = word.getColList().get(0);
-//				word.getColList().remove(0);
-//				int preViousIndex;
-//				if(word.getColList().remove(0).getAverageIndex() - tempWordColumn.getAverageIndex() < 40) {
-//					preViousIndex = tempWordColumn.getAverageIndex() - 48;
-//				}
-//				else {
-//					preViousIndex = tempWordColumn.getAverageIndex() - 28;
-//				}
-//
-//				Utils.OUTPUT_LIST.add("previous index:: " + preViousIndex);
-//
-//
-//				while (word.getColList().size() > 1) {
-//
-//					int diff = word.getColList().get(0).getAverageIndex() - tempWordColumn.getAverageIndex();
-//					if(diff < 40) {
-//						lettersList.add(new LetterInBrailleCode(tempWordColumn, word.getColList().get(0)));
-//						preViousIndex = word.getColList().get(0).getAverageIndex();
-//						word.getColList().remove(0);
-//
-//						tempWordColumn = word.getColList().get(0);
-//						word.getColList().remove(0);
-//
-//					}
-//
-//					else {
-//
-//						lettersList.add(new LetterInBrailleCode("000", tempWordColumn));
-//
-//
-//
-//					}
-//
-//
-//				}
-
-
-
-
-
-
-
-			}
-
-
-
-
-
-
-
-
-
-
-//			ArrayList<LineColumn> colList = convertLineIntoColumnVersion_2()
 
 
 		}
+
+		for(int i = 0; i < Lines.size(); i++)
+			System.out.println(Lines.get(i));
 
 
 
@@ -337,6 +163,148 @@ public class TextProcessorAdvance {
 		}
 //		text = bangla_text;
 		return text;
+	}
+
+	private ArrayList<String> getBengaliWordListOfLine(ArrayList<BrailleWord> brailleWords) {
+
+		ArrayList<String> bengaliWordList = new ArrayList<String>();
+		Utils.OUTPUT_LIST.add("all word is identified in this line");
+//		Utils.OUTPUT_LIST.add("previous columnlist size :: " + listOfLineColumn.size());
+
+		int cont = 0;
+		for(int x = 0; x < brailleWords.size(); x++) {
+			cont += brailleWords.get(x).getColList().size();
+		}
+
+
+//		Utils.OUTPUT_LIST.add("after columnlist size :: " + listOfLineColumn.size());
+		Utils.OUTPUT_LIST.add("word size:: " + brailleWords.size());
+
+
+		for(int j = 0; j < brailleWords.size(); j++) {
+
+			Utils.OUTPUT_LIST.add("=====================================");
+
+			BengaliWord bengaliWord = new BengaliWord();
+
+
+			BrailleWord word = brailleWords.get(j);
+
+			Utils.OUTPUT_LIST.add("word no :: " + (j+1) + " and number of column in this word :: " + word.getColList().size());
+
+			int coulmnToCovered = word.getColList().size();
+			int coveredColSize = 0;
+
+			for(int colIndex = 1; colIndex < coulmnToCovered; colIndex++) {
+
+				LineColumn previousColumn = word.getColList().get(colIndex - 1);
+				LineColumn currentColumn = word.getColList().get(colIndex);
+
+				Utils.OUTPUT_LIST.add("previous column:: ");
+				previousColumn.printColumn();
+				Utils.OUTPUT_LIST.add("current column::  ");
+				currentColumn.printColumn();
+
+
+				int diff = currentColumn.getAverageIndex() - previousColumn.getAverageIndex();
+				Utils.OUTPUT_LIST.add("difference found:: " + diff);
+
+				if(diff < 40) {
+
+					LetterInBrailleCode letter = new LetterInBrailleCode(previousColumn, currentColumn);
+					Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
+					colIndex++;
+					coveredColSize += 2;
+
+					bengaliWord.addLetters(letter.getLetter());
+
+				}
+
+				else if(diff < 65) {
+					LetterInBrailleCode letter = new LetterInBrailleCode("000", previousColumn);
+					Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
+					coveredColSize++;
+					bengaliWord.addLetters(letter.getLetter());
+				}
+
+				else if(diff < 85) {
+
+
+					if(colIndex - 3 >= 0 && word.getColList().get(colIndex - 2).getAverageIndex() - word.getColList().get(colIndex - 3).getAverageIndex() < 40) {
+						LetterInBrailleCode letter = new LetterInBrailleCode("000", previousColumn);
+						Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
+						coveredColSize++;
+						bengaliWord.addLetters(letter.getLetter());
+					}
+
+					else if(colIndex + 1 < coulmnToCovered && word.getColList().get(colIndex + 1).getAverageIndex() - currentColumn.getAverageIndex() < 40) {
+						LetterInBrailleCode letter = new LetterInBrailleCode("000", previousColumn);
+						Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
+						coveredColSize++;
+						bengaliWord.addLetters(letter.getLetter());
+					}
+
+					else {
+						Utils.OUTPUT_LIST.add("output is here...");
+						LetterInBrailleCode letter = new LetterInBrailleCode(previousColumn, "000");
+						Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
+						coveredColSize++;
+						bengaliWord.addLetters(letter.getLetter());
+					}
+
+
+				}
+
+				else {
+
+					LetterInBrailleCode letter = new LetterInBrailleCode(previousColumn, "000");
+					Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
+					coveredColSize++;
+					bengaliWord.addLetters(letter.getLetter());
+				}
+			}
+
+
+
+
+
+			Utils.OUTPUT_LIST.add("column covered :: " + coveredColSize);
+			Utils.OUTPUT_LIST.add("------------------- * word covered * -------------------");
+			String bngWord = bengaliWord.getBengaliWord();
+			bengaliWordList.add(bngWord);
+
+		}
+
+
+
+		return bengaliWordList;
+	}
+
+	private ArrayList<BrailleWord> getBrailleWordsFromLine(ArrayList<LineColumn> listOfLineColumn) {
+		ArrayList<BrailleWord> brailleWords = new ArrayList<BrailleWord>();
+		ArrayList<LineColumn> tempColList = new ArrayList<LineColumn>();
+
+		LineColumn tempColumn = listOfLineColumn.get(0);
+		tempColList.add(tempColumn);
+
+		for(int x = 1; x < listOfLineColumn.size(); x++) {
+			LineColumn currentColumn = listOfLineColumn.get(x);
+			int difference = currentColumn.getAverageIndex() - tempColumn.getAverageIndex();
+			tempColumn = currentColumn;
+
+			if(difference >= 130) {
+				brailleWords.add(new BrailleWord(tempColList));
+				tempColList = new ArrayList<>();
+				tempColList.add(tempColumn);
+			}
+
+			else {
+				tempColList.add(currentColumn);
+			}
+		}
+
+		brailleWords.add(new BrailleWord(tempColList));
+		return brailleWords;
 	}
 
 	private ArrayList<String> getWords(Line line) {

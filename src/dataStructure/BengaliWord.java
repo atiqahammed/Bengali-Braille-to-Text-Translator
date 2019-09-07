@@ -62,7 +62,7 @@ public class BengaliWord {
 
 		Utils.OUTPUT_LIST.add(finalWord);
 
-		return null;
+		return finalWord;
 	}
 
 
