@@ -1,6 +1,8 @@
 package dictonary;
 
 
+import java.util.ArrayList;
+
 import util.Utils;
 
 public class Test {
@@ -29,10 +31,33 @@ public class Test {
 আজব শিশক খাস ্‌দিইইইইইতে
 অ , ঁ
 থাকে
-ইওন শিশকর পরিচয়
+ইওন শিশকর পরিচয়     অংশগ্রহণকারী     অগ্নিপুরাণ   অত্যাদর
 		 */
 
-		System.out.println(Utils.BANGLA_DICTIONARY.getWord("তোকাকে") );
+
+		String test = "জনসংখ্‌যার";
+		ArrayList<Integer> inderToRemove = new ArrayList<>();
+
+		for(int i = 0; i < test.length(); i++) {
+
+			if((int)test.charAt(i) == 8204)
+				inderToRemove.add(i);
+//				System.out.println("ok");
+			System.out.println(test.charAt(i) + " "+ (int)test.charAt(i));
+		}
+
+		String te = "";
+		for(int i = 0; i < test.length(); i++) {
+			if(!inderToRemove.contains(i))
+				te += test.charAt(i);
+		}
+
+		System.out.println(te);
+
+		System.out.println(inderToRemove);
+
+
+//		System.out.println(Utils.BANGLA_DICTIONARY.getWord("তোকাকে") );
 
 	}
 

@@ -43,7 +43,24 @@ public class BengaliWord {
 //			Utils.OUTPUT_LIST.add("*");
 		}
 
-		Utils.OUTPUT_LIST.add(word);
+		ArrayList<Integer> inderToRemove = new ArrayList<>();
+
+		for(int i = 0; i < word.length(); i++) {
+
+			if((int)word.charAt(i) == 8204)
+				inderToRemove.add(i);
+//				System.out.println("ok");
+			System.out.println(word.charAt(i) + " "+ (int)word.charAt(i));
+		}
+
+		String finalWord = "";
+		for(int i = 0; i < word.length(); i++) {
+			if(!inderToRemove.contains(i))
+				finalWord += word.charAt(i);
+		}
+
+
+		Utils.OUTPUT_LIST.add(finalWord);
 
 		return null;
 	}
