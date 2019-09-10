@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
@@ -13,14 +14,24 @@
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #000000;">
                <children>
-                  <ImageView fitHeight="99.0" fitWidth="100.0" layoutX="51.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/braille-2.png" />
-                     </image>
-                  </ImageView>
+                  <AnchorPane layoutY="-7.0" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Circle fill="WHITE" layoutX="45.0" layoutY="61.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#898b8d" layoutX="87.0" layoutY="100.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#898b8d" layoutX="87.0" layoutY="61.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#898b8d" layoutX="87.0" layoutY="136.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#898b8d" layoutX="45.0" layoutY="136.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="WHITE" layoutX="45.0" layoutY="100.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Text fill="WHITE" layoutX="118.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ব">
+                           <font>
+                              <Font name="System Bold" size="76.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
-            <Button mnemonicParsing="false" onMouseClicked="#main_ui_home_button" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #101010; -fx-text-fill: #f0f0f0;" text="Home">
+            <Button mnemonicParsing="false" onMouseClicked="#main_ui_home_button" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #101010; -fx-text-fill: #f0f0f0;" text="About">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -28,7 +39,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#main_iu_default_template_button" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #101010; -fx-text-fill: #f0f0f0;" text="Default Template">
+            <Button mnemonicParsing="false" onMouseClicked="#main_iu_default_template_button" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #101010; -fx-text-fill: #f0f0f0;" text="Translate">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
@@ -36,7 +47,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #101010; -fx-text-fill: #f0f0f0;" text="Custom Templete">
+            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #101010; -fx-text-fill: #f0f0f0;" text="Settings">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
@@ -44,7 +55,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #101010; -fx-text-fill: #f0f0f0;" text="Seetings">
+            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #101010; -fx-text-fill: #f0f0f0;" text="User Manual">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
@@ -66,11 +77,20 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="310.0" fitWidth="518.0" layoutX="46.0" layoutY="19.0" opacity="0.15" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../images/home.jpg" />
-               </image>
-            </ImageView>
+            <Text layoutX="35.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bengali Braille to Text Translator" wrappingWidth="256.13671875">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="36.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="It is a desktop application." />
+            <Text layoutX="36.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="It takes scanned image of braille code as input and provide corsponding bengali word as output." />
+            <Text layoutX="36.0" layoutY="385.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Superviced by:  Dr. Ahmedul Kabir" />
+            <Text layoutX="36.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Developed by:  Atiq Ahammed " />
+            <Text layoutX="35.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A Project of SPL -III" wrappingWidth="256.13671875">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
    </center>

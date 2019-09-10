@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="310.0" fitWidth="518.0" layoutX="41.0" layoutY="14.0" opacity="0.15" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../images/home.jpg" />
-         </image>
-      </ImageView>
+      <Text layoutX="44.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A Project of SPL -III" wrappingWidth="256.13671875">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="45.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Developed by:  Atiq Ahammed " />
+      <Text layoutX="45.0" layoutY="386.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Superviced by:  Dr. Ahmedul Kabir" />
+      <Text layoutX="45.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="It takes scanned image of braille code as input and provide corsponding bengali word as output." />
+      <Text layoutX="45.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" text="It is a desktop application." />
+      <Text layoutX="44.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bengali Braille to Text Translator" wrappingWidth="256.13671875">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
