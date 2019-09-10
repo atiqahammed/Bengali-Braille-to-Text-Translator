@@ -60,6 +60,12 @@ public class Controler implements Initializable {
 		}
 	}
 
+
+	@FXML
+	private void default_file_chooser_ui_image_view_button(MouseEvent mouseEvent) {
+		System.out.println("image viewer button");
+	}
+
 	@FXML
 	private void default_file_chooser_ui_save_button(MouseEvent mouseEvent) {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
@@ -95,7 +101,7 @@ public class Controler implements Initializable {
 
 			File dImage = new Dilation().getImage(medianImmage);
 			System.out.println("Dilation is completed...");
-			
+
 //			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.getImageIn2DArray(choosedFile);
 //			Utils.IMAGE_ARRAY_OF_PIXEL = Utils.FUNCTIONS.convertInGrayScale();
 //			int threshold = Utils.FUNCTIONS.getOtsuThreshold();
