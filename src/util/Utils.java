@@ -2,6 +2,7 @@ package util;
 
 import java.awt.Color;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import dataStructure.Letters;
@@ -12,14 +13,38 @@ import imageProcessor.GrayScale;
 import imageProcessor.ImageProcessor;
 import imageProcessor.MedianFilter;
 import imageProcessor.OpositeBinaryImageConvertor;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import preProcessor.OtsuThresholding;
 import test.FileReadWriter;
 
 public class Utils {
 
-	public static String BRAILLE_TO_TEXT_TRANSLATOR = "Braille to Text Translator";
-	public static String OUTPUT_FILE_NAME = "output.txt";
+	public static final String BRAILLE_TO_TEXT_TRANSLATOR = "Bengali Braille to Text Translator";
+	public static final String OUTPUT_FILE_NAME = "output.txt";
+	public static final String SEETING_FILE_NAME = "Settings.file";
 	public static final String IMAGE_PATTERN = "([^\\s]+(\\.(?i)(jpg|png|jpeg))$)";
+
+
+	public static boolean GAUSSIAN_BLUR;
+	public static boolean MEDIAN_BLUR;
+	public static Parent SETTING_UI;
+//	public Utils() {
+//		try {
+//			SETTING_UI = FXMLLoader.load(getClass().getResource("setting_anchorpane_ui.fxml"));
+//			if(SETTING_UI != null) {
+//				System.out.println("paisi");
+//			}
+//			else {
+//				System.out.println("paini");
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		};
+//	}
+
+
 
 	public static int NEIGHBOUR_DOT_SIZE_FOR_PART_OF_DOT_SELECTION = 9;
 	public static int INITAL_DIFFRENCE_BETWEEN_LINE = 10;

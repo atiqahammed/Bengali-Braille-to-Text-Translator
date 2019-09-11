@@ -49,7 +49,7 @@ public class TextProcessorAdvance {
 
 	ArrayList<Word> all_word = new ArrayList<Word>();
 
-	public ArrayList<ArrayList<String>> getRectangularDottedFile(File imageFile) {
+	public ArrayList<String> getRectangularDottedFile(File imageFile) {
 		ArrayList<ArrayList<String>> text = new ArrayList<ArrayList<String>>();
 
 		initializeVariables(imageFile);
@@ -131,8 +131,12 @@ public class TextProcessorAdvance {
 
 		}
 
-		for(int i = 0; i < Lines.size(); i++)
-			System.out.println(Lines.get(i));
+		for(int i = 0; i < Lines.size(); i++) {
+//			text.add(Lines.get(i));
+			System.out.println(Lines.get(i) + " ...");
+		}
+
+//		text.addAll(Line)
 
 
 
@@ -145,7 +149,7 @@ public class TextProcessorAdvance {
 
 		}
 //		text = bangla_text;
-		return text;
+		return Lines;
 	}
 
 	private ArrayList<String> getBengaliWordListOfLine(ArrayList<BrailleWord> brailleWords) {

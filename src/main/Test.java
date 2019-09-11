@@ -16,7 +16,7 @@ public class Test {
 
 //		File imageFile = new File("braille-data/data_0.png");
 //		File imageFile = new File("braille-data/data_1.jpg");
-		File imageFile = new File("braille-data/data_2.jpg");
+		File imageFile = new File("braille-data/data_02.jpg");
 //		File imageFile = new File("braille-data/data_3.jpg");
 //		File imageFile = new File("braille-data/data_4.jpg");
 //		File imageFile = new File("braille-data/data_5.jpg");
@@ -41,7 +41,7 @@ public class Test {
 		imageFile = new Dilation().getImage(imageFile);
 		System.out.println("Dilation is completed...");
 
-		ArrayList<ArrayList<String>>text = new TextProcessorAdvance().getRectangularDottedFile(imageFile);
+		ArrayList<String>text = new TextProcessorAdvance().getRectangularDottedFile(imageFile);
 
 		System.out.println("execution completed...");
 		Utils.FILE_READ_WRITER.writeOutput(Utils.OUTPUT_LIST, Utils.OUTPUT_FILE_NAME);

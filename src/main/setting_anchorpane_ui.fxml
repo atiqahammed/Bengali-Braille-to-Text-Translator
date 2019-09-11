@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controler">
+   <children>
+      <Text layoutX="43.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Settings" wrappingWidth="256.13671875">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="43.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Noice reduction algorithmm" />
+      <CheckBox fx:id="gaussian_blur_checkbox" layoutX="43.0" layoutY="100.0" mnemonicParsing="false" text="Gaussian Blur" />
+      <CheckBox fx:id="median_blur_checkbox" layoutX="43.0" layoutY="124.0" mnemonicParsing="false" text="Median Blur" />
+      <Button layoutX="209.0" layoutY="221.0" mnemonicParsing="false" onMouseClicked="#setting_save_button" style="-fx-background-color: #101010; -fx-text-fill: #ffffff;" text="Save">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
