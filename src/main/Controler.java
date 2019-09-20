@@ -36,12 +36,12 @@ public class Controler implements Initializable {
 	@FXML
 	private CheckBox gaussian_blur_checkbox, median_blur_checkbox;
 
-
 	@FXML
 	private BorderPane brailleborderpane;
 
 	@FXML
 	private TextArea output_textarea;
+	
 	@FXML
 	private TextField default_template_ui_file_path_textfield;
 
@@ -50,50 +50,12 @@ public class Controler implements Initializable {
 	private String outputText = "default output";
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-//		System.out.println("hello");
-
-		ArrayList<String> settinArrayList = Utils.FILE_READ_WRITER.readStringsFromFile(Utils.SEETING_FILE_NAME);
-//
-//		// gaussian filter setting
-//		String G_str[] = settinArrayList.get(0).split("+");
-//		System.out.println(settinArrayList.get(0).endsWith("true"));
-		if(settinArrayList.get(0).endsWith("true")) {
-			Utils.GAUSSIAN_BLUR = true;
-		} else {
-			Utils.GAUSSIAN_BLUR = false;
-		}
-//		init();
-//
-		// medain filter setting
-//		String M_str[] = settinArrayList.get(1).split("+");
-		if(settinArrayList.get(1).endsWith("true")) {
-			Utils.MEDIAN_BLUR = true;
-		} else {
-			Utils.MEDIAN_BLUR = false;
-		}
-
-		if(Utils.GAUSSIAN_BLUR) {
-			//gaussian_blur_checkbox.setSelected(true);
-
-//			gaussian_blur_checkbox.setSelected(true);
-
-			System.out.println("g");
-		}
-
-		if(Utils.MEDIAN_BLUR) {
-//			median_blur_checkbox.setText("hello");
-//			median_blur_checkbox.setSelected(true);
-			System.out.println("M");
-		}
-
-//		System.out.println(Utils.GAUSSIAN_BLUR);
-//		System.out.println(Utils.MEDIAN_BLUR);
-
-
-
+	public void initialize(URL location, ResourceBundle resources) {}
+	
+	@FXML
+	private void exit(MouseEvent mouseEvent) {
+		System.exit(0);
 	}
-
 
 	@FXML
 	private void main_ui_home_button(MouseEvent mouseEvent) {
@@ -130,9 +92,6 @@ public class Controler implements Initializable {
 
 //		loadUI("default_file_chooser_anchorpane_ui");
 	}
-
-
-
 
 	@FXML
 	private void main_iu_default_template_button(MouseEvent mouseEvent) {
@@ -270,21 +229,6 @@ public class Controler implements Initializable {
 		validFile = validFile && Utils.FUNCTIONS.isSelectedFileValid(choosedFile, filePathInTextField);
 
 		if (validFile) {
-//			System.out.println("valid\nGo to next page with output");
-//			File grayScaleImage = Utils.GRAY_SCALE_IMAGE_PROCESSOR.process(choosedFile);
-//			System.out.println("Gray Scale Conversion completed...");
-//
-//			int thresholdingLavel = Utils.OTSU_SHRESHOLDER.getThresholdGrayLevel(grayScaleImage);
-//			System.out.println("Otsu thresholding : " + thresholdingLavel);
-//
-//			File binaryImage = Utils.BINARY_IMAGE_CONVERTOR.getBinaryImage(grayScaleImage, thresholdingLavel);
-//			System.out.println("binary image conversion is completed...");
-//
-//			File medianImmage = Utils.MEDIAN_FILTER.getFilteredImage(binaryImage, 1);
-//			System.out.println("median filter is done...");
-//
-//			File dImage = new Dilation().getImage(medianImmage);
-//			System.out.println("Dilation is completed...");
 
 			System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
@@ -310,31 +254,20 @@ public class Controler implements Initializable {
 	        File image_file = new File("pre_processed_image.jpg");
 
 	        image_file = Utils.OPOSITE_BINARY_CONVERTOR.getOpositBinaryImage(image_file);
-//
-//
-//
+	        
 	        ArrayList<String> lines = new TextProcessorAdvance().getRectangularDottedFile(image_file);
 //
 	        Utils.FILE_READ_WRITER.writeOutput(Utils.OUTPUT_LIST, Utils.OUTPUT_FILE_NAME);
 	        System.out.println("Execution is completed");
 
 
+	        output_textarea.setText("");
 
 	        for(int i = 0; i < lines.size(); i++) {
 	        	output_textarea.appendText(lines.get(i));
 	        	output_textarea.appendText("\n");
 
 	        }
-
-//			ArrayList<ArrayList<String>>text = new TextProcessor().getRectangularDottedFile(dImage);
-//			System.out.println(text.size() + " size");
-//			for(int i = 0; i < text.size(); i++) {
-//				for(int j = 0; j < text.get(i).size(); j++) {
-////					System.out.print(text.get(i).get(j));
-//					output_textarea.appendText(text.get(i).get(j));
-//				}
-//				output_textarea.appendText("\n");
-//			}
 
 		}
 

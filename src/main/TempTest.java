@@ -15,7 +15,7 @@ public class TempTest extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		Parent root = FXMLLoader.load(getClass().getResource("test_home_ui2.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("test_home_ui_v2.fxml"));
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle(Utils.BRAILLE_TO_TEXT_TRANSLATOR);

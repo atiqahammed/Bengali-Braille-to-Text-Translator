@@ -47,14 +47,6 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#main_iu_settings_button" onMouseExited="#mouse_exit" onMousePressed="#setting_button_pressed" onMouseReleased="#setting_button_released" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #101010; -fx-text-fill: #f0f0f0;" text="Settings">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Button>
             <Button mnemonicParsing="false" onMouseClicked="#main_iu_user_manual_button" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #101010; -fx-text-fill: #f0f0f0;" text="User Manual">
                <VBox.margin>
                   <Insets top="10.0" />
@@ -63,7 +55,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #101010; -fx-text-fill: #f0f0f0;" text="Exit">
+            <Button mnemonicParsing="false" onMouseClicked="#exit" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #101010; -fx-text-fill: #f0f0f0;" text="Exit">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
