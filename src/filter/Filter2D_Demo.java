@@ -25,7 +25,7 @@ public class Filter2D_Demo {
 
     	Mat kernel = Mat.ones(3,3, CvType.CV_32F);
 
-    	String imageName = "braille-data/data_06.jpg";
+    	String imageName = "braille-data/data_04.jpg";
         Mat src = Imgcodecs.imread(imageName);
         Mat dst = new Mat();
         Imgproc.cvtColor(src, dst, Imgproc.COLOR_RGB2GRAY);
