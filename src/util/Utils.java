@@ -25,30 +25,13 @@ public class Utils {
 	public static final String SEETING_FILE_NAME = "Settings.file";
 	public static final String IMAGE_PATTERN = "([^\\s]+(\\.(?i)(jpg|png|jpeg))$)";
 
-
 	public static boolean GAUSSIAN_BLUR;
 	public static boolean MEDIAN_BLUR;
 	public static Parent SETTING_UI;
-//	public Utils() {
-//		try {
-//			SETTING_UI = FXMLLoader.load(getClass().getResource("setting_anchorpane_ui.fxml"));
-//			if(SETTING_UI != null) {
-//				System.out.println("paisi");
-//			}
-//			else {
-//				System.out.println("paini");
-//			}
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		};
-//	}
-
-
 
 	public static int NEIGHBOUR_DOT_SIZE_FOR_PART_OF_DOT_SELECTION = 3;
 	public static int INITAL_DIFFRENCE_BETWEEN_LINE = 8;
-	public static int SAME_POINT_COVERAGE = 20;
+	public static int SAME_POINT_COVERAGE = 15;
 	public static int MAXIMUM_DISTANCE = 15;
 	public static int LINE_INDEX_MERGED_UNIT = 1;
 	public static int DIFFERENCE_BETWEEN_WORDS = 100;
