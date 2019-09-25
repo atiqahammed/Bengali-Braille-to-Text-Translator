@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
@@ -302,6 +304,7 @@ public class Controler implements Initializable {
             writer.println(content);
             writer.close();
         } catch (IOException ex) {
+//        	JOptionPane.
         	System.out.println("file not found to show output");
         }
     }
