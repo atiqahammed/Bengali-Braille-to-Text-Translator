@@ -16,7 +16,13 @@ import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileSystemView;
 
-//import com.sun.deploy.uitoolkit.impl.fx.ui.UITextArea;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
+
+import imageProcessor.TextProcessorAdvance;
+
+import org.opencv.core.*;
+import util.Utils;
 
 public class Functions {
 
@@ -227,6 +233,41 @@ public class Functions {
 		}
 
 	}
+	
+	
+	public ArrayList<ArrayList<String>> getBengaliText(String filePath) {
+		
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+
+    	Mat kernel = Mat.ones(3,3, CvType.CV_32F);
+		
+		Mat src = Imgcodecs.imread(filePath);
+      Mat dst = new Mat();
+      
+      Imgproc.cvtColor(src, dst, Imgproc.COLOR_RGB2GRAY);
+      Imgproc.GaussianBlur(dst, dst, new Size(3, 3), 5);
+      Imgproc.medianBlur(dst, dst, 3);
+
+      Imgproc.threshold(dst, dst, 0, 255, Imgproc.THRESH_OTSU);
+      
+//      Imgproc.medianBlur(dst, dst, 3);
+//      Imgproc.morphologyEx(dst, dst, Imgproc.MORPH_ERODE, kernel);
+      
+      Imgcodecs.imwrite("pre_processed_image.jpg", dst);
+      System.out.println("pre processing is completed");
+
+      File image_file = new File("pre_processed_image.jpg");
+
+      image_file = Utils.OPOSITE_BINARY_CONVERTOR.getOpositBinaryImage(image_file);
+      new TextProcessorAdvance().getRectangularDottedFile(image_file);
+
+      Utils.FILE_READ_WRITER.writeOutput(Utils.OUTPUT_LIST, Utils.OUTPUT_FILE_NAME);
+      System.out.println("Execution is completed");
+		
+		
+		return null;
+	}
+	
 
 	private void calculateBackgroundPixels(int grayLevel) {
 		long totalBackgroungFrequency = 0;
