@@ -2,6 +2,8 @@ package dataStructure;
 
 import java.util.ArrayList;
 
+import util.Utils;
+
 public class BrailleWord {
 
 	private ArrayList<LineColumn> colList;
@@ -12,6 +14,13 @@ public class BrailleWord {
 
 	public ArrayList<LineColumn> getColList(){
 		return colList;
+	}
+	
+	public void printWord() {
+		Utils.OUTPUT_LIST.add("----- Print a braille words column -----");
+		for(LineColumn column: colList)
+			column.printColumn();
+		Utils.OUTPUT_LIST.add("----- ............................ -----");
 	}
 
 }

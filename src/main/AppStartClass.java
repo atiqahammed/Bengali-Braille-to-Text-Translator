@@ -26,12 +26,12 @@ public class AppStartClass extends Application{
 	}
 
 	public static void main(String[] args) {
+		
 		// Application with user interface
 //		launch(args);
 		
 		// application with console output
-		Utils.FUNCTIONS.getBengaliText("braille-data/data_04.jpg");
-		
+		Utils.FUNCTIONS.getBengaliText("braille-data/data_02.jpg");
 		
 		
 	}

@@ -304,7 +304,6 @@ public class Controler implements Initializable {
             writer.println(content);
             writer.close();
         } catch (IOException ex) {
-//        	JOptionPane.
         	System.out.println("file not found to show output");
         }
     }

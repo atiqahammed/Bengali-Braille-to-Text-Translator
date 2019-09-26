@@ -50,37 +50,29 @@ public class TextProcessorAdvance {
 	ArrayList<Word> all_word = new ArrayList<Word>();
 
 	public ArrayList<String> getRectangularDottedFile(File imageFile) {
-		ArrayList<ArrayList<String>> text = new ArrayList<ArrayList<String>>();
+		
+//		ArrayList<ArrayList<String>> text = new ArrayList<ArrayList<String>>();
 
 		initializeVariables(imageFile);
 		findDots();
 		initializeOutputImage();
 		processUniqueDots();
-		System.out.println("unique dot processing is completed");
-
-
 		ArrayList<Dot> firstStepSelectedDot = selectDotInFirstStep();
-//		initializeOutputImage();
+		
+		// task completed for finding unique dots...
+
+		
+		
 		ArrayList<Point> allCenter = getAllCenter();
-
 		processLineInformation(allCenter);
-		System.out.println("lines are found");
 		Collections.sort(lineIndex);
-
 		lineIndex = mergeLineIndexs(lineIndex);
 		colorLine(lineIndex, Utils.RED);
-
 		processDistance();
-
-		System.out.println(Utils.DIFFERENCE_BETWEEN_LINE);
-
-
-		System.out.println("distances are calculated...");
-//
-//
+		
+		
 		ArrayList<Line> allSegmentedLines = getAllLine();
 		colorSegmentedLine(allSegmentedLines);
-
 		ArrayList<String> Lines = new ArrayList<String>();
 
 
@@ -93,11 +85,11 @@ public class TextProcessorAdvance {
 
 			Line li = allSegmentedLines.get(i);
 			System.out.println("line : " + i + 1 + " -- " + li.getUpperLineIndex() + " " + li.getMiddleLineIndex() + " " +li.getLowerLineIndex());
+			
 			ArrayList<Integer> xIndexsOfFirstLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(li.getUpperLineIndex()));
 			ArrayList<Integer> xIndexsOfSecondLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(li.getMiddleLineIndex()));
-//			System.out.println(XX);
 			ArrayList<Integer> xIndexsOfThirdLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(li.getLowerLineIndex()));
-//			System.out.println(XX);
+
 
 			System.out.println(xIndexsOfFirstLineDots);
 			System.out.println(xIndexsOfSecondLineDots);
@@ -105,19 +97,22 @@ public class TextProcessorAdvance {
 
 
 
-
 			ArrayList<LineColumn> listOfLineColumn = convertLineIntoColumnVersion_2(xIndexsOfFirstLineDots, xIndexsOfSecondLineDots, xIndexsOfThirdLineDots);
-
 			for(LineColumn col: listOfLineColumn) {
 				col.printColumn();
 			}
 
 
 			ArrayList<BrailleWord> brailleWords = getBrailleWordsFromLine(listOfLineColumn);
-
-
-
+			
+			for(BrailleWord word: brailleWords) 
+				word.printWord();
+			
 			ArrayList<String> bengaliWordList = getBengaliWordListOfLine(brailleWords);
+			
+			
+
+			
 
 			String Line = "";
 			for(int index = 0; index < bengaliWordList.size(); index++) {
@@ -156,7 +151,6 @@ public class TextProcessorAdvance {
 
 		ArrayList<String> bengaliWordList = new ArrayList<String>();
 		Utils.OUTPUT_LIST.add("all word is identified in this line");
-//		Utils.OUTPUT_LIST.add("previous columnlist size :: " + listOfLineColumn.size());
 
 		int cont = 0;
 		for(int x = 0; x < brailleWords.size(); x++) {
@@ -164,7 +158,6 @@ public class TextProcessorAdvance {
 		}
 
 
-//		Utils.OUTPUT_LIST.add("after columnlist size :: " + listOfLineColumn.size());
 		Utils.OUTPUT_LIST.add("word size:: " + brailleWords.size());
 
 
@@ -290,6 +283,33 @@ public class TextProcessorAdvance {
 
 
 
+			
+			if(coveredColSize < coulmnToCovered) {
+				
+				LineColumn previousColumn = word.getColList().get(coulmnToCovered - 2);
+				LineColumn currentColumn = word.getColList().get(coulmnToCovered - 1);
+				int diff = currentColumn.getAverageIndex() - previousColumn.getAverageIndex();
+				
+				
+				if(diff < 65) {
+					
+					LetterInBrailleCode letter = new LetterInBrailleCode(currentColumn, "000");
+					Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
+					coveredColSize++;
+					bengaliWord.addLetters(letter.getLetter());
+					
+				} else if(diff < 85) {
+					
+					LetterInBrailleCode letter = new LetterInBrailleCode("000", currentColumn);
+					Utils.OUTPUT_LIST.add("letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
+					coveredColSize++;
+					bengaliWord.addLetters(letter.getLetter());
+					Utils.OUTPUT_LIST.add("bengali letter:: eith bug " + letter.getLetter());
+
+				}
+				coveredColSize++;
+			}
+			
 
 			Utils.OUTPUT_LIST.add("column covered :: " + coveredColSize);
 			Utils.OUTPUT_LIST.add("------------------- * word covered * -------------------");
