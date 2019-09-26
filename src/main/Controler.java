@@ -102,7 +102,7 @@ public class Controler implements Initializable {
 
 	@FXML
 	private void default_file_chooser_ui_choose_button(MouseEvent mouseEvent) {
-		File file = fileChooser.showOpenDialog(TempTest.STAGE);
+		File file = fileChooser.showOpenDialog(AppStartClass.STAGE);
 		if (file != null) {
 			default_template_ui_file_path_textfield.setText(file.getAbsolutePath());
 			choosedFile = file;
@@ -213,7 +213,7 @@ public class Controler implements Initializable {
 	private void default_file_chooser_ui_save_button(MouseEvent mouseEvent) {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
-        File file = fileChooser.showSaveDialog(TempTest.STAGE);
+        File file = fileChooser.showSaveDialog(AppStartClass.STAGE);
 
         if (file != null) {
             saveTextToFile(output_textarea.getText(), file);

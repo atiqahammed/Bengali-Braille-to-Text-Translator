@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import util.Utils;
 
-public class TempTest extends Application{
+public class AppStartClass extends Application{
 
 
 	public static Stage STAGE;
