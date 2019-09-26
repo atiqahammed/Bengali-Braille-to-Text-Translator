@@ -26,8 +26,14 @@ public class TempTest extends Application{
 	}
 
 	public static void main(String[] args) {
+		// Application with user interface
 //		launch(args);
-		System.out.println("hello");
+		
+		// application with console output
+		Utils.FUNCTIONS.getBengaliText("braille-data/data_04.jpg");
+		
+		
+		
 	}
 
 }
