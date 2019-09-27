@@ -284,7 +284,7 @@ public class TextProcessorAdvance {
 
 
 			
-			if(coveredColSize < coulmnToCovered) {
+			if(coveredColSize < coulmnToCovered && coulmnToCovered >= 2) {
 				
 				LineColumn previousColumn = word.getColList().get(coulmnToCovered - 2);
 				LineColumn currentColumn = word.getColList().get(coulmnToCovered - 1);
