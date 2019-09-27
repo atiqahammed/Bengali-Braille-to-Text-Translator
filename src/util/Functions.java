@@ -468,8 +468,30 @@ public class Functions {
 
 	public ArrayList<String> getReadableMergedWord(ArrayList<String> letters) {
 
+		
+		
+		
+		ArrayList<Integer> indexsOfLetterToRemove = new ArrayList<Integer>();
+		
+		
+		
+		for(int i = 1; i < letters.size(); i++) {
+			String previousLetter = letters.get(i - 1);
+			String currentLetter = letters.get(i);
+			
+			if(previousLetter.equals("$") && currentLetter.equals("র")) {
+				System.out.println("bug is here to resolve");
+				letters.set(i - 1, "ঋ");
+				indexsOfLetterToRemove.add(i);
+				
+				letters.remove(i);
+				i--;
+				
+			}
+		}
+		
+		
 		int wordLength = letters.size();
-
 		for(int i = 1; i < wordLength; i++) {
 			String previousLetter = letters.get(i - 1);
 			String currentLetter = letters.get(i);

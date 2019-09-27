@@ -33,7 +33,7 @@ public class BengaliWord {
 		letterList = Utils.FUNCTIONS.getReadableMergedWord(letterList);
 
 		String word = "";
-		for(int i = 0; i < arraySize; i++) {
+		for(int i = 0; i < letterList.size(); i++) {
 //			if(Utils.LETTERS.isConcateLetter(letterList.get(i)) && i + 1 < arraySize) {
 //				Collections.swap(letterList, i, i + 1);
 //				i++;

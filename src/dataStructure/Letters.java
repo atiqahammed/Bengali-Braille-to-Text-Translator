@@ -108,6 +108,8 @@ public class Letters {
 		symbolToLetter.put("011000", ";");
 		symbolToLetter.put("011001", "?");
 		symbolToLetter.put("001001", "-");
+		
+		symbolToLetter.put("000010", "$");
 
 		//symbolToLetter.put("011010", "!");
 		//symbolToLetter.put("010010", ":");
