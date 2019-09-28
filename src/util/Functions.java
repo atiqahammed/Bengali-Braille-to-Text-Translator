@@ -250,20 +250,32 @@ public class Functions {
 
       Imgproc.threshold(dst, dst, 0, 255, Imgproc.THRESH_OTSU);
       
+      
+      
+      
+//      int erosion_size = 2;
+//      int dilation_size = 5;
+//      
+//      Mat element = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new  Size(1, 1));
+//      
+//      Imgproc.erode(dst, dst, element);
+      
+//      Imgproc.threshold(dst, dst, 0, 255, Imgproc.THRESH_BINARY_INV);
+      
 //      Imgproc.medianBlur(dst, dst, 3);
 //      Imgproc.morphologyEx(dst, dst, Imgproc.MORPH_ERODE, kernel);
       
       Imgcodecs.imwrite("pre_processed_image.jpg", dst);
-      System.out.println("pre processing is completed");
-
+//      System.out.println("pre processing is completed");
+//
       File image_file = new File("pre_processed_image.jpg");
-
+//
       image_file = Utils.OPOSITE_BINARY_CONVERTOR.getOpositBinaryImage(image_file);
       new TextProcessorAdvance().getRectangularDottedFile(image_file);
 
       Utils.FILE_READ_WRITER.writeOutput(Utils.OUTPUT_LIST, Utils.OUTPUT_FILE_NAME);
       System.out.println("Execution is completed");
-		
+//		
 		
 		return null;
 	}

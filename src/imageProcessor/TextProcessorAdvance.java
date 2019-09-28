@@ -77,9 +77,6 @@ public class TextProcessorAdvance {
 
 
 		int lineSize = allSegmentedLines.size();
-//		int lineSize = 3;
-
-
 		for(int i = 0; i < lineSize; i++) {
 
 
@@ -112,8 +109,6 @@ public class TextProcessorAdvance {
 			
 			
 
-			
-
 			String Line = "";
 			for(int index = 0; index < bengaliWordList.size(); index++) {
 				Line += bengaliWordList.get(index) + "   ";
@@ -122,20 +117,12 @@ public class TextProcessorAdvance {
 			Lines.add(Line);
 
 
-
-
 		}
 
-		for(int i = 0; i < Lines.size(); i++) {
-//			text.add(Lines.get(i));
+		for(int i = 0; i < Lines.size(); i++) 
 			System.out.println(Lines.get(i) + " ...");
-		}
 
-//		text.addAll(Line)
-
-
-
-		FileWithPrintWriter printWriter = null;
+//		FileWithPrintWriter printWriter = null;
 		File outputfile = new File(Utils.OUTPUT_IMAGE_FILE_NAME + "." + Utils.OUTPUT_IMAGE_FILE_TYPE);
 
 		try {
@@ -1025,10 +1012,11 @@ public class TextProcessorAdvance {
 		int dotListSize = dotListOfLine.size();
 
 		// collecting all x from dots
-		for(int i = 0; i < dotListSize; i++)
+		for(int i = 0; i < dotListSize; i++) 
 			allXs.add(dotListOfLine.get(i).getX());
 
 		Collections.sort(allXs);
+		System.out.println(allXs);
 
 		int previousXIndexOfDot = allXs.get(0);
 		ArrayList<Integer> dotsToRemove = new ArrayList<Integer>();
