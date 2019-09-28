@@ -136,14 +136,14 @@ public class TextProcessorAdvance {
 
 
 		FileWithPrintWriter printWriter = null;
-		File outputfile = new File("dotDetected.jpg");
+		File outputfile = new File(Utils.OUTPUT_IMAGE_FILE_NAME + "." + Utils.OUTPUT_IMAGE_FILE_TYPE);
 
 		try {
-			ImageIO.write(outputImage, "jpg", outputfile);
+			ImageIO.write(outputImage, Utils.OUTPUT_IMAGE_FILE_TYPE, outputfile);
 		} catch (IOException e1) {
 
 		}
-//		text = bangla_text;
+		
 		return Lines;
 	}
 

@@ -23,6 +23,8 @@ public class Utils {
 	public static final String BRAILLE_TO_TEXT_TRANSLATOR = "Bengali Braille to Text Translator";
 	public static final String OUTPUT_FILE_NAME = "output.txt";
 	public static final String SEETING_FILE_NAME = "Settings.file";
+	public static final String OUTPUT_IMAGE_FILE_NAME = "output";
+	public static final String OUTPUT_IMAGE_FILE_TYPE = "jpg";
 	public static final String IMAGE_PATTERN = "([^\\s]+(\\.(?i)(jpg|png|jpeg))$)";
 
 	public static boolean GAUSSIAN_BLUR;
