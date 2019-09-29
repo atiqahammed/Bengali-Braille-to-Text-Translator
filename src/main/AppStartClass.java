@@ -31,7 +31,7 @@ public class AppStartClass extends Application{
 //		launch(args);
 		
 		// application with console output
-		Utils.FUNCTIONS.getBengaliText("braille-data/data_01.jpg");
+		Utils.FUNCTIONS.getBengaliText("braille-data/data_03.jpg");
 		
 		System.out.println("end");
 		
