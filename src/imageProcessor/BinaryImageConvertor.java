@@ -3,7 +3,7 @@ package imageProcessor;
 import java.awt.Color;
 import java.io.File;
 
-import util.Utils;
+import util.Constant;
 
 public class BinaryImageConvertor extends ImageProcessor{
 
@@ -15,10 +15,10 @@ public class BinaryImageConvertor extends ImageProcessor{
 		int grayScale = (int) c.getRed();
 		Color color;
 		if (grayScale < threshold)
-			color = Utils.WHITE;
+			color = Constant.WHITE;
 
 		else
-			color = Utils.BLACK;
+			color = Constant.BLACK;
 
 		outputImage.setRGB(indexOfColumn, indexOfRow, color.getRGB());
 

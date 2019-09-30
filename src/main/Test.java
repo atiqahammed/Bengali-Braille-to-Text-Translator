@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import imageProcessor.TextProcessor;
 import imageProcessor.TextProcessorAdvance;
 import preProcessor.Dilation;
-import util.Utils;
+import util.Constant;
 
 
 public class Test {

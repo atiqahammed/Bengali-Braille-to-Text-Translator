@@ -32,7 +32,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import preProcessor.Dilation;
-import util.Utils;
+import util.Constant;
 
 public class Controler implements Initializable {
 
@@ -134,14 +134,14 @@ public class Controler implements Initializable {
 		else
 			System.out.println("null");
 
-		if (Utils.GAUSSIAN_BLUR) {
+		if (Constant.GAUSSIAN_BLUR) {
 			// gaussian_blur_checkbox.setSelected(true);
 
 //			gaussian_blur_checkbox.setSelected(true);
 
 			System.out.println("g");
 		}
-		if (Utils.MEDIAN_BLUR) {
+		if (Constant.MEDIAN_BLUR) {
 //			median_blur_checkbox.setText("hello");
 //			median_blur_checkbox.setSelected(true);
 			System.out.println("M");
@@ -173,41 +173,41 @@ public class Controler implements Initializable {
 		else {
 
 			if (gaussian_blur_checkbox.isSelected()) {
-				Utils.GAUSSIAN_BLUR = true;
+				Constant.GAUSSIAN_BLUR = true;
 			} else {
-				Utils.GAUSSIAN_BLUR = false;
+				Constant.GAUSSIAN_BLUR = false;
 			}
 
 			if (median_blur_checkbox.isSelected()) {
-				Utils.MEDIAN_BLUR = true;
+				Constant.MEDIAN_BLUR = true;
 			} else {
-				Utils.MEDIAN_BLUR = false;
+				Constant.MEDIAN_BLUR = false;
 			}
 
 		}
 
 		ArrayList<String> settings = new ArrayList<>();
 
-		if (Utils.GAUSSIAN_BLUR) {
+		if (Constant.GAUSSIAN_BLUR) {
 			settings.add("gaussian_blur+true");
 		} else {
 			settings.add("gaussian_blur+false");
 		}
 
-		if (Utils.MEDIAN_BLUR) {
+		if (Constant.MEDIAN_BLUR) {
 			settings.add("median_blur+true");
 		} else {
 			settings.add("median_blur+false");
 		}
 
-		Utils.FILE_READ_WRITER.writeOutput(settings, Utils.SEETING_FILE_NAME);
+		Constant.FILE_READ_WRITER.writeOutput(settings, Constant.SEETING_FILE_NAME);
 
 	}
 
 	@FXML
 	private void default_file_chooser_ui_image_view_button(MouseEvent mouseEvent) {
 
-		File file = new File(Utils.OUTPUT_IMAGE_FILE_NAME + "." + Utils.OUTPUT_IMAGE_FILE_TYPE);
+		File file = new File(Constant.OUTPUT_IMAGE_FILE_NAME + "." + Constant.OUTPUT_IMAGE_FILE_TYPE);
 
 		// first check if Desktop is supported by Platform or not
 		if (!Desktop.isDesktopSupported()) {
@@ -242,8 +242,8 @@ public class Controler implements Initializable {
 	private void default_file_chooser_ui_done_button(MouseEvent mouseEvent) {
 
 		String filePathInTextField = default_template_ui_file_path_textfield.getText();
-		boolean validFile = Utils.FUNCTIONS.validateImageFileType(filePathInTextField);
-		validFile = validFile && Utils.FUNCTIONS.isSelectedFileValid(choosedFile, filePathInTextField);
+		boolean validFile = Constant.FUNCTIONS.validateImageFileType(filePathInTextField);
+		validFile = validFile && Constant.FUNCTIONS.isSelectedFileValid(choosedFile, filePathInTextField);
 
 		if (validFile) {
 
@@ -269,11 +269,11 @@ public class Controler implements Initializable {
 
 			File image_file = new File("pre_processed_image.jpg");
 
-			image_file = Utils.OPOSITE_BINARY_CONVERTOR.getOpositBinaryImage(image_file);
+			image_file = Constant.OPOSITE_BINARY_CONVERTOR.getOpositBinaryImage(image_file);
 
 			ArrayList<String> lines = new TextProcessorAdvance().getRectangularDottedFile(image_file);
 //
-			Utils.FILE_READ_WRITER.writeOutput(Utils.OUTPUT_LIST, Utils.OUTPUT_FILE_NAME);
+			Constant.FILE_READ_WRITER.writeOutput(Constant.OUTPUT_LIST, Constant.OUTPUT_FILE_NAME);
 			System.out.println("Execution is completed");
 
 			output_textarea.setText("");

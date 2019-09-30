@@ -2,7 +2,7 @@ package dataStructure;
 
 import java.util.ArrayList;
 
-import util.Utils;
+import util.Constant;
 
 public class BrailleWord {
 
@@ -17,10 +17,10 @@ public class BrailleWord {
 	}
 	
 	public void printWord() {
-		Utils.OUTPUT_LIST.add("----- Print a braille words column -----");
+		Constant.OUTPUT_LIST.add("----- Print a braille words column -----");
 		for(LineColumn column: colList)
 			column.printColumn();
-		Utils.OUTPUT_LIST.add("----- ............................ -----");
+		Constant.OUTPUT_LIST.add("----- ............................ -----");
 	}
 
 }

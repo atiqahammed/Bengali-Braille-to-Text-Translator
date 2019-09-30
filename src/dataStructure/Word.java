@@ -1,6 +1,6 @@
 package dataStructure;
 
-import util.Utils;
+import util.Constant;
 
 public class Word {
 
@@ -26,9 +26,9 @@ public class Word {
 	}
 
 	public void print_all_information_of_word() {
-		Utils.OUTPUT_LIST.add("line index:: " + upper_line_index + " " + middle_line_index + " " + lower_line_index);
-		Utils.OUTPUT_LIST.add("first word :: " + first_word + " ---  second word :: " + second_word);
-		Utils.OUTPUT_LIST.add("selected word::  " + selected_word);
+		Constant.OUTPUT_LIST.add("line index:: " + upper_line_index + " " + middle_line_index + " " + lower_line_index);
+		Constant.OUTPUT_LIST.add("first word :: " + first_word + " ---  second word :: " + second_word);
+		Constant.OUTPUT_LIST.add("selected word::  " + selected_word);
 	}
 
 	public void set_selected_word(String word) {

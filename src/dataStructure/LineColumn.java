@@ -1,6 +1,6 @@
 package dataStructure;
 
-import util.Utils;
+import util.Constant;
 
 public class LineColumn {
 
@@ -47,7 +47,7 @@ public class LineColumn {
 	}
 
 	public void printColumn() {
-		Utils.OUTPUT_LIST.add("this is a column with index = " + averageIndex);
-		Utils.OUTPUT_LIST.add(symbol);
+		Constant.OUTPUT_LIST.add("this is a column with index = " + averageIndex);
+		Constant.OUTPUT_LIST.add(symbol);
 	}
 }

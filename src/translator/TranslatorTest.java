@@ -3,7 +3,7 @@ package translator;
 import java.io.File;
 import imageProcessor.DotProcessor;
 import preProcessor.Dilation;
-import util.Utils;
+import util.Constant;
 
 public class TranslatorTest {
 

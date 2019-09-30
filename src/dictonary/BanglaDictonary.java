@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import dataStructure.Word;
-import util.Utils;
+import util.Constant;
 
 public class BanglaDictonary {
 
 	private ArrayList<String> wordList;// = new ArrayList<>();
 
 	public BanglaDictonary() {
-		wordList = Utils.FILE_READ_WRITER.readStringsFromFile("data/braille.dict.txt");
+		wordList = Constant.FILE_READ_WRITER.readStringsFromFile("data/braille.dict.txt");
 	}
 
 	public void test() {
-		Utils.FILE_READ_WRITER.writeOutput(wordList, Utils.OUTPUT_FILE_NAME);
+		Constant.FILE_READ_WRITER.writeOutput(wordList, Constant.OUTPUT_FILE_NAME);
 	}
 
 	public int calculate(String x, String y) {

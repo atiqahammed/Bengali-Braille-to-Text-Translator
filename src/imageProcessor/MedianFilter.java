@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import util.Utils;
+import util.Constant;
 
 public class MedianFilter extends ImageProcessor{
 
@@ -39,8 +39,8 @@ public class MedianFilter extends ImageProcessor{
 		int medianValue = colorValue.get(colorValue.size()/2);
 		Color color;
 		if(medianValue == 0)
-			color = Utils.BLACK;
-		else color = Utils.WHITE;
+			color = Constant.BLACK;
+		else color = Constant.WHITE;
 		outputImage.setRGB(indexOfColumn, indexOfRow, color.getRGB());
 
 	}

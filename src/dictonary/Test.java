@@ -3,7 +3,7 @@ package dictonary;
 
 import java.util.ArrayList;
 
-import util.Utils;
+import util.Constant;
 
 public class Test {
 

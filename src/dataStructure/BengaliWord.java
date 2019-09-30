@@ -3,7 +3,7 @@ package dataStructure;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import util.Utils;
+import util.Constant;
 
 public class BengaliWord {
 
@@ -21,7 +21,7 @@ public class BengaliWord {
 
 		int arraySize = letterList.size();
 		for(int i = 0; i < arraySize; i++) {
-			if(Utils.LETTERS.isConcateLetter(letterList.get(i)) && i + 1 < arraySize) {
+			if(Constant.LETTERS.isConcateLetter(letterList.get(i)) && i + 1 < arraySize) {
 				Collections.swap(letterList, i, i + 1);
 				i++;
 			}
@@ -30,7 +30,7 @@ public class BengaliWord {
 		}
 
 
-		letterList = Utils.FUNCTIONS.getReadableMergedWord(letterList);
+		letterList = Constant.FUNCTIONS.getReadableMergedWord(letterList);
 
 		String word = "";
 		for(int i = 0; i < letterList.size(); i++) {
@@ -60,7 +60,7 @@ public class BengaliWord {
 		}
 
 
-		Utils.OUTPUT_LIST.add(finalWord);
+		Constant.OUTPUT_LIST.add(finalWord);
 
 		return finalWord;
 	}

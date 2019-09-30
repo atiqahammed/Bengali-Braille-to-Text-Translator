@@ -1,6 +1,6 @@
 package dataStructure;
 
-import util.Utils;
+import util.Constant;
 
 public class LetterInBrailleCode {
 
@@ -27,11 +27,11 @@ public class LetterInBrailleCode {
 	}
 
 	public String getLetter() {
-		return Utils.LETTERS.getLetters(symbol);
+		return Constant.LETTERS.getLetters(symbol);
 	}
 
 	public void print() {
-		Utils.OUTPUT_LIST.add("symbol :: " + symbol + "  ,  letter :: " + getLetter());
+		Constant.OUTPUT_LIST.add("symbol :: " + symbol + "  ,  letter :: " + getLetter());
 	}
 
 }

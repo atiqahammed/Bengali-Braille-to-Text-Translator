@@ -22,7 +22,7 @@ import dataStructure.LineColumn;
 import dataStructure.Point;
 import dataStructure.Word;
 import fileManager.FileWithPrintWriter;
-import util.Utils;
+import util.Constant;
 
 public class TextProcessorAdvance {
 
@@ -63,7 +63,7 @@ public class TextProcessorAdvance {
 		processLineInformation(allCenter);
 		Collections.sort(lineIndex);
 		lineIndex = mergeLineIndexs(lineIndex);
-		colorLine(lineIndex, Utils.RED);
+		colorLine(lineIndex, Constant.RED);
 		processDistance();
 
 		ArrayList<Line> allSegmentedLines = getAllLine();
@@ -72,8 +72,11 @@ public class TextProcessorAdvance {
 
 		colorSegmentedLine(allSegmentedLines);
 		ArrayList<String> Lines = new ArrayList<String>();
-
-		for (int i = 0; i < 1/* lineSize */; i++) {
+		int lineSize = allSegmentedLines.size();
+		
+		
+		
+		for (int i = 0; i <  lineSize ; i++) {
 
 			System.out.println("------------------");
 			
@@ -122,7 +125,7 @@ public class TextProcessorAdvance {
 			
 		}
 
-		int lineSize = allSegmentedLines.size();
+		
 		for (int i = 0; i <  lineSize ; i++) {
 
 			Line li = allSegmentedLines.get(i);
@@ -166,10 +169,10 @@ public class TextProcessorAdvance {
 			System.out.println(Lines.get(i) + " ...");
 
 //		FileWithPrintWriter printWriter = null;
-		File outputfile = new File(Utils.OUTPUT_IMAGE_FILE_NAME + "." + Utils.OUTPUT_IMAGE_FILE_TYPE);
+		File outputfile = new File(Constant.OUTPUT_IMAGE_FILE_NAME + "." + Constant.OUTPUT_IMAGE_FILE_TYPE);
 
 		try {
-			ImageIO.write(outputImage, Utils.OUTPUT_IMAGE_FILE_TYPE, outputfile);
+			ImageIO.write(outputImage, Constant.OUTPUT_IMAGE_FILE_TYPE, outputfile);
 		} catch (IOException e1) {
 
 		}
@@ -180,24 +183,24 @@ public class TextProcessorAdvance {
 	private ArrayList<String> getBengaliWordListOfLine(ArrayList<BrailleWord> brailleWords) {
 
 		ArrayList<String> bengaliWordList = new ArrayList<String>();
-		Utils.OUTPUT_LIST.add("all word is identified in this line");
+		Constant.OUTPUT_LIST.add("all word is identified in this line");
 
 		int cont = 0;
 		for (int x = 0; x < brailleWords.size(); x++) {
 			cont += brailleWords.get(x).getColList().size();
 		}
 
-		Utils.OUTPUT_LIST.add("word size:: " + brailleWords.size());
+		Constant.OUTPUT_LIST.add("word size:: " + brailleWords.size());
 
 		for (int j = 0; j < brailleWords.size(); j++) {
 
-			Utils.OUTPUT_LIST.add("=====================================");
+			Constant.OUTPUT_LIST.add("=====================================");
 
 			BengaliWord bengaliWord = new BengaliWord();
 
 			BrailleWord word = brailleWords.get(j);
 
-			Utils.OUTPUT_LIST
+			Constant.OUTPUT_LIST
 					.add("word no :: " + (j + 1) + " and number of column in this word :: " + word.getColList().size());
 
 			int coulmnToCovered = word.getColList().size();
@@ -208,19 +211,19 @@ public class TextProcessorAdvance {
 				LineColumn previousColumn = word.getColList().get(colIndex - 1);
 				LineColumn currentColumn = word.getColList().get(colIndex);
 
-				Utils.OUTPUT_LIST.add("previous column:: ");
+				Constant.OUTPUT_LIST.add("previous column:: ");
 				previousColumn.printColumn();
-				Utils.OUTPUT_LIST.add("current column::  ");
+				Constant.OUTPUT_LIST.add("current column::  ");
 				currentColumn.printColumn();
 
-				Utils.OUTPUT_LIST.add(currentColumn.getAverageIndex() + "  " + previousColumn.getAverageIndex());
+				Constant.OUTPUT_LIST.add(currentColumn.getAverageIndex() + "  " + previousColumn.getAverageIndex());
 				int diff = currentColumn.getAverageIndex() - previousColumn.getAverageIndex();
-				Utils.OUTPUT_LIST.add("difference found:: " + diff);
+				Constant.OUTPUT_LIST.add("difference found:: " + diff);
 
 				if (diff < 40) {
 
 					LetterInBrailleCode letter = new LetterInBrailleCode(previousColumn, currentColumn);
-					Utils.OUTPUT_LIST.add(
+					Constant.OUTPUT_LIST.add(
 							"letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
 					colIndex++;
 					coveredColSize += 2;
@@ -232,7 +235,7 @@ public class TextProcessorAdvance {
 				else if (diff < 65) {
 
 					LetterInBrailleCode letter = new LetterInBrailleCode("000", previousColumn);
-					Utils.OUTPUT_LIST.add(
+					Constant.OUTPUT_LIST.add(
 							"letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
 					coveredColSize++;
 					bengaliWord.addLetters(letter.getLetter());
@@ -241,7 +244,7 @@ public class TextProcessorAdvance {
 
 				else if (diff < 85) {
 
-					Utils.OUTPUT_LIST.add("colIndex :: " + colIndex);
+					Constant.OUTPUT_LIST.add("colIndex :: " + colIndex);
 
 					if (colIndex - 3 >= 0 && word.getColList().get(colIndex - 2).getAverageIndex()
 							- word.getColList().get(colIndex - 3).getAverageIndex() < 40) {
@@ -253,7 +256,7 @@ public class TextProcessorAdvance {
 
 						int currentDistance = previousColumn.getAverageIndex()
 								- word.getColList().get(colIndex - 2).getAverageIndex();
-						Utils.OUTPUT_LIST.add("**** diff :: " + currentDistance);
+						Constant.OUTPUT_LIST.add("**** diff :: " + currentDistance);
 
 						LetterInBrailleCode letter = null;
 						if (currentDistance < 65) {
@@ -262,20 +265,20 @@ public class TextProcessorAdvance {
 							letter = new LetterInBrailleCode("000", previousColumn);
 
 //						LetterInBrailleCode letter = new LetterInBrailleCode(previousColumn, "000");
-						Utils.OUTPUT_LIST.add(
+						Constant.OUTPUT_LIST.add(
 								"letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
 						coveredColSize++;
 						bengaliWord.addLetters(letter.getLetter());
-						Utils.OUTPUT_LIST.add("bengali letter:: eith bug " + letter.getLetter());
+						Constant.OUTPUT_LIST.add("bengali letter:: eith bug " + letter.getLetter());
 
 					}
 
 					else if (colIndex + 1 < coulmnToCovered && word.getColList().get(colIndex + 1).getAverageIndex()
 							- currentColumn.getAverageIndex() < 40) {
 
-						Utils.OUTPUT_LIST.add("bug is over here " + colIndex);
+						Constant.OUTPUT_LIST.add("bug is over here " + colIndex);
 						LetterInBrailleCode letter = new LetterInBrailleCode(previousColumn, "000");
-						Utils.OUTPUT_LIST.add(
+						Constant.OUTPUT_LIST.add(
 								"letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
 						coveredColSize++;
 						bengaliWord.addLetters(letter.getLetter());
@@ -285,9 +288,9 @@ public class TextProcessorAdvance {
 					}
 
 					else {
-						Utils.OUTPUT_LIST.add("output is here...");
+						Constant.OUTPUT_LIST.add("output is here...");
 						LetterInBrailleCode letter = new LetterInBrailleCode(previousColumn, "000");
-						Utils.OUTPUT_LIST.add(
+						Constant.OUTPUT_LIST.add(
 								"letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
 						coveredColSize++;
 						bengaliWord.addLetters(letter.getLetter());
@@ -298,7 +301,7 @@ public class TextProcessorAdvance {
 				else {
 
 					LetterInBrailleCode letter = new LetterInBrailleCode(previousColumn, "000");
-					Utils.OUTPUT_LIST.add(
+					Constant.OUTPUT_LIST.add(
 							"letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
 					coveredColSize++;
 					bengaliWord.addLetters(letter.getLetter());
@@ -314,7 +317,7 @@ public class TextProcessorAdvance {
 				if (diff < 65) {
 
 					LetterInBrailleCode letter = new LetterInBrailleCode(currentColumn, "000");
-					Utils.OUTPUT_LIST.add(
+					Constant.OUTPUT_LIST.add(
 							"letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
 					coveredColSize++;
 					bengaliWord.addLetters(letter.getLetter());
@@ -322,18 +325,18 @@ public class TextProcessorAdvance {
 				} else if (diff < 85) {
 
 					LetterInBrailleCode letter = new LetterInBrailleCode("000", currentColumn);
-					Utils.OUTPUT_LIST.add(
+					Constant.OUTPUT_LIST.add(
 							"letter code :: " + letter.getSymbol() + " .. bengali letter :: " + letter.getLetter());
 					coveredColSize++;
 					bengaliWord.addLetters(letter.getLetter());
-					Utils.OUTPUT_LIST.add("bengali letter:: eith bug " + letter.getLetter());
+					Constant.OUTPUT_LIST.add("bengali letter:: eith bug " + letter.getLetter());
 
 				}
 				coveredColSize++;
 			}
 
-			Utils.OUTPUT_LIST.add("column covered :: " + coveredColSize);
-			Utils.OUTPUT_LIST.add("------------------- * word covered * -------------------");
+			Constant.OUTPUT_LIST.add("column covered :: " + coveredColSize);
+			Constant.OUTPUT_LIST.add("------------------- * word covered * -------------------");
 			String bngWord = bengaliWord.getBengaliWord();
 			bengaliWordList.add(bngWord);
 
@@ -389,7 +392,7 @@ public class TextProcessorAdvance {
 			String probableWord1 = firstProbableWord(wordWithColumnSegment);
 			String probableWord2 = secondProbableWord(wordWithColumnSegment);
 
-			String word = Utils.BANGLA_DICTIONARY.getWordWithLessEditDistance(probableWord1, probableWord2);
+			String word = Constant.BANGLA_DICTIONARY.getWordWithLessEditDistance(probableWord1, probableWord2);
 			words.add(word);
 		}
 		return words;
@@ -400,18 +403,18 @@ public class TextProcessorAdvance {
 		int nextColumnLimit = (lineDistance * 5) / 10;
 		ArrayList<LineColumn> currentWordSegment = (ArrayList<LineColumn>) wordWithColumnSegment.clone();
 		int currentColumnIndex = currentWordSegment.get(0).getAverageIndex();
-		Utils.OUTPUT_LIST.add("initial current column index as 2nd column of word is -> " + currentColumnIndex);
+		Constant.OUTPUT_LIST.add("initial current column index as 2nd column of word is -> " + currentColumnIndex);
 		int sizeOfCurrentLineColumnSegment = currentWordSegment.size();
 
 		String symbol1 = currentWordSegment.get(0).getSymbol();
 		String symbol = "000" + symbol1;
-		String letter = Utils.LETTERS.getLetters(symbol);
+		String letter = Constant.LETTERS.getLetters(symbol);
 		letters.add(letter);
 		currentWordSegment.remove(0);
 		int columnCovered = 1;
 
-		Utils.OUTPUT_LIST.add(symbol);
-		Utils.OUTPUT_LIST.add(letter);
+		Constant.OUTPUT_LIST.add(symbol);
+		Constant.OUTPUT_LIST.add(letter);
 
 //		Utils.OUTPUT_LIST.add("initial size:: " + sizeOfCurrentLineColumnSegment);
 //		Utils.OUTPUT_LIST.add("lineDistance " + lineDistance);
@@ -419,18 +422,18 @@ public class TextProcessorAdvance {
 
 		int estimatedNextColumnIndex = currentColumnIndex + lineDistance;
 		if (columnCovered == sizeOfCurrentLineColumnSegment) {
-			Utils.OUTPUT_LIST.add("ding ding not found any thing...");
+			Constant.OUTPUT_LIST.add("ding ding not found any thing...");
 			return getwordInString(letters);
 		}
 
 		int tempIndex = currentWordSegment.get(0).getAverageIndex();
 		int difference = Math.abs(estimatedNextColumnIndex - tempIndex);
 
-		Utils.OUTPUT_LIST.add("estimated next column :: " + estimatedNextColumnIndex);
-		Utils.OUTPUT_LIST.add("actual next column :: " + tempIndex);
+		Constant.OUTPUT_LIST.add("estimated next column :: " + estimatedNextColumnIndex);
+		Constant.OUTPUT_LIST.add("actual next column :: " + tempIndex);
 
 		if (difference <= nextColumnLimit * 2) {
-			Utils.OUTPUT_LIST.add("next column is found immediate column");
+			Constant.OUTPUT_LIST.add("next column is found immediate column");
 
 			currentColumnIndex = tempIndex;
 			symbol1 = currentWordSegment.get(0).getSymbol();
@@ -439,13 +442,13 @@ public class TextProcessorAdvance {
 		}
 
 		else {
-			Utils.OUTPUT_LIST.add("after next column is found immediate column");
+			Constant.OUTPUT_LIST.add("after next column is found immediate column");
 
 			difference = Math.abs((estimatedNextColumnIndex + lineDistance) - tempIndex);
-			Utils.OUTPUT_LIST.add("after next difference " + difference);
+			Constant.OUTPUT_LIST.add("after next difference " + difference);
 
 			if (difference <= nextColumnLimit * 2) {
-				Utils.OUTPUT_LIST.add("next column is found next column of the letter column");
+				Constant.OUTPUT_LIST.add("next column is found next column of the letter column");
 
 				currentColumnIndex = estimatedNextColumnIndex;
 				symbol1 = "000";
@@ -453,7 +456,7 @@ public class TextProcessorAdvance {
 			}
 
 			else {
-				Utils.OUTPUT_LIST.add("not found eny thing :( ******");
+				Constant.OUTPUT_LIST.add("not found eny thing :( ******");
 				return getwordInString(letters);
 			}
 		}
@@ -463,9 +466,9 @@ public class TextProcessorAdvance {
 			int nextColumnIndex = currentWordSegment.get(0).getAverageIndex();
 			difference = nextColumnIndex - currentColumnIndex;
 
-			Utils.OUTPUT_LIST.add("current column information :: " + currentColumnIndex + "  -- " + symbol1
+			Constant.OUTPUT_LIST.add("current column information :: " + currentColumnIndex + "  -- " + symbol1
 					+ " next column Index :: " + nextColumnIndex);
-			Utils.OUTPUT_LIST.add("difference " + difference);
+			Constant.OUTPUT_LIST.add("difference " + difference);
 			// next column found
 			if (difference >= lineDistance - nextColumnLimit && difference <= lineDistance + nextColumnLimit) {
 				String symbol2 = currentWordSegment.get(0).getSymbol();
@@ -476,22 +479,22 @@ public class TextProcessorAdvance {
 				else
 					columnCovered += 2;
 
-				letter = Utils.LETTERS.getLetters(symbol);
+				letter = Constant.LETTERS.getLetters(symbol);
 				letters.add(letter);
 				currentWordSegment.remove(0);
 
-				Utils.OUTPUT_LIST.add(symbol);
-				Utils.OUTPUT_LIST.add(letter);
+				Constant.OUTPUT_LIST.add(symbol);
+				Constant.OUTPUT_LIST.add(letter);
 			}
 
 			else {
 				symbol = symbol1 + "000";
-				String Letter = Utils.LETTERS.getLetters(symbol);
+				String Letter = Constant.LETTERS.getLetters(symbol);
 				letters.add(letter);
 				columnCovered += 1;
 
-				Utils.OUTPUT_LIST.add(symbol);
-				Utils.OUTPUT_LIST.add(Letter);
+				Constant.OUTPUT_LIST.add(symbol);
+				Constant.OUTPUT_LIST.add(Letter);
 			}
 
 			currentColumnIndex = currentColumnIndex + lineDistance * 2;
@@ -501,23 +504,23 @@ public class TextProcessorAdvance {
 			tempIndex = currentWordSegment.get(0).getAverageIndex();
 			difference = Math.abs(tempIndex - currentColumnIndex);
 
-			Utils.OUTPUT_LIST.add("Actual next index:: " + tempIndex);
-			Utils.OUTPUT_LIST.add("Predected column index:: " + currentColumnIndex);
-			Utils.OUTPUT_LIST.add("difference for next column index:: " + difference);
+			Constant.OUTPUT_LIST.add("Actual next index:: " + tempIndex);
+			Constant.OUTPUT_LIST.add("Predected column index:: " + currentColumnIndex);
+			Constant.OUTPUT_LIST.add("difference for next column index:: " + difference);
 
 			if (difference <= 2 * nextColumnLimit) {
 				currentColumnIndex = tempIndex;
 				symbol1 = currentWordSegment.get(0).getSymbol();
 				currentWordSegment.remove(0);
 
-				Utils.OUTPUT_LIST.add("next line found:: " + currentColumnIndex);
-				Utils.OUTPUT_LIST.add("symbol of next:: " + symbol1);
+				Constant.OUTPUT_LIST.add("next line found:: " + currentColumnIndex);
+				Constant.OUTPUT_LIST.add("symbol of next:: " + symbol1);
 			}
 
-			Utils.OUTPUT_LIST.add("column covered:: " + columnCovered);
+			Constant.OUTPUT_LIST.add("column covered:: " + columnCovered);
 		}
 
-		letters = Utils.FUNCTIONS.getReadableMergedWord(letters);
+		letters = Constant.FUNCTIONS.getReadableMergedWord(letters);
 		return getwordInString(letters);
 
 	}
@@ -534,18 +537,18 @@ public class TextProcessorAdvance {
 		String symbol1 = currentWordSegment.get(0).getSymbol();
 		currentWordSegment.remove(0);
 
-		Utils.OUTPUT_LIST.add("initial size:: " + sizeOfCurrentLineColumnSegment);
-		Utils.OUTPUT_LIST.add("lineDistance " + lineDistance);
-		Utils.OUTPUT_LIST.add("next column limit " + nextColumnLimit);
+		Constant.OUTPUT_LIST.add("initial size:: " + sizeOfCurrentLineColumnSegment);
+		Constant.OUTPUT_LIST.add("lineDistance " + lineDistance);
+		Constant.OUTPUT_LIST.add("next column limit " + nextColumnLimit);
 
 		while (currentWordSegment.size() > 0) {
 
 			int nextColumnIndex = currentWordSegment.get(0).getAverageIndex();
 			int difference = nextColumnIndex - currentColumnIndex;
 
-			Utils.OUTPUT_LIST.add("current column information :: " + currentColumnIndex + "  -- " + symbol1
+			Constant.OUTPUT_LIST.add("current column information :: " + currentColumnIndex + "  -- " + symbol1
 					+ " next column Index :: " + nextColumnIndex);
-			Utils.OUTPUT_LIST.add("difference " + difference);
+			Constant.OUTPUT_LIST.add("difference " + difference);
 			// next column found
 			if (difference >= lineDistance - nextColumnLimit && difference <= lineDistance + nextColumnLimit) {
 				String symbol2 = currentWordSegment.get(0).getSymbol();
@@ -556,22 +559,22 @@ public class TextProcessorAdvance {
 				else
 					columnCovered += 2;
 
-				String letter = Utils.LETTERS.getLetters(symbol);
+				String letter = Constant.LETTERS.getLetters(symbol);
 				currentWordSegment.remove(0);
 				letters.add(letter);
 
-				Utils.OUTPUT_LIST.add(symbol);
-				Utils.OUTPUT_LIST.add(letter);
+				Constant.OUTPUT_LIST.add(symbol);
+				Constant.OUTPUT_LIST.add(letter);
 			}
 
 			else {
 				String symbol = symbol1 + "000";
-				String letter = Utils.LETTERS.getLetters(symbol);
+				String letter = Constant.LETTERS.getLetters(symbol);
 				columnCovered += 1;
 				letters.add(letter);
 
-				Utils.OUTPUT_LIST.add(symbol);
-				Utils.OUTPUT_LIST.add(letter);
+				Constant.OUTPUT_LIST.add(symbol);
+				Constant.OUTPUT_LIST.add(letter);
 			}
 
 			currentColumnIndex = currentColumnIndex + lineDistance * 2;
@@ -581,32 +584,32 @@ public class TextProcessorAdvance {
 			int tempIndex = currentWordSegment.get(0).getAverageIndex();
 			difference = Math.abs(tempIndex - currentColumnIndex);
 
-			Utils.OUTPUT_LIST.add("Actual next index:: " + tempIndex);
-			Utils.OUTPUT_LIST.add("Predected column index:: " + currentColumnIndex);
-			Utils.OUTPUT_LIST.add("difference for next column index:: " + difference);
+			Constant.OUTPUT_LIST.add("Actual next index:: " + tempIndex);
+			Constant.OUTPUT_LIST.add("Predected column index:: " + currentColumnIndex);
+			Constant.OUTPUT_LIST.add("difference for next column index:: " + difference);
 
 			if (difference <= 2 * nextColumnLimit) {
 				currentColumnIndex = tempIndex;
 				symbol1 = currentWordSegment.get(0).getSymbol();
 				currentWordSegment.remove(0);
 
-				Utils.OUTPUT_LIST.add("next line found:: " + currentColumnIndex);
-				Utils.OUTPUT_LIST.add("symbol of next:: " + symbol1);
+				Constant.OUTPUT_LIST.add("next line found:: " + currentColumnIndex);
+				Constant.OUTPUT_LIST.add("symbol of next:: " + symbol1);
 			}
 
-			Utils.OUTPUT_LIST.add("column covered:: " + columnCovered);
+			Constant.OUTPUT_LIST.add("column covered:: " + columnCovered);
 		}
 
 		if (columnCovered != sizeOfCurrentLineColumnSegment) {
 			String symbol = symbol1 + "000";
-			String letter = Utils.LETTERS.getLetters(symbol);
+			String letter = Constant.LETTERS.getLetters(symbol);
 
-			Utils.OUTPUT_LIST.add("all column is not covered properly...");
-			Utils.OUTPUT_LIST.add(letter);
+			Constant.OUTPUT_LIST.add("all column is not covered properly...");
+			Constant.OUTPUT_LIST.add(letter);
 			letters.add(letter);
 		}
 
-		letters = Utils.FUNCTIONS.getReadableMergedWord(letters);
+		letters = Constant.FUNCTIONS.getReadableMergedWord(letters);
 
 		String stringWord1 = getwordInString(letters);
 		return stringWord1;
@@ -619,7 +622,7 @@ public class TextProcessorAdvance {
 			allSelectedSingleLine.add(allSegmentedLines.get(i).getMiddleLineIndex());
 			allSelectedSingleLine.add(allSegmentedLines.get(i).getLowerLineIndex());
 		}
-		colorLine(allSelectedSingleLine, Utils.YELLOW);
+		colorLine(allSelectedSingleLine, Constant.YELLOW);
 	}
 
 	private ArrayList<Line> getAllLine() {
@@ -806,11 +809,11 @@ public class TextProcessorAdvance {
 			differenceBetweenLines.add(lineIndex.get(i) - lineIndex.get(i - 1));
 		Collections.sort(differenceBetweenLines);
 		lineDistance = differenceBetweenLines.get(differenceBetweenLines.size() / 2);
-		Utils.DIFFERENCE_BETWEEN_LINE = lineDistance;
+		Constant.DIFFERENCE_BETWEEN_LINE = lineDistance;
 		acceptanceOfLineDistance = (int) ((double) lineDistance * 0.50);
-		Utils.DIFFERENCE_BETWEEN_WORDS = lineDistance * 3 - (lineDistance / 4);
+		Constant.DIFFERENCE_BETWEEN_WORDS = lineDistance * 3 - (lineDistance / 4);
 
-		Utils.OUTPUT_LIST.add("line distance:: " + lineDistance);
+		Constant.OUTPUT_LIST.add("line distance:: " + lineDistance);
 
 	}
 
@@ -823,10 +826,10 @@ public class TextProcessorAdvance {
 //
 //		System.out.println("-- " + lineIndex.size());
 
-		int differenceLimit = Utils.INITAL_DIFFRENCE_BETWEEN_LINE;
+		int differenceLimit = Constant.INITAL_DIFFRENCE_BETWEEN_LINE;
 		ArrayList<Integer> tempLineIndex = new ArrayList<>();
 
-		while (differenceLimit <= Utils.MAXIMUM_DISTANCE) {
+		while (differenceLimit <= Constant.MAXIMUM_DISTANCE) {
 
 			ArrayList<Integer> copyOfLineIndex = (ArrayList<Integer>) lineIndex.clone();
 			ArrayList<Integer> newLineIndexList = new ArrayList<>();
@@ -891,7 +894,7 @@ public class TextProcessorAdvance {
 //			System.out.println(lineIndex.size());
 			lineIndex = getAverageLineIndexBasedOnDots(lineIndex);
 //			System.out.println(lineIndex.size());
-			differenceLimit += Utils.LINE_INDEX_MERGED_UNIT;
+			differenceLimit += Constant.LINE_INDEX_MERGED_UNIT;
 		}
 
 		if (tempLineIndex.size() >= 0) {
@@ -922,7 +925,7 @@ public class TextProcessorAdvance {
 			currentColumn = listOfLineColumn.get(i);
 			int tempAverageIndex = currentColumn.getAverageIndex();
 
-			if (tempAverageIndex - currentColumnAverageIndex >= Utils.DIFFERENCE_BETWEEN_WORDS) {
+			if (tempAverageIndex - currentColumnAverageIndex >= Constant.DIFFERENCE_BETWEEN_WORDS) {
 				segmentedColumnList.add((ArrayList<LineColumn>) currentCulmnList.clone());
 				currentCulmnList = new ArrayList<LineColumn>();
 			}
@@ -940,10 +943,10 @@ public class TextProcessorAdvance {
 			ArrayList<Integer> xIndexsOfSecondLineDots, ArrayList<Integer> xIndexsOfThirdLineDots) {
 
 		ArrayList<LineColumn> columnList = new ArrayList<LineColumn>();
-		int limit = Utils.DIFFERENCE_BETWEEN_LINE / 2;
+		int limit = Constant.DIFFERENCE_BETWEEN_LINE / 2;
 
 		while (anyDotExistInThreeLine(xIndexsOfFirstLineDots, xIndexsOfSecondLineDots, xIndexsOfThirdLineDots)) {
-			Utils.OUTPUT_LIST.add(xIndexsOfFirstLineDots.size() + " - " + xIndexsOfSecondLineDots.size() + " - "
+			Constant.OUTPUT_LIST.add(xIndexsOfFirstLineDots.size() + " - " + xIndexsOfSecondLineDots.size() + " - "
 					+ xIndexsOfThirdLineDots.size());
 			int smallestIndex = width + 100;
 
@@ -953,7 +956,7 @@ public class TextProcessorAdvance {
 				smallestIndex = Math.min(smallestIndex, xIndexsOfSecondLineDots.get(0));
 			if (xIndexsOfThirdLineDots.size() > 0)
 				smallestIndex = Math.min(smallestIndex, xIndexsOfThirdLineDots.get(0));
-			Utils.OUTPUT_LIST.add(smallestIndex + " small index");
+			Constant.OUTPUT_LIST.add(smallestIndex + " small index");
 
 			int upperDot = -1;
 			int middledot = -1;
@@ -975,7 +978,7 @@ public class TextProcessorAdvance {
 				xIndexsOfThirdLineDots.remove(0);
 			}
 
-			Utils.OUTPUT_LIST.add(upperDot + "*" + middledot + "*" + lowerDot);
+			Constant.OUTPUT_LIST.add(upperDot + "*" + middledot + "*" + lowerDot);
 
 			columnList.add(new LineColumn(upperDot, middledot, lowerDot));
 		}
@@ -990,7 +993,7 @@ public class TextProcessorAdvance {
 		int limit = distanceBetweenDot / 2;
 
 		while (anyDotExistInThreeLine(xIndexsOfFirstLineDots, xIndexsOfSecondLineDots, xIndexsOfThirdLineDots)) {
-			Utils.OUTPUT_LIST.add(xIndexsOfFirstLineDots.size() + " - " + xIndexsOfSecondLineDots.size() + " - "
+			Constant.OUTPUT_LIST.add(xIndexsOfFirstLineDots.size() + " - " + xIndexsOfSecondLineDots.size() + " - "
 					+ xIndexsOfThirdLineDots.size());
 			int smallestIndex = width + 100;
 
@@ -1000,7 +1003,7 @@ public class TextProcessorAdvance {
 				smallestIndex = Math.min(smallestIndex, xIndexsOfSecondLineDots.get(0));
 			if (xIndexsOfThirdLineDots.size() > 0)
 				smallestIndex = Math.min(smallestIndex, xIndexsOfThirdLineDots.get(0));
-			Utils.OUTPUT_LIST.add(smallestIndex + " small index");
+			Constant.OUTPUT_LIST.add(smallestIndex + " small index");
 
 			int upperDot = -1;
 			int middledot = -1;
@@ -1022,7 +1025,7 @@ public class TextProcessorAdvance {
 				xIndexsOfThirdLineDots.remove(0);
 			}
 
-			Utils.OUTPUT_LIST.add(upperDot + "*" + middledot + "*" + lowerDot);
+			Constant.OUTPUT_LIST.add(upperDot + "*" + middledot + "*" + lowerDot);
 
 			columnList.add(new LineColumn(upperDot, middledot, lowerDot));
 		}
@@ -1057,11 +1060,12 @@ public class TextProcessorAdvance {
 		ArrayList<Integer> dotsToRemove = new ArrayList<Integer>();
 
 		for (int j = 1; j < allXs.size(); j++) {
-			if (allXs.get(j) - previousXIndexOfDot < Utils.SAME_POINT_COVERAGE)
+			if (allXs.get(j) - previousXIndexOfDot < Constant.SAME_POINT_COVERAGE)
 				dotsToRemove.add(previousXIndexOfDot);
 			previousXIndexOfDot = allXs.get(j);
 		}
 
+		/* this part is not so good product at all ==================================================
 //		for(int j = 1; j < allXs.size(); j++) {
 //			if(allXs.get(j) - previousXIndexOfDot < Utils.SAME_POINT_COVERAGE) {
 //				dotsToRemove.add(allXs.get(j));
@@ -1070,12 +1074,59 @@ public class TextProcessorAdvance {
 //			else 
 //				previousXIndexOfDot = allXs.get(j);
 //		}
+ 
+		 =============================================================================================*/
+		
+		/*
+		ArrayList<Integer> selectedDots = new ArrayList<Integer>(); 
+		int previousXIndexOfDot = allXs.get(0);
+		ArrayList<Integer> dotsToRemove = new ArrayList<Integer>();
+		ArrayList<Integer> dotSegment = new ArrayList<Integer>();
+		dotSegment.add(previousXIndexOfDot);
+		
+		
+		
+		
+		for (int j = 1; j < allXs.size(); j++) {
+			if (allXs.get(j) - previousXIndexOfDot < Constant.SAME_POINT_COVERAGE) {
+				dotSegment.add(allXs.get(j));
+			}
+			
+			else {
+				
+				if(dotSegment.size() > 0) {
+					int average = calculateAverage(dotSegment);
+					selectedDots.add(average);
+				}
+				
+				dotSegment = new ArrayList<Integer>();
+				
+				
+			}
+				dotsToRemove.add(previousXIndexOfDot);
+			previousXIndexOfDot = allXs.get(j);
+		}
+		
+		if(dotSegment.size() > 0) {
+			int average = calculateAverage(dotSegment);
+			selectedDots.add(average);
+		}
+		*/
+		
 
 		for (int j = 0; j < dotsToRemove.size(); j++)
 			allXs.remove(dotsToRemove.get(j));
 
 		return allXs;
 	}
+	
+	private int calculateAverage(ArrayList<Integer> marks) {
+	      int sum = 0;
+	      for (int i=0; i< marks.size(); i++) {
+	            sum += i;
+	      }
+	      return sum / marks.size();
+	  }
 
 	private ArrayList<String> getLettersFromLast(int firstLineIndex, int secondLineIndex, int thirdLineIndex) {
 
@@ -1158,7 +1209,7 @@ public class TextProcessorAdvance {
 			System.out.println(nextUpperDot + " " + nextLowerDot + " " + nextMiddelDot);
 			System.out.println("current Index " + currentIndex);
 
-			Utils.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
+			Constant.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
 
 			// second level identification....
 			if (firstLine.size() > 0) {
@@ -1188,14 +1239,14 @@ public class TextProcessorAdvance {
 			System.out.println(upperDot + " " + middelDot + " " + lowerDot + "  >");
 			if (nextUpperDot == -1 && nextMiddelDot == -1 && nextLowerDot == -1) {
 				if (upperDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
 				if (middelDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
 				if (lowerDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
 
 //				System.out.println(letter);
-				letters.add(Utils.LETTERS.getLetters(letter));
+				letters.add(Constant.LETTERS.getLetters(letter));
 
 				ArrayList<Integer> tempIndex = new ArrayList<Integer>();
 				if (firstLine.size() > 0)
@@ -1216,21 +1267,21 @@ public class TextProcessorAdvance {
 
 			else {
 				if (upperDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
 				if (middelDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
 				if (lowerDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
 
 				if (nextUpperDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 3);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 3);
 				if (nextMiddelDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 4);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 4);
 				if (nextLowerDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 5);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 5);
 
 				System.out.println(letter);
-				letters.add(Utils.LETTERS.getLetters(letter));
+				letters.add(Constant.LETTERS.getLetters(letter));
 
 				ArrayList<Integer> tempIndex = new ArrayList<Integer>();
 				if (firstLine.size() > 0)
@@ -1261,9 +1312,9 @@ public class TextProcessorAdvance {
 
 	private ArrayList<Integer> getMergedLineIndex(ArrayList<Integer> list) {
 
-		int differenceLimit = Utils.INITAL_DIFFRENCE_BETWEEN_LINE;
+		int differenceLimit = Constant.INITAL_DIFFRENCE_BETWEEN_LINE;
 
-		while (differenceLimit <= Utils.MAXIMUM_DISTANCE) {
+		while (differenceLimit <= Constant.MAXIMUM_DISTANCE) {
 
 			ArrayList<Integer> copyOfLineIndex = (ArrayList<Integer>) list.clone();
 			ArrayList<Integer> newLineIndexList = new ArrayList<>();
@@ -1427,7 +1478,7 @@ public class TextProcessorAdvance {
 			System.out.println(upperDot + " " + middelDot + " " + lowerDot);
 			System.out.println("current Index " + currentIndex);
 
-			Utils.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
+			Constant.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
 
 			// second level identification....
 			if (firstLine.size() > 0) {
@@ -1454,14 +1505,14 @@ public class TextProcessorAdvance {
 			System.out.println(nextUpperDot + " " + nextMiddelDot + " " + nextLowerDot + "  >");
 			if (nextUpperDot == -1 && nextMiddelDot == -1 && nextLowerDot == -1) {
 				if (upperDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
 				if (middelDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
 				if (lowerDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
 
 //				System.out.println(letter);
-				letters.add(Utils.LETTERS.getLetters(letter));
+				letters.add(Constant.LETTERS.getLetters(letter));
 
 				ArrayList<Integer> tempIndex = new ArrayList<Integer>();
 				if (firstLine.size() > 0)
@@ -1482,21 +1533,21 @@ public class TextProcessorAdvance {
 
 			else {
 				if (upperDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
 				if (middelDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
 				if (lowerDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
 
 				if (nextUpperDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 3);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 3);
 				if (nextMiddelDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 4);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 4);
 				if (nextLowerDot != -1)
-					letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 5);
+					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 5);
 
 				System.out.println(letter);
-				letters.add(Utils.LETTERS.getLetters(letter));
+				letters.add(Constant.LETTERS.getLetters(letter));
 
 				ArrayList<Integer> tempIndex = new ArrayList<Integer>();
 				if (firstLine.size() > 0)
@@ -1535,7 +1586,7 @@ public class TextProcessorAdvance {
 		ArrayList<Integer> dotsToRemove = new ArrayList<Integer>();
 
 		for (int j = 1; j < dots.size(); j++) {
-			if (dots.get(j) - previousXIndexOfDot < Utils.SAME_POINT_COVERAGE)
+			if (dots.get(j) - previousXIndexOfDot < Constant.SAME_POINT_COVERAGE)
 				dotsToRemove.add(previousXIndexOfDot);
 			previousXIndexOfDot = dots.get(j);
 		}
@@ -1593,7 +1644,7 @@ public class TextProcessorAdvance {
 	private void processLineInformation(ArrayList<Point> allCenter) {
 		int iniTialPoint = 1;
 		int count = 0;
-		int maxH = Utils.INITAL_DIFFRENCE_BETWEEN_LINE;
+		int maxH = Constant.INITAL_DIFFRENCE_BETWEEN_LINE;
 
 		for (int i = 0; i < allCenter.size(); i++) {
 
@@ -1661,7 +1712,7 @@ public class TextProcessorAdvance {
 				for (int x = dot.getStartingX(); x <= dot.getEndingX(); x++) {
 
 					String pixel = getStringIndex(x, y);
-					if (!isColor(y, x, Utils.WHITE, outputImage))
+					if (!isColor(y, x, Constant.WHITE, outputImage))
 						flag = true;
 					pixelList.add(pixel);
 					oneDot.add(pixel);
@@ -1688,7 +1739,7 @@ public class TextProcessorAdvance {
 						String tempPixelString = getStringIndex(tempX, tempY);
 
 						if (tempY < height && tempY >= 0 && tempX < width && tempX >= 0) {
-							if (isColor(tempY, tempX, Utils.WHITE, outputImage)
+							if (isColor(tempY, tempX, Constant.WHITE, outputImage)
 									&& !pixelCounted.containsKey(tempPixelString)) {
 								pixelList.add(tempPixelString);
 								pixelCounted.put(tempPixelString, true);
@@ -1709,7 +1760,7 @@ public class TextProcessorAdvance {
 				int x = Integer.parseInt(arr[0]);
 				int y = Integer.parseInt(arr[1]);
 
-				outputImage.setRGB(x, y, Utils.RED.getRGB());
+				outputImage.setRGB(x, y, Constant.RED.getRGB());
 
 			}
 			twoDString.add(newString);
@@ -1730,7 +1781,7 @@ public class TextProcessorAdvance {
 
 			for (int x = dot.getStartingX(); x <= dot.getEndingX(); x++) {
 				for (int y = dot.getStartingY(); y <= dot.getEndingY(); y++) {
-					outputImage.setRGB(x, y, Utils.WHITE.getRGB());
+					outputImage.setRGB(x, y, Constant.WHITE.getRGB());
 				}
 			}
 		}
@@ -1741,7 +1792,7 @@ public class TextProcessorAdvance {
 		outputImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				outputImage.setRGB(x, y, Utils.BLACK.getRed());
+				outputImage.setRGB(x, y, Constant.BLACK.getRed());
 			}
 		}
 	}
@@ -1771,7 +1822,7 @@ public class TextProcessorAdvance {
 
 	private boolean isAPartOfExistingDot(Point point) {
 
-		int netghborDotSize = Utils.NEIGHBOUR_DOT_SIZE_FOR_PART_OF_DOT_SELECTION;
+		int netghborDotSize = Constant.NEIGHBOUR_DOT_SIZE_FOR_PART_OF_DOT_SELECTION;
 
 		for (int i = -netghborDotSize; i <= netghborDotSize; i++) {
 			for (int j = -netghborDotSize; j <= netghborDotSize; j++) {

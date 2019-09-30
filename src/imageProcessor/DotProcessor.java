@@ -18,7 +18,7 @@ import dataStructure.BrailleDot;
 import dataStructure.Dot;
 import dataStructure.Point;
 import fileManager.FileWithPrintWriter;
-import util.Utils;
+import util.Constant;
 
 public class DotProcessor {
 
@@ -175,7 +175,7 @@ public class DotProcessor {
 
 //		System.out.println(lineIndex);
 
-		colorLine(lineIndex, Utils.RED);
+		colorLine(lineIndex, Constant.RED);
 
 
 		ArrayList<Integer> differenceBetweenLines = new ArrayList<Integer>();
@@ -220,8 +220,8 @@ public class DotProcessor {
 					ArrayList<String> lettersInFirstSequence = getWords(firstLineIndex, secondLineIndex, thirdLineIndex);
 					ArrayList<String> lettersInLastSequence = getWords(secondLineIndex, thirdLineIndex, forthLineIndex);
 
-					int lettersInFirstLine = Utils.FUNCTIONS.getLetterCount(lettersInFirstSequence);
-					int lettersInLastLine = Utils.FUNCTIONS.getLetterCount(lettersInLastSequence);
+					int lettersInFirstLine = Constant.FUNCTIONS.getLetterCount(lettersInFirstSequence);
+					int lettersInLastLine = Constant.FUNCTIONS.getLetterCount(lettersInLastSequence);
 
 					if(lettersInFirstLine >= lettersInLastLine) {
 						System.out.println("First " + lettersInFirstSequence);
@@ -348,7 +348,7 @@ public class DotProcessor {
 //			}
 //		}
 
-		colorLine(newLineIndexList, Utils.YELLOW);
+		colorLine(newLineIndexList, Constant.YELLOW);
 
 		FileWithPrintWriter printWriter = null;
 
@@ -472,12 +472,12 @@ public class DotProcessor {
 
 //			System.out.println(nextUpperDot+" "+ nextMiddelDot +" "+ nextLowerDot+ "  >");
 			if(nextUpperDot == -1 && nextMiddelDot == -1 && nextLowerDot == -1) {
-				if(upperDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
-				if(middelDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
-				if(lowerDot!= -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
+				if(upperDot != -1) letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
+				if(middelDot != -1) letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
+				if(lowerDot!= -1) letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
 
 //				System.out.println(letter);
-				letters.add(Utils.LETTERS.getLetters(letter));
+				letters.add(Constant.LETTERS.getLetters(letter));
 
 				ArrayList<Integer> tempIndex = new ArrayList<Integer>();
 				if(firstLine.size() > 0) tempIndex.add(firstLine.get(0));
@@ -494,16 +494,16 @@ public class DotProcessor {
 			}
 
 			else {
-				if(upperDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
-				if(middelDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
-				if(lowerDot!= -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
+				if(upperDot != -1) letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
+				if(middelDot != -1) letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 1);
+				if(lowerDot!= -1) letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 2);
 
-				if(nextUpperDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 3);
-				if(nextMiddelDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 4);
-				if(nextLowerDot != -1) letter = Utils.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 5);
+				if(nextUpperDot != -1) letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 3);
+				if(nextMiddelDot != -1) letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 4);
+				if(nextLowerDot != -1) letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 5);
 
 //				System.out.println(letter);
-				letters.add(Utils.LETTERS.getLetters(letter));
+				letters.add(Constant.LETTERS.getLetters(letter));
 
 				ArrayList<Integer> tempIndex = new ArrayList<Integer>();
 				if(firstLine.size() > 0) tempIndex.add(firstLine.get(0));
@@ -538,7 +538,7 @@ public class DotProcessor {
 		ArrayList<Integer> dotsToRemove = new ArrayList<Integer>();
 
 		for(int j = 1; j < dots.size(); j++) {
-			if(dots.get(j) - previousXIndexOfDot < Utils.SAME_POINT_COVERAGE)
+			if(dots.get(j) - previousXIndexOfDot < Constant.SAME_POINT_COVERAGE)
 				dotsToRemove.add(previousXIndexOfDot);
 			previousXIndexOfDot = dots.get(j);
 		}
@@ -596,7 +596,7 @@ public class DotProcessor {
 	private void processLineInformation(ArrayList<Point> allCenter) {
 		int iniTialPoint = 1;
 		int count = 0;
-		int maxH = Utils.INITAL_DIFFRENCE_BETWEEN_LINE;
+		int maxH = Constant.INITAL_DIFFRENCE_BETWEEN_LINE;
 
 		for(int i = 0; i < allCenter.size(); i++) {
 
@@ -665,7 +665,7 @@ public class DotProcessor {
 				for(int x = dot.getStartingX(); x <= dot.getEndingX(); x ++) {
 
 					String pixel = getStringIndex(x, y);
-					if(!isColor(y, x, Utils.WHITE, outputImage))
+					if(!isColor(y, x, Constant.WHITE, outputImage))
 						flag = true;
 					pixelList.add(pixel);
 					oneDot.add(pixel);
@@ -694,7 +694,7 @@ public class DotProcessor {
 						String tempPixelString = getStringIndex(tempX, tempY);
 
 						if(tempY < height && tempY >= 0 && tempX < width && tempX >= 0) {
-							if(isColor(tempY, tempX, Utils.WHITE, outputImage) && !pixelCounted.containsKey(tempPixelString)) {
+							if(isColor(tempY, tempX, Constant.WHITE, outputImage) && !pixelCounted.containsKey(tempPixelString)) {
 								pixelList.add(tempPixelString);
 								pixelCounted.put(tempPixelString, true);
 								oneDot.add(tempPixelString);
@@ -715,7 +715,7 @@ public class DotProcessor {
 				int x = Integer.parseInt(arr[0]);
 				int y = Integer.parseInt(arr[1]);
 
-				outputImage.setRGB(x, y, Utils.RED.getRGB());
+				outputImage.setRGB(x, y, Constant.RED.getRGB());
 
 			}
 			twoDString.add(newString);
@@ -736,7 +736,7 @@ public class DotProcessor {
 
 			for (int x = dot.getStartingX(); x <= dot.getEndingX(); x++) {
 				for (int y = dot.getStartingY(); y <= dot.getEndingY(); y++) {
-					outputImage.setRGB(x, y, Utils.WHITE.getRGB());
+					outputImage.setRGB(x, y, Constant.WHITE.getRGB());
 				}
 			}
 		}
@@ -747,7 +747,7 @@ public class DotProcessor {
 		outputImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				outputImage.setRGB(x, y, Utils.BLACK.getRed());
+				outputImage.setRGB(x, y, Constant.BLACK.getRed());
 			}
 		}
 	}
@@ -777,7 +777,7 @@ public class DotProcessor {
 
 	private boolean isAPartOfExistingDot(Point point) {
 
-		int netghborDotSize = Utils.NEIGHBOUR_DOT_SIZE_FOR_PART_OF_DOT_SELECTION;
+		int netghborDotSize = Constant.NEIGHBOUR_DOT_SIZE_FOR_PART_OF_DOT_SELECTION;
 
 		for (int i = -netghborDotSize; i <= netghborDotSize; i++) {
 			for (int j = -netghborDotSize; j <= netghborDotSize; j++) {

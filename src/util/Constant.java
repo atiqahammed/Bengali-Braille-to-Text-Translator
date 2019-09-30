@@ -18,7 +18,7 @@ import javafx.scene.Parent;
 import preProcessor.OtsuThresholding;
 import test.FileReadWriter;
 
-public class Utils {
+public class Constant {
 
 	public static final String BRAILLE_TO_TEXT_TRANSLATOR = "Bengali Braille to Text Translator";
 	public static final String OUTPUT_FILE_NAME = "output.txt";

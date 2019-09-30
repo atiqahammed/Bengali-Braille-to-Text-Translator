@@ -22,7 +22,7 @@ import org.opencv.imgproc.Imgproc;
 import imageProcessor.TextProcessorAdvance;
 
 import org.opencv.core.*;
-import util.Utils;
+import util.Constant;
 
 public class Functions {
 
@@ -40,7 +40,7 @@ public class Functions {
 
 
 	protected void init() {
-		totalNumberOfPixel = Utils.IMAGE_HEIGHT * Utils.IMAGE_WEIDTH;
+		totalNumberOfPixel = Constant.IMAGE_HEIGHT * Constant.IMAGE_WEIDTH;
 		grayScaleFrequency = new TreeMap<>();
 		backgroundWeight = new TreeMap<>();
 		foregroundWeight = new TreeMap<>();
@@ -143,7 +143,7 @@ public class Functions {
 	}
 
 	public boolean validateImageFileType(final String image) {
-		Pattern pattern = Pattern.compile(Utils.IMAGE_PATTERN);
+		Pattern pattern = Pattern.compile(Constant.IMAGE_PATTERN);
 		Matcher matcher = pattern.matcher(image);
 		return matcher.matches();
 	}
@@ -174,9 +174,9 @@ public class Functions {
 	}
 
 	public ArrayList<ArrayList<Color>> convertInGrayScale() {
-		ArrayList<ArrayList<Color>> imageArray = Utils.IMAGE_ARRAY_OF_PIXEL;
-		int imageHeight = Utils.IMAGE_HEIGHT;
-		int imageWidth = Utils.IMAGE_WEIDTH;
+		ArrayList<ArrayList<Color>> imageArray = Constant.IMAGE_ARRAY_OF_PIXEL;
+		int imageHeight = Constant.IMAGE_HEIGHT;
+		int imageWidth = Constant.IMAGE_WEIDTH;
 
 		for(int i = 0; i < imageHeight; i++) {
 			for(int j = 0 ; j < imageWidth; j ++) {
@@ -197,10 +197,10 @@ public class Functions {
 
 	public int getOtsuThreshold() {
 		init();
-		ArrayList<ArrayList<Color>> imageArray = Utils.IMAGE_ARRAY_OF_PIXEL;
+		ArrayList<ArrayList<Color>> imageArray = Constant.IMAGE_ARRAY_OF_PIXEL;
 
-		for(int i = 0; i < Utils.IMAGE_HEIGHT; i++) {
-			for(int j = 0; j < Utils.IMAGE_WEIDTH; j++) {
+		for(int i = 0; i < Constant.IMAGE_HEIGHT; i++) {
+			for(int j = 0; j < Constant.IMAGE_WEIDTH; j++) {
 				int grayLevel = (int) imageArray.get(i).get(j).getRed();
 				grayScaleFrequency.put(grayLevel,grayScaleFrequency.get(grayLevel) + 1);
 			}
@@ -270,10 +270,10 @@ public class Functions {
 //
       File image_file = new File("pre_processed_image.jpg");
 //
-      image_file = Utils.OPOSITE_BINARY_CONVERTOR.getOpositBinaryImage(image_file);
+      image_file = Constant.OPOSITE_BINARY_CONVERTOR.getOpositBinaryImage(image_file);
       new TextProcessorAdvance().getRectangularDottedFile(image_file);
 
-      Utils.FILE_READ_WRITER.writeOutput(Utils.OUTPUT_LIST, Utils.OUTPUT_FILE_NAME);
+      Constant.FILE_READ_WRITER.writeOutput(Constant.OUTPUT_LIST, Constant.OUTPUT_FILE_NAME);
       System.out.println("Execution is completed");
 //		
 		
@@ -336,23 +336,23 @@ public class Functions {
 	}
 
 	public File writeInImageFile() {
-		BufferedImage outputImage = new BufferedImage(Utils.IMAGE_WEIDTH, Utils.IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
+		BufferedImage outputImage = new BufferedImage(Constant.IMAGE_WEIDTH, Constant.IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		String time = dtf.format(now);
 
-		String imagePath = Utils.IMAGE_FILE_NAME + /*"_" + time*/ "." + Utils.IMAGE_FILE_TYPE;
+		String imagePath = Constant.IMAGE_FILE_NAME + /*"_" + time*/ "." + Constant.IMAGE_FILE_TYPE;
 		File ouptutFile = new File(imagePath);
 
-		for(int i = 0; i < Utils.IMAGE_HEIGHT; i++) {
-			for(int j = 0; j < Utils.IMAGE_WEIDTH; j++) {
+		for(int i = 0; i < Constant.IMAGE_HEIGHT; i++) {
+			for(int j = 0; j < Constant.IMAGE_WEIDTH; j++) {
 
-				outputImage.setRGB(j, i, Utils.IMAGE_ARRAY_OF_PIXEL.get(i).get(j).getRGB());
+				outputImage.setRGB(j, i, Constant.IMAGE_ARRAY_OF_PIXEL.get(i).get(j).getRGB());
 			}
 		}
 
 		try {
-			ImageIO.write(outputImage, Utils.IMAGE_FILE_TYPE, ouptutFile);
+			ImageIO.write(outputImage, Constant.IMAGE_FILE_TYPE, ouptutFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -364,16 +364,16 @@ public class Functions {
 	public ArrayList<ArrayList<Color>> getImageIn2DArray(File imageFile) {
 		try {
 			BufferedImage inputImage = ImageIO.read(imageFile);
-			Utils.IMAGE_HEIGHT = inputImage.getHeight();
-			Utils.IMAGE_WEIDTH = inputImage.getWidth();
-			Utils.IMAGE_FILE_NAME = getName(imageFile);
-			Utils.IMAGE_FILE_TYPE = getImageType(imageFile);
+			Constant.IMAGE_HEIGHT = inputImage.getHeight();
+			Constant.IMAGE_WEIDTH = inputImage.getWidth();
+			Constant.IMAGE_FILE_NAME = getName(imageFile);
+			Constant.IMAGE_FILE_TYPE = getImageType(imageFile);
 
 			ArrayList<ArrayList<Color>> imageArray = new ArrayList<ArrayList<Color>>();
 
-			for(int i = 0;  i < Utils.IMAGE_HEIGHT; i++) {
+			for(int i = 0;  i < Constant.IMAGE_HEIGHT; i++) {
 				ArrayList<Color> arrayOfARow = new ArrayList<Color>();
-				for(int j = 0; j < Utils.IMAGE_WEIDTH; j++)
+				for(int j = 0; j < Constant.IMAGE_WEIDTH; j++)
 					arrayOfARow.add(new Color(inputImage.getRGB(j, i)));
 				imageArray.add(arrayOfARow);
 			}
@@ -388,13 +388,13 @@ public class Functions {
 	}
 
 	public void convertBinaryImage(int threshold) {
-		for(int i = 0; i < Utils.IMAGE_HEIGHT; i++) {
-			for(int j = 0; j < Utils.IMAGE_WEIDTH; j++) {
-				int colorValue = (int) Utils.IMAGE_ARRAY_OF_PIXEL.get(i).get(j).getRed();
+		for(int i = 0; i < Constant.IMAGE_HEIGHT; i++) {
+			for(int j = 0; j < Constant.IMAGE_WEIDTH; j++) {
+				int colorValue = (int) Constant.IMAGE_ARRAY_OF_PIXEL.get(i).get(j).getRed();
 				if(colorValue < threshold)
-					Utils.IMAGE_ARRAY_OF_PIXEL.get(i).set(j, Utils.WHITE);
+					Constant.IMAGE_ARRAY_OF_PIXEL.get(i).set(j, Constant.WHITE);
 				else
-					Utils.IMAGE_ARRAY_OF_PIXEL.get(i).set(j, Utils.BLACK);
+					Constant.IMAGE_ARRAY_OF_PIXEL.get(i).set(j, Constant.BLACK);
 			}
 		}
 	}
@@ -402,10 +402,10 @@ public class Functions {
 	public ArrayList<ArrayList<Color>> getMedianFilteredArray(int kernelSize) {
 
 		ArrayList<ArrayList<Color>> newImageArray = new ArrayList<ArrayList<Color>>();
-		for(int i = 0; i < Utils.IMAGE_HEIGHT; i++) {
+		for(int i = 0; i < Constant.IMAGE_HEIGHT; i++) {
 
 			ArrayList<Color> arrayOfARow = new ArrayList<>();
-			for(int j = 0; j < Utils.IMAGE_WEIDTH; j++) {
+			for(int j = 0; j < Constant.IMAGE_WEIDTH; j++) {
 				ArrayList<Integer> colorValue = new ArrayList<Integer>();
 
 				for (int a = -1 * kernelSize; a <= kernelSize; a++) {
@@ -414,8 +414,8 @@ public class Functions {
 						int tempX = j + a;
 						int tempY = i + b;
 
-						if (tempX >= 0 && tempX <  Utils.IMAGE_WEIDTH && tempY >= 0 && tempY < Utils.IMAGE_HEIGHT) {
-							Color c = Utils.IMAGE_ARRAY_OF_PIXEL.get(tempY).get(tempX);
+						if (tempX >= 0 && tempX <  Constant.IMAGE_WEIDTH && tempY >= 0 && tempY < Constant.IMAGE_HEIGHT) {
+							Color c = Constant.IMAGE_ARRAY_OF_PIXEL.get(tempY).get(tempX);
 							int grayScale = (int) c.getRed();
 							colorValue.add(grayScale);
 						}
@@ -425,8 +425,8 @@ public class Functions {
 				Collections.sort(colorValue);
 				int medianValue = colorValue.get(colorValue.size()/2);
 				Color color;
-				if(medianValue == 0) color = Utils.BLACK;
-				else color = Utils.WHITE;
+				if(medianValue == 0) color = Constant.BLACK;
+				else color = Constant.WHITE;
 				arrayOfARow.add(color);
 
 			}
@@ -443,12 +443,12 @@ public class Functions {
 		int row[] = {-1, 0, 1, 0};
 		int col[] = {0, 1, 0, -1};
 
-		for(int i = 0; i < Utils.IMAGE_HEIGHT; i++) {
+		for(int i = 0; i < Constant.IMAGE_HEIGHT; i++) {
 			ArrayList<Color> arrayOfARow = new ArrayList<Color>();
 
-			for(int j = 0; j < Utils.IMAGE_WEIDTH; j++) {
+			for(int j = 0; j < Constant.IMAGE_WEIDTH; j++) {
 
-				Color c = Utils.IMAGE_ARRAY_OF_PIXEL.get(i).get(j);
+				Color c = Constant.IMAGE_ARRAY_OF_PIXEL.get(i).get(j);
 				int grayScale = (int) c.getRed();
 				int count = 0;
 
@@ -456,8 +456,8 @@ public class Functions {
 					int tempX = j + col[a];
 					int tempY = i + row[a];
 
-					if(tempX>= 0 && tempX < Utils.IMAGE_WEIDTH && tempY >= 0 && tempY < Utils.IMAGE_HEIGHT) {
-						Color color = Utils.IMAGE_ARRAY_OF_PIXEL.get(tempY).get(tempX);
+					if(tempX>= 0 && tempX < Constant.IMAGE_WEIDTH && tempY >= 0 && tempY < Constant.IMAGE_HEIGHT) {
+						Color color = Constant.IMAGE_ARRAY_OF_PIXEL.get(tempY).get(tempX);
 						int grayValue = (int) color.getRed();
 						if(grayValue == 255) count++;
 					}
@@ -465,8 +465,8 @@ public class Functions {
 				}
 
 				Color color;
-				if (count >= 1) color = Utils.WHITE;
-				else color = Utils.BLACK;
+				if (count >= 1) color = Constant.WHITE;
+				else color = Constant.BLACK;
 
 				arrayOfARow.add(color);
 			}
@@ -508,8 +508,8 @@ public class Functions {
 			String previousLetter = letters.get(i - 1);
 			String currentLetter = letters.get(i);
 
-			if(Utils.LETTERS.isShoroBorno(currentLetter) && Utils.LETTERS.isBanjonBorno(previousLetter)) {
-				currentLetter = Utils.LETTERS.getRepresentativeKarSymbol(currentLetter);
+			if(Constant.LETTERS.isShoroBorno(currentLetter) && Constant.LETTERS.isBanjonBorno(previousLetter)) {
+				currentLetter = Constant.LETTERS.getRepresentativeKarSymbol(currentLetter);
 				letters.set(i, currentLetter);
 			}
 		}

@@ -3,7 +3,7 @@ package imageProcessor;
 import java.awt.Color;
 import java.io.File;
 
-import util.Utils;
+import util.Constant;
 
 public class OpositeBinaryImageConvertor extends ImageProcessor{
 
@@ -13,10 +13,10 @@ public class OpositeBinaryImageConvertor extends ImageProcessor{
 		int grayScale = (int) currentPixelColor.getRed();
 		Color color;
 		if (grayScale == 0)
-			color = Utils.WHITE;
+			color = Constant.WHITE;
 
 		else
-			color = Utils.BLACK;
+			color = Constant.BLACK;
 		outputImage.setRGB(indexOfColumn, indexOfRow, color.getRGB());
 	}
 
