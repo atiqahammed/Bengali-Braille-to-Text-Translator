@@ -120,7 +120,6 @@ public class Controler implements Initializable {
 
 	@FXML
 	private void main_iu_user_manual_button(MouseEvent mouseEvent) {
-		System.out.println("user manual button");
 		loadUI("user_man_anchorpane_ui");
 	}
 

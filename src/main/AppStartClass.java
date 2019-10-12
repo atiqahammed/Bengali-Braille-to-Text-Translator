@@ -28,10 +28,10 @@ public class AppStartClass extends Application{
 	public static void main(String[] args) {
 		
 		// Application with user interface
-//		launch(args);
+		launch(args);
 		
 		// application with console output
-		Constant.FUNCTIONS.getBengaliText("braille-data/data_06.jpg");
+//		Constant.FUNCTIONS.getBengaliText("braille-data/data_06.jpg");
 		
 		System.out.println("end");
 		

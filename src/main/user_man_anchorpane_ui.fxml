@@ -7,9 +7,34 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Text layoutX="44.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User manual " wrappingWidth="256.13671875">
+      <Text layoutX="49.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User manual " wrappingWidth="256.13671875">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Text>
+      <Text layoutX="51.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To transtale braille code into bengali text please follow the instruction given below." wrappingWidth="508.13671875">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text layoutX="90.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1. Click on the &quot;Translate&quot; button. " wrappingWidth="457.13671875">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text layoutX="90.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2. Choose a image using the &quot;Choose Image&quot; button." wrappingWidth="457.13671875">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text layoutX="90.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3. Click on the &quot;Translate Image&quot; button to translate the image." wrappingWidth="457.13671875">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text layoutX="90.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4. To save the translated Bengali text in a text file click on &quot;Save Text&quot; button." wrappingWidth="457.13671875">
+         <font>
+            <Font size="16.0" />
          </font>
       </Text>
    </children>
