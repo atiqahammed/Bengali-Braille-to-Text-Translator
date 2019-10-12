@@ -1,9 +1,14 @@
 package main;
 
+import java.util.Optional;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import util.Constant;
 
@@ -22,6 +27,30 @@ public class AppStartClass extends Application{
 		primaryStage.setResizable(false);
 		primaryStage.show();
 		STAGE = primaryStage;
+		
+		
+		primaryStage.setOnCloseRequest( event ->
+	    {
+	    	
+	    	Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirm Braille to Text Translator Close");
+			alert.setHeaderText("Do you want to close the application?");
+			alert.setContentText("Choose your option.");
+
+			ButtonType buttonTypeOne = new ButtonType("No");
+			ButtonType buttonTypeTwo = new ButtonType("Yes");
+
+			alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == buttonTypeOne){
+				alert.close();
+				event.consume();
+			}  else if(result.get() == buttonTypeTwo){
+				primaryStage.close();
+				
+			}
+	    });
 
 	}
 

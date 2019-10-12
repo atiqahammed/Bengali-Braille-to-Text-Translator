@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
@@ -24,6 +25,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -58,7 +60,25 @@ public class Controler implements Initializable {
 
 	@FXML
 	private void exit(MouseEvent mouseEvent) {
-		System.exit(0);
+		
+		
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirm Braille to Text Translator Close");
+		alert.setHeaderText("Do you want to close the application?");
+		alert.setContentText("Choose your option.");
+
+		ButtonType buttonTypeOne = new ButtonType("No");
+		ButtonType buttonTypeTwo = new ButtonType("Yes");
+
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == buttonTypeOne){
+			alert.close();
+		}  else if(result.get() == buttonTypeTwo){
+			System.exit(0);
+		}
+		
 	}
 
 	@FXML
