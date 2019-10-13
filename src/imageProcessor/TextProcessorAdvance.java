@@ -23,6 +23,7 @@ import dataStructure.Point;
 import dataStructure.Word;
 import fileManager.FileWithPrintWriter;
 import util.Constant;
+import util.Utils;
 
 public class TextProcessorAdvance {
 
@@ -62,7 +63,30 @@ public class TextProcessorAdvance {
 		ArrayList<Point> allCenter = getAllCenter();
 		processLineInformation(allCenter);
 		Collections.sort(lineIndex);
+		
+		
+//		for(int t: lineIndex)
+//			lineIndexToDotListMap.get(t).clear();
+		
+		
 		lineIndex = mergeLineIndexs(lineIndex);
+		
+		for(int t: lineIndex)
+			lineIndexToDotListMap.put(t, new ArrayList<Point>());
+		
+		for(Point point: allCenter) {
+			int index = getNearestLineIndex(point.getY(), lineIndex);
+			lineIndexToDotListMap.get(index).add(point);
+		}
+		
+		ArrayList<Point> temp = new ArrayList<Point>();
+		for(int t: lineIndex)
+			temp.addAll(lineIndexToDotListMap.get(t));
+		
+		System.out.println("final list: " + temp.size());
+		
+		
+		
 		colorLine(lineIndex, Constant.RED);
 		processDistance();
 
@@ -88,9 +112,9 @@ public class TextProcessorAdvance {
 			threeIndexs.add(li.getMiddleLineIndex());
 			threeIndexs.add(li.getLowerLineIndex());
 			
-			System.out.println(lineIndexToDotListMap.get(li.getUpperLineIndex()).size());
-			System.out.println(lineIndexToDotListMap.get(li.getMiddleLineIndex()).size());
-			System.out.println(lineIndexToDotListMap.get(li.getLowerLineIndex()).size());
+//			System.out.println(lineIndexToDotListMap.get(li.getUpperLineIndex()).size());
+//			System.out.println(lineIndexToDotListMap.get(li.getMiddleLineIndex()).size());
+//			System.out.println(lineIndexToDotListMap.get(li.getLowerLineIndex()).size());
 			
 			
 			ArrayList<Point> allLineDot = new ArrayList<Point>();
@@ -98,7 +122,7 @@ public class TextProcessorAdvance {
 			allLineDot.addAll(lineIndexToDotListMap.get(li.getMiddleLineIndex()));
 			allLineDot.addAll(lineIndexToDotListMap.get(li.getLowerLineIndex()));
 			
-			System.out.println("- " + allLineDot.size());
+//			System.out.println("- " + allLineDot.size());
 			
 			lineIndexToDotListMap.put(li.getUpperLineIndex(), new ArrayList<Point>());
 			lineIndexToDotListMap.put(li.getMiddleLineIndex(), new ArrayList<Point>());
@@ -110,21 +134,16 @@ public class TextProcessorAdvance {
 				lineIndexToDotListMap.get(selectedLineIndex).add(allLineDot.get(index));
 			}
 			
-			System.out.println("Done -- ");
 			
+//			System.out.println(lineIndexToDotListMap.get(li.getUpperLineIndex()).size());
+//			System.out.println(lineIndexToDotListMap.get(li.getMiddleLineIndex()).size());
+//			System.out.println(lineIndexToDotListMap.get(li.getLowerLineIndex()).size());
 			
-			System.out.println(lineIndexToDotListMap.get(li.getUpperLineIndex()).size());
-			System.out.println(lineIndexToDotListMap.get(li.getMiddleLineIndex()).size());
-			System.out.println(lineIndexToDotListMap.get(li.getLowerLineIndex()).size());
-			
-			
-			System.out.println(threeIndexs);
-
-			
-			System.out.println("------------------");
+//			System.out.println(threeIndexs);
 			
 		}
 
+		System.out.println("bug");
 		
 		for (int i = 0; i <  lineSize ; i++) {
 
@@ -132,16 +151,13 @@ public class TextProcessorAdvance {
 			System.out.println("line : " + i + 1 + " -- " + li.getUpperLineIndex() + " " + li.getMiddleLineIndex() + " "
 					+ li.getLowerLineIndex());
 
-			ArrayList<Integer> xIndexsOfFirstLineDots = getXOfDosFromLine(
-					lineIndexToDotListMap.get(li.getUpperLineIndex()));
-			ArrayList<Integer> xIndexsOfSecondLineDots = getXOfDosFromLine(
-					lineIndexToDotListMap.get(li.getMiddleLineIndex()));
-			ArrayList<Integer> xIndexsOfThirdLineDots = getXOfDosFromLine(
-					lineIndexToDotListMap.get(li.getLowerLineIndex()));
+			ArrayList<Integer> xIndexsOfFirstLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(li.getUpperLineIndex()));
+			ArrayList<Integer> xIndexsOfSecondLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(li.getMiddleLineIndex()));
+			ArrayList<Integer> xIndexsOfThirdLineDots = getXOfDosFromLine(lineIndexToDotListMap.get(li.getLowerLineIndex()));
 
-			System.out.println(xIndexsOfFirstLineDots);
-			System.out.println(xIndexsOfSecondLineDots);
-			System.out.println(xIndexsOfThirdLineDots);
+//			System.out.println(xIndexsOfFirstLineDots);
+//			System.out.println(xIndexsOfSecondLineDots);
+//			System.out.println(xIndexsOfThirdLineDots.size()+" ok");
 
 			ArrayList<LineColumn> listOfLineColumn = convertLineIntoColumnVersion_2(xIndexsOfFirstLineDots,
 					xIndexsOfSecondLineDots, xIndexsOfThirdLineDots);
@@ -628,7 +644,7 @@ public class TextProcessorAdvance {
 	private ArrayList<Line> getAllLine() {
 		ArrayList<Line> lines = new ArrayList<Line>();
 
-		System.out.println(lineIndex);
+//		System.out.println(lineIndex);
 		int traverseIndex = 0;
 		while (traverseIndex < lineIndex.size() - 2) {
 
@@ -653,9 +669,9 @@ public class TextProcessorAdvance {
 				boolean takeThirdThreeLine = isPartOfLine(thirdLineIndex, forthLineIndex, fifthLineIndex, lineDistance,
 						acceptanceOfLineDistance);
 
-				System.out.println(firstLineIndex + " " + secondLineIndex + " " + thirdLineIndex + " " + forthLineIndex
-						+ " " + fifthLineIndex);
-				System.out.println(takeFirstThreeLine + " " + secondLineIndex + " " + thirdLineIndex);
+//				System.out.println(firstLineIndex + " " + secondLineIndex + " " + thirdLineIndex + " " + forthLineIndex
+//						+ " " + fifthLineIndex);
+//				System.out.println(takeFirstThreeLine + " " + secondLineIndex + " " + thirdLineIndex);
 
 				if (takeFirstThreeLine && takeSecondThreeLine && takeThirdThreeLine) {
 
@@ -688,8 +704,8 @@ public class TextProcessorAdvance {
 					int firstThreeCount = firstLineDotCount + secondLineDotCount + thirdLineDotCount;
 					int secondThreeCount = secondLineDotCount + thirdLineDotCount + forthLineDotCount;
 
-					System.out.println(firstLineIndex + " " + secondLineIndex);
-					System.out.println("co: " + firstThreeCount + " " + secondThreeCount);
+//					System.out.println(firstLineIndex + " " + secondLineIndex);
+//					System.out.println("co: " + firstThreeCount + " " + secondThreeCount);
 
 					if (firstThreeCount >= secondThreeCount) {
 						lines.add(new Line(firstLineIndex, secondLineIndex, thirdLineIndex));
@@ -729,17 +745,17 @@ public class TextProcessorAdvance {
 					int secondThreeCount = secondLineDotCount + thirdLineDotCount + forthLineDotCount;
 					int thirdThreeCount = thirdLineDotCount + forthLineDotCount + fifthLineDotCount;
 
-					System.out.println("ok");
+//					System.out.println("ok");
 
 					if (secondThreeCount >= thirdThreeCount) {
-						System.out.println("ok1");
+//						System.out.println("ok1");
 						lines.add(new Line(secondLineIndex, thirdLineIndex, forthLineIndex));
 						traverseIndex += 4;
 						continue;
 					}
 
 					if (thirdThreeCount >= secondThreeCount) {
-						System.out.println("ok2");
+//						System.out.println("ok2");
 						lines.add(new Line(thirdLineIndex, forthLineIndex, fifthLineIndex));
 						traverseIndex += 5;
 						continue;
@@ -1054,7 +1070,7 @@ public class TextProcessorAdvance {
 			allXs.add(dotListOfLine.get(i).getX());
 
 		Collections.sort(allXs);
-		System.out.println(allXs);
+//		System.out.println(allXs);
 
 		int previousXIndexOfDot = allXs.get(0);
 		ArrayList<Integer> dotsToRemove = new ArrayList<Integer>();
@@ -1138,9 +1154,9 @@ public class TextProcessorAdvance {
 		Collections.reverse(secondLine);
 		Collections.reverse(thirdLine);
 
-		System.out.println(firstLine);
-		System.out.println(secondLine);
-		System.out.println(thirdLine);
+//		System.out.println(firstLine);
+//		System.out.println(secondLine);
+//		System.out.println(thirdLine);
 
 		ArrayList<String> letters = new ArrayList<String>();
 
@@ -1206,8 +1222,8 @@ public class TextProcessorAdvance {
 			if (nextLowerDot > 0 && nextLowerDot > currentIndex)
 				currentIndex = nextLowerDot;
 
-			System.out.println(nextUpperDot + " " + nextLowerDot + " " + nextMiddelDot);
-			System.out.println("current Index " + currentIndex);
+//			System.out.println(nextUpperDot + " " + nextLowerDot + " " + nextMiddelDot);
+//			System.out.println("current Index " + currentIndex);
 
 			Constant.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
 
@@ -1236,7 +1252,7 @@ public class TextProcessorAdvance {
 				}
 			}
 
-			System.out.println(upperDot + " " + middelDot + " " + lowerDot + "  >");
+//			System.out.println(upperDot + " " + middelDot + " " + lowerDot + "  >");
 			if (nextUpperDot == -1 && nextMiddelDot == -1 && nextLowerDot == -1) {
 				if (upperDot != -1)
 					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
@@ -1261,7 +1277,7 @@ public class TextProcessorAdvance {
 					previousIndex = tempIndex.get(0) - 25;
 				if (tempIndex.size() > 0 && tempIndex.get(0) - currentIndex >= 90)
 					letters.add("    ");
-				System.out.println("previous index " + previousIndex);
+//				System.out.println("previous index " + previousIndex);
 
 			}
 
@@ -1280,7 +1296,7 @@ public class TextProcessorAdvance {
 				if (nextLowerDot != -1)
 					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 5);
 
-				System.out.println(letter);
+//				System.out.println(letter);
 				letters.add(Constant.LETTERS.getLetters(letter));
 
 				ArrayList<Integer> tempIndex = new ArrayList<Integer>();
@@ -1300,7 +1316,7 @@ public class TextProcessorAdvance {
 				}
 			}
 
-			System.out.println(letters);
+//			System.out.println(letters);
 		}
 
 		Collections.reverse(letters);
@@ -1407,9 +1423,9 @@ public class TextProcessorAdvance {
 		ArrayList<Integer> secondLine = getDotSequence(secondLineIndex);
 		ArrayList<Integer> thirdLine = getDotSequence(thirdLineIndex);
 
-		System.out.println(firstLine);
-		System.out.println(secondLine);
-		System.out.println(thirdLine);
+//		System.out.println(firstLine);
+//		System.out.println(secondLine);
+//		System.out.println(thirdLine);
 
 //		System.out.println("ok ok ok line");
 
@@ -1475,8 +1491,8 @@ public class TextProcessorAdvance {
 			if (lowerDot > 0 && lowerDot < currentIndex)
 				currentIndex = lowerDot;
 
-			System.out.println(upperDot + " " + middelDot + " " + lowerDot);
-			System.out.println("current Index " + currentIndex);
+//			System.out.println(upperDot + " " + middelDot + " " + lowerDot);
+//			System.out.println("current Index " + currentIndex);
 
 			Constant.FUNCTIONS.printCurrentLine(firstLine, secondLine, thirdLine);
 
@@ -1502,7 +1518,7 @@ public class TextProcessorAdvance {
 				}
 			}
 
-			System.out.println(nextUpperDot + " " + nextMiddelDot + " " + nextLowerDot + "  >");
+//			System.out.println(nextUpperDot + " " + nextMiddelDot + " " + nextLowerDot + "  >");
 			if (nextUpperDot == -1 && nextMiddelDot == -1 && nextLowerDot == -1) {
 				if (upperDot != -1)
 					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 0);
@@ -1527,7 +1543,7 @@ public class TextProcessorAdvance {
 					previousIndex = tempIndex.get(0) - 25;
 				if (tempIndex.size() > 0 && tempIndex.get(0) - currentIndex >= 90)
 					letters.add("    ");
-				System.out.println("previous index " + previousIndex);
+//				System.out.println("previous index " + previousIndex);
 
 			}
 
@@ -1546,7 +1562,7 @@ public class TextProcessorAdvance {
 				if (nextLowerDot != -1)
 					letter = Constant.FUNCTIONS.replaceCharUsingCharArray(letter, '1', 5);
 
-				System.out.println(letter);
+//				System.out.println(letter);
 				letters.add(Constant.LETTERS.getLetters(letter));
 
 				ArrayList<Integer> tempIndex = new ArrayList<Integer>();
@@ -1566,7 +1582,7 @@ public class TextProcessorAdvance {
 				}
 			}
 
-			System.out.println(letters);
+//			System.out.println(letters);
 		}
 
 		return letters;
