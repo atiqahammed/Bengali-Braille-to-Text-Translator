@@ -1,6 +1,8 @@
 package main;
 
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +18,7 @@ public class AppStartClass extends Application{
 
 
 	public static Stage STAGE;
+	private final static Logger LOG = Logger.getLogger(AppStartClass.class.getName());
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -61,10 +64,8 @@ public class AppStartClass extends Application{
 		
 		// application with console output
 //		Constant.FUNCTIONS.getBengaliText("braille-data/data_06.jpg");
-		
-		System.out.println("end");
-		
-		
+
+		LOG.info("EXIT PROGRAM SUCCESSFULLY");		
 	}
 
 }
