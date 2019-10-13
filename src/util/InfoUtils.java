@@ -2,7 +2,9 @@ package util;
 
 public class InfoUtils {
 	
-	public static final String ROOT_USER_UI_VIEW = "test_home_ui_v2.fxml";
+	public static final String ROOT_UI_VIEW = "test_home_ui_v2.fxml";
+	
+	public static final String HOME_UI_VIEW = "home_anchorpane_ui";
 	
 	
 	public static final String OPTION_CHOOSE_MESSAGE = "Choose your option.";

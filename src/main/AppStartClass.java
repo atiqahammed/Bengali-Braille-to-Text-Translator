@@ -20,7 +20,7 @@ public class AppStartClass extends Application{
 
 	
 	public static Stage STAGE;
-	private final static Logger LOG = Logger.getLogger(AppStartClass.class.getName());
+	public final static Logger LOG = Logger.getLogger(AppStartClass.class.getName());
 	
 	
 	
@@ -28,7 +28,7 @@ public class AppStartClass extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		
 
-		Parent root = FXMLLoader.load(getClass().getResource(InfoUtils.ROOT_USER_UI_VIEW));
+		Parent root = FXMLLoader.load(getClass().getResource(InfoUtils.ROOT_UI_VIEW));
 		
 		
 		Scene scene = new Scene(root);
