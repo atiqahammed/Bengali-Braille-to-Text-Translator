@@ -13,46 +13,66 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import util.Constant;
+import util.InfoUtils;
 
 public class AppStartClass extends Application{
 
 
+	
 	public static Stage STAGE;
 	private final static Logger LOG = Logger.getLogger(AppStartClass.class.getName());
-
+	
+	
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		
 
-		Parent root = FXMLLoader.load(getClass().getResource("test_home_ui_v2.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource(InfoUtils.ROOT_USER_UI_VIEW));
+		
+		
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle(Constant.BRAILLE_TO_TEXT_TRANSLATOR);
 		primaryStage.setResizable(false);
 		primaryStage.show();
+		
+		
 		STAGE = primaryStage;
 		
 		
-		primaryStage.setOnCloseRequest( event ->
-	    {
+		
+		primaryStage.setOnCloseRequest( event -> {
 	    	
+			
 	    	Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Confirm Braille to Text Translator Close");
-			alert.setHeaderText("Do you want to close the application?");
-			alert.setContentText("Choose your option.");
+			alert.setTitle(InfoUtils.APP_CLOSE_WINDOW_TITLE);
+			alert.setHeaderText(InfoUtils.APP_CLOSE_QUESTION_MESSAGE);
+			alert.setContentText(InfoUtils.OPTION_CHOOSE_MESSAGE);
 
-			ButtonType buttonTypeOne = new ButtonType("No");
-			ButtonType buttonTypeTwo = new ButtonType("Yes");
+			
+			ButtonType buttonTypeOne = new ButtonType(InfoUtils.NO_BUTTON_TEXT);
+			ButtonType buttonTypeTwo = new ButtonType(InfoUtils.YES_BUTTON_TEXT);
 
+			
 			alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
 
+			
 			Optional<ButtonType> result = alert.showAndWait();
+			
+			
+			// application close condition with confirmation...
 			if (result.get() == buttonTypeOne){
 				alert.close();
 				event.consume();
-			}  else if(result.get() == buttonTypeTwo){
+			}  
+			
+			else if(result.get() == buttonTypeTwo) {
+				
 				primaryStage.close();
 				
 			}
+			
 	    });
 
 	}
@@ -62,10 +82,13 @@ public class AppStartClass extends Application{
 		// Application with user interface
 		launch(args);
 		
+		
 		// application with console output
 //		Constant.FUNCTIONS.getBengaliText("braille-data/data_06.jpg");
 
+		
 		LOG.info("EXIT PROGRAM SUCCESSFULLY");		
+	
 	}
 
 }
