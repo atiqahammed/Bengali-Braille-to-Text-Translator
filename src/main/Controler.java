@@ -35,6 +35,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import preProcessor.Dilation;
 import util.Constant;
+import util.InfoUtils;
 
 public class Controler implements Initializable {
 
@@ -63,42 +64,49 @@ public class Controler implements Initializable {
 		
 		
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Confirm Braille to Text Translator Close");
-		alert.setHeaderText("Do you want to close the application?");
-		alert.setContentText("Choose your option.");
+		alert.setTitle(InfoUtils.APP_CLOSE_WINDOW_TITLE);
+		alert.setHeaderText(InfoUtils.APP_CLOSE_QUESTION_MESSAGE);
+		alert.setContentText(InfoUtils.OPTION_CHOOSE_MESSAGE);
 
-		ButtonType buttonTypeOne = new ButtonType("No");
-		ButtonType buttonTypeTwo = new ButtonType("Yes");
+		
+		ButtonType buttonTypeOne = new ButtonType(InfoUtils.NO_BUTTON_TEXT);
+		ButtonType buttonTypeTwo = new ButtonType(InfoUtils.YES_BUTTON_TEXT);
 
+		
 		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
-
 		Optional<ButtonType> result = alert.showAndWait();
+		
+		
 		if (result.get() == buttonTypeOne){
 			alert.close();
 		}  else if(result.get() == buttonTypeTwo){
 			System.exit(0);
 		}
 		
+		
 	}
-
+	
+	
+	
 	@FXML
 	private void main_ui_home_button(MouseEvent mouseEvent) {
-		loadUI("home_anchorpane_ui");
+		loadUI(InfoUtils.HOME_UI_VIEW);
 	}
+	
+	
 
+	// lagy code 
 	@FXML
 	private void setting_button_pressed(MouseEvent mouseEvent) {
-//		loadUI("home_anchorpane_ui");
 		System.out.println("setting pressed");
 		loadUI("setting_anchorpane_ui");
 	}
 
-//	setting_button_released
+
+	
+	// lagy code
 	@FXML
 	private void setting_button_released(MouseEvent mouseEvent) {
-//		loadUI("home_anchorpane_ui");
-//		System.out.println("setting pressed");
-//		loadUI("setting_anchorpane_ui");
 
 		if (gaussian_blur_checkbox != null)
 			System.out.println("rrr not null");
@@ -107,7 +115,10 @@ public class Controler implements Initializable {
 
 	}
 
-	// mouse_exit
+	
+	
+	
+	// lagy code
 	@FXML
 	private void mouse_exit(MouseEvent mouseEvent) {
 
@@ -118,9 +129,11 @@ public class Controler implements Initializable {
 		else
 			System.out.println("null");
 
-//		loadUI("default_file_chooser_anchorpane_ui");
 	}
 
+	
+	
+	
 	@FXML
 	private void main_iu_default_template_button(MouseEvent mouseEvent) {
 		loadUI("default_file_chooser_anchorpane_ui");
@@ -316,10 +329,16 @@ public class Controler implements Initializable {
 			choosedFile = null;
 		}
 	}
+	
+	
+	
+	
 
 	private void loadUI(String ui) {
 
 		Parent root = null;
+		
+		
 		try {
 			root = FXMLLoader.load(getClass().getResource(ui + ".fxml"));
 		} catch (IOException e) {
@@ -329,6 +348,9 @@ public class Controler implements Initializable {
 		brailleborderpane.setCenter(root);
 
 	}
+	
+	
+	
 
 	private void saveTextToFile(String content, File file) {
 		try {
@@ -337,8 +359,11 @@ public class Controler implements Initializable {
 			writer.println(content);
 			writer.close();
 		} catch (IOException ex) {
-			System.out.println("file not found to show output");
+			AppStartClass.LOG.warning("OUTPUT FILE NOT FOUND. DATA CANNOT BE SAVE.");
 		}
 	}
+	
+	
+	
 
 }
