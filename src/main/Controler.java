@@ -295,8 +295,6 @@ public class Controler implements Initializable {
 			
 			System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
-			System.out.println("here");
-
 			String imageName = filePathInTextField;
 			System.out.println(imageName);
 			Mat src = Imgcodecs.imread(imageName);

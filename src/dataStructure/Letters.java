@@ -9,6 +9,7 @@ public class Letters {
 
 	Map<String, String> symbolToLetter;
 	Map<String, String> symbolToKar;
+	Map<String, String> symbolToEnglishLetter;
 
 	ArrayList<String> shoroBorno;
 	ArrayList<String> banjonBorno;
@@ -16,6 +17,7 @@ public class Letters {
 	public Letters() {
 
 		symbolToLetter = new TreeMap<String, String>();
+		symbolToEnglishLetter = new TreeMap<String, String>();
 		symbolToKar =  new TreeMap<String, String>();
 
 		shoroBorno = new ArrayList<>(Arrays.asList("অ", "আ", "ই", "ঈ", "উ", "ঊ", "এ", "ঐ", "ও", "ঔ", "ঋ"));
@@ -113,7 +115,49 @@ public class Letters {
 
 		//symbolToLetter.put("011010", "!");
 		//symbolToLetter.put("010010", ":");
-
+		
+		
+		symbolToEnglishLetter.put("100000", "a");
+		symbolToEnglishLetter.put("110000", "b");
+		symbolToEnglishLetter.put("100100", "c");
+		symbolToEnglishLetter.put("100110", "d");
+		
+		symbolToEnglishLetter.put("100010", "e");
+		symbolToEnglishLetter.put("110100", "f");
+		symbolToEnglishLetter.put("110110", "g");
+		symbolToEnglishLetter.put("110010", "h");
+		
+		symbolToEnglishLetter.put("010100", "i");
+		symbolToEnglishLetter.put("010110", "j");
+		symbolToEnglishLetter.put("10100", "k");
+		symbolToEnglishLetter.put("111000", "l");
+		
+		symbolToEnglishLetter.put("101100", "m");
+		symbolToEnglishLetter.put("101110", "n");
+		symbolToEnglishLetter.put("101010", "o");
+		symbolToEnglishLetter.put("111100", "p");
+		
+		symbolToEnglishLetter.put("111110", "q");
+		symbolToEnglishLetter.put("111010", "r");
+		symbolToEnglishLetter.put("011100", "s");
+		symbolToEnglishLetter.put("011110", "t");
+		
+		symbolToEnglishLetter.put("101001", "u");
+		symbolToEnglishLetter.put("111001", "v");
+		symbolToEnglishLetter.put("101101", "x");
+		symbolToEnglishLetter.put("101111", "y");
+		
+		symbolToEnglishLetter.put("101011", "z");
+		symbolToEnglishLetter.put("010111", "w");
+		symbolToEnglishLetter.put("", "");
+		symbolToEnglishLetter.put("", "");
+		
+		symbolToEnglishLetter.put("", "");
+		symbolToEnglishLetter.put("", "");
+		symbolToEnglishLetter.put("", "");
+		symbolToEnglishLetter.put("", "");
+		
+		symbolToEnglishLetter.put("", "");
 	}
 
 	public boolean isConcateLetter(String letter) {
