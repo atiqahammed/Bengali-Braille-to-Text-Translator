@@ -18,7 +18,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <TextArea fx:id="output_textarea" layoutX="151.0" layoutY="135.0" prefHeight="350.0" prefWidth="299.0">
+      <TextArea fx:id="output_textarea" layoutX="150.0" layoutY="145.0" prefHeight="342.0" prefWidth="350.0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></TextArea>
@@ -32,5 +32,6 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
+      <ComboBox fx:id="language_combo" layoutX="195.0" layoutY="95.0" prefHeight="30.0" prefWidth="391.0" />
    </children>
 </AnchorPane>

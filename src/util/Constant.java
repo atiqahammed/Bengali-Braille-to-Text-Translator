@@ -66,5 +66,7 @@ public class Constant {
 	public static ArrayList<String> OUTPUT_LIST = new ArrayList<String>();
 	public static FileReadWriter FILE_READ_WRITER = new FileReadWriter();
 	public static BanglaDictonary BANGLA_DICTIONARY = new BanglaDictonary();
+	
+	public static boolean IS_BENGALI_SELECTED = true;
 
 }

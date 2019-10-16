@@ -27,6 +27,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -44,12 +46,18 @@ public class Controler implements Initializable {
 
 	@FXML
 	private BorderPane brailleborderpane;
+	
+	@FXML
+	private RadioButton bengali_radio_button;
 
 	@FXML
 	private TextArea output_textarea;
 
 	@FXML
 	private TextField default_template_ui_file_path_textfield;
+	
+	@FXML
+	private ComboBox language_combo;
 
 	final FileChooser fileChooser = new FileChooser();
 	private File choosedFile;
@@ -146,6 +154,9 @@ public class Controler implements Initializable {
 			default_template_ui_file_path_textfield.setText(file.getAbsolutePath());
 			choosedFile = file;
 		}
+		
+		language_combo.getItems().addAll(InfoUtils.LANGUAGES);
+		language_combo.setValue(InfoUtils.LANGUAGES.get(0));
 	}
 
 	// main_iu_settings_button
@@ -238,7 +249,7 @@ public class Controler implements Initializable {
 
 	@FXML
 	private void default_file_chooser_ui_image_view_button(MouseEvent mouseEvent) {
-
+		
 		File file = new File(Constant.OUTPUT_IMAGE_FILE_NAME + "." + Constant.OUTPUT_IMAGE_FILE_TYPE);
 
 		// first check if Desktop is supported by Platform or not
@@ -279,6 +290,9 @@ public class Controler implements Initializable {
 
 		if (validFile) {
 
+			if(language_combo.getValue().equals(InfoUtils.LANGUAGES.get(1)))
+				Constant.IS_BENGALI_SELECTED = false;
+			
 			System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
 			System.out.println("here");

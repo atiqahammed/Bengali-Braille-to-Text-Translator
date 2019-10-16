@@ -1,5 +1,7 @@
 package util;
 
+import java.util.ArrayList;
+
 public class InfoUtils {
 	
 	public static final String ROOT_UI_VIEW = "test_home_ui_v2.fxml";
@@ -15,5 +17,13 @@ public class InfoUtils {
 	
 	public static final String NO_BUTTON_TEXT = "No";
 	public static final String YES_BUTTON_TEXT = "Yes";
+	
+	public static final ArrayList<String> LANGUAGES = new ArrayList<String>()
+			{ 
+	            { 
+	                add("Bengali"); 
+	                add("English"); 
+	            } 
+			};
 	
 }
