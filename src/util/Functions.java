@@ -500,6 +500,16 @@ public class Functions {
 				i--;
 				
 			}
+			
+			if(previousLetter.equals("$") && currentLetter.equals("ত")) {
+				System.out.println("bug is here to resolve");
+				letters.set(i - 1, "ৎ");
+				indexsOfLetterToRemove.add(i);
+				
+				letters.remove(i);
+				i--;
+				
+			}
 		}
 		
 		
