@@ -183,5 +183,15 @@ public class Letters {
 
 		return "-";
 	}
+	
+	public String getEnglishLetters(String symbol) {
+
+		if(symbolToEnglishLetter.containsKey(symbol))
+			return symbolToEnglishLetter.get(symbol);
+
+		return "-";
+	}
+	
+	
 
 }

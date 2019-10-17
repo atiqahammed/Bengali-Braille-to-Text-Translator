@@ -27,7 +27,9 @@ public class LetterInBrailleCode {
 	}
 
 	public String getLetter() {
-		return Constant.LETTERS.getLetters(symbol);
+		if(Constant.IS_BENGALI_SELECTED)
+			return Constant.LETTERS.getLetters(symbol);
+		return Constant.LETTERS.getEnglishLetters(symbol);
 	}
 
 	public void print() {

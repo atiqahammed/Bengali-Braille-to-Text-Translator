@@ -142,8 +142,6 @@ public class TextProcessorAdvance {
 //			System.out.println(threeIndexs);
 			
 		}
-
-		System.out.println("bug");
 		
 		for (int i = 0; i <  lineSize ; i++) {
 
