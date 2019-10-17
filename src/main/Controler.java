@@ -121,91 +121,11 @@ public class Controler implements Initializable {
 	}
 
 
-
 	@FXML
 	private void main_iu_user_manual_button(MouseEvent mouseEvent) {
-		loadUI("user_man_anchorpane_ui");
+		loadUI(InfoUtils.USER_MANUAL_VIEW);
 	}
 
-	@FXML
-	private void main_iu_settings_button(MouseEvent mouseEvent) {
-//		System.out.println("ok ok ok");
-//		loadUI("setting_anchorpane_ui");
-
-		if (gaussian_blur_checkbox != null)
-			System.out.println("not null");
-		else
-			System.out.println("null");
-
-		if (Constant.GAUSSIAN_BLUR) {
-			// gaussian_blur_checkbox.setSelected(true);
-
-//			gaussian_blur_checkbox.setSelected(true);
-
-			System.out.println("g");
-		}
-		if (Constant.MEDIAN_BLUR) {
-//			median_blur_checkbox.setText("hello");
-//			median_blur_checkbox.setSelected(true);
-			System.out.println("M");
-		}
-
-	}
-
-	@FXML
-	private void setting_save_button(MouseEvent mouseEvent) {
-		System.out.println("this is save button.. on setting ui");
-
-//		if(gaussian_blur_checkbox != null) System.out.println("not null");
-
-		if (gaussian_blur_checkbox != null)
-			System.out.println(" save not null");
-		else
-			System.out.println("null");
-
-		if (!gaussian_blur_checkbox.isSelected() && !median_blur_checkbox.isSelected()) {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Setting Error!");
-			alert.setHeaderText("Please select noise reduction algorithm.");
-			alert.setContentText(
-					"There are two types of noise reduction algorithm algorithm is here. Please select at least one of them.");
-			alert.showAndWait();
-
-		}
-
-		else {
-
-			if (gaussian_blur_checkbox.isSelected()) {
-				Constant.GAUSSIAN_BLUR = true;
-			} else {
-				Constant.GAUSSIAN_BLUR = false;
-			}
-
-			if (median_blur_checkbox.isSelected()) {
-				Constant.MEDIAN_BLUR = true;
-			} else {
-				Constant.MEDIAN_BLUR = false;
-			}
-
-		}
-
-		ArrayList<String> settings = new ArrayList<>();
-
-		if (Constant.GAUSSIAN_BLUR) {
-			settings.add("gaussian_blur+true");
-		} else {
-			settings.add("gaussian_blur+false");
-		}
-
-		if (Constant.MEDIAN_BLUR) {
-			settings.add("median_blur+true");
-		} else {
-			settings.add("median_blur+false");
-		}
-
-		Constant.FILE_READ_WRITER.writeOutput(settings, Constant.SEETING_FILE_NAME);
-
-	}
 
 	@FXML
 	private void default_file_chooser_ui_image_view_button(MouseEvent mouseEvent) {
@@ -214,7 +134,7 @@ public class Controler implements Initializable {
 
 		// first check if Desktop is supported by Platform or not
 		if (!Desktop.isDesktopSupported()) {
-			System.out.println("Desktop is not supported");
+			AppStartClass.LOG.warning(InfoUtils.APP_NOT_SUPPORT_ERROR);
 			return;
 		}
 
@@ -223,17 +143,19 @@ public class Controler implements Initializable {
 			try {
 				desktop.open(file);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
 	}
 
+	
 	@FXML
 	private void default_file_chooser_ui_save_button(MouseEvent mouseEvent) {
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+		
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(InfoUtils.SAVE_FILE_REGEX);
 		fileChooser.getExtensionFilters().add(extFilter);
+		
 		File file = fileChooser.showSaveDialog(AppStartClass.STAGE);
 
 		if (file != null) {
@@ -241,6 +163,7 @@ public class Controler implements Initializable {
 		}
 	}
 
+	
 	@FXML
 	private void default_file_chooser_ui_done_button(MouseEvent mouseEvent) {
 
@@ -264,22 +187,13 @@ public class Controler implements Initializable {
 			Imgproc.medianBlur(dst, dst, 3);
 
 			Imgproc.threshold(dst, dst, 0, 255, Imgproc.THRESH_OTSU);
-//	        Imgproc.medianBlur(dst, dst, 3);
-
-//	        Imgproc.morphologyEx(dst, dst, Imgproc.MORPH_ERODE, kernel);
-			Imgcodecs.imwrite("pre_processed_image.jpg", dst);
-
-			System.out.println("pre processing is completed");
-
-			File image_file = new File("pre_processed_image.jpg");
+			Imgcodecs.imwrite(InfoUtils.PREPROCESSED_FILE_NAME, dst);
+			File image_file = new File(InfoUtils.PREPROCESSED_FILE_NAME);
 
 			image_file = Constant.OPOSITE_BINARY_CONVERTOR.getOpositBinaryImage(image_file);
-
 			ArrayList<String> lines = new TextProcessorAdvance().getRectangularDottedFile(image_file);
-//
 			Constant.FILE_READ_WRITER.writeOutput(Constant.OUTPUT_LIST, Constant.OUTPUT_FILE_NAME);
-			System.out.println("Execution is completed");
-
+			
 			output_textarea.setText("");
 
 			for (int i = 0; i < lines.size(); i++) {
@@ -292,10 +206,9 @@ public class Controler implements Initializable {
 
 		else {
 			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Invalid File Type");
-			alert.setHeaderText("Please select a valid image file.");
-			alert.setContentText(
-					"Selected file is invalid. This application supports PNG and JPG type image. Please select valid image for translation.");
+			alert.setTitle(InfoUtils.INVALID_FILE_TYPE_ERROR);
+			alert.setHeaderText(InfoUtils.INVALID_FILE_TYPE_ERROR2);
+			alert.setContentText(InfoUtils.INVALID_FILE_TYPE_ERROR3);
 			alert.showAndWait();
 			default_template_ui_file_path_textfield.setText("");
 			choosedFile = null;
@@ -303,13 +216,9 @@ public class Controler implements Initializable {
 	}
 	
 	
-	
-	
-
 	private void loadUI(String ui) {
 
 		Parent root = null;
-		
 		
 		try {
 			root = FXMLLoader.load(getClass().getResource(ui + ".fxml"));
@@ -320,10 +229,8 @@ public class Controler implements Initializable {
 		brailleborderpane.setCenter(root);
 
 	}
-	
-	
-	
 
+	
 	private void saveTextToFile(String content, File file) {
 		try {
 			PrintWriter writer;
@@ -331,11 +238,8 @@ public class Controler implements Initializable {
 			writer.println(content);
 			writer.close();
 		} catch (IOException ex) {
-			AppStartClass.LOG.warning("OUTPUT FILE NOT FOUND. DATA CANNOT BE SAVE.");
+			AppStartClass.LOG.warning(InfoUtils.FILE_SAVE_WARNING);
 		}
 	}
 	
-	
-	
-
 }
