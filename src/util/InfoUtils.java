@@ -7,12 +7,13 @@ public class InfoUtils {
 	public static final String ROOT_UI_VIEW = "test_home_ui_v2.fxml";
 	
 	public static final String HOME_UI_VIEW = "home_anchorpane_ui";
+	public static final String HOME_UI_SUB_VIEW = "default_file_chooser_anchorpane_ui";
 	
 	
 	public static final String OPTION_CHOOSE_MESSAGE = "Choose your option.";
 	public static final String APP_CLOSE_QUESTION_MESSAGE = "Do you want to close the application?";
 	public static final String APP_CLOSE_WINDOW_TITLE = "Closing Application.";
-	
+	public static final String APP_CLOSE_CONSOLE_MESSAGE = "EXIT PROGRAM SUCCESSFULLY";		
 	
 	
 	public static final String NO_BUTTON_TEXT = "No";

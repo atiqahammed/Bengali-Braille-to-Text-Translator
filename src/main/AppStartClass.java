@@ -87,7 +87,7 @@ public class AppStartClass extends Application{
 //		Constant.FUNCTIONS.getBengaliText("braille-data/data_06.jpg");
 
 		
-		LOG.info("EXIT PROGRAM SUCCESSFULLY");		
+		LOG.info(InfoUtils.APP_CLOSE_CONSOLE_MESSAGE);		
 	
 	}
 

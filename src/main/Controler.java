@@ -59,7 +59,7 @@ public class Controler implements Initializable {
 	@FXML
 	private ComboBox language_combo;
 
-	final FileChooser fileChooser = new FileChooser();
+	private final FileChooser fileChooser = new FileChooser();
 	private File choosedFile;
 	private String outputText = "default output";
 
@@ -91,9 +91,8 @@ public class Controler implements Initializable {
 			System.exit(0);
 		}
 		
-		
+		AppStartClass.LOG.info(InfoUtils.APP_CLOSE_CONSOLE_MESSAGE);
 	}
-	
 	
 	
 	@FXML
@@ -101,55 +100,17 @@ public class Controler implements Initializable {
 		loadUI(InfoUtils.HOME_UI_VIEW);
 	}
 	
-	
 
-	// lagy code 
-	@FXML
-	private void setting_button_pressed(MouseEvent mouseEvent) {
-		System.out.println("setting pressed");
-		loadUI("setting_anchorpane_ui");
-	}
-
-
-	
-	// lagy code
-	@FXML
-	private void setting_button_released(MouseEvent mouseEvent) {
-
-		if (gaussian_blur_checkbox != null)
-			System.out.println("rrr not null");
-		else
-			System.out.println("rrr null");
-
-	}
-
-	
-	
-	
-	// lagy code
-	@FXML
-	private void mouse_exit(MouseEvent mouseEvent) {
-
-		System.out.println("exit ... ");
-
-		if (gaussian_blur_checkbox != null)
-			System.out.println("not null");
-		else
-			System.out.println("null");
-
-	}
-
-	
-	
-	
 	@FXML
 	private void main_iu_default_template_button(MouseEvent mouseEvent) {
-		loadUI("default_file_chooser_anchorpane_ui");
+		loadUI(InfoUtils.HOME_UI_SUB_VIEW);
 	}
 
+	
 	@FXML
 	private void default_file_chooser_ui_choose_button(MouseEvent mouseEvent) {
 		File file = fileChooser.showOpenDialog(AppStartClass.STAGE);
+		
 		if (file != null) {
 			default_template_ui_file_path_textfield.setText(file.getAbsolutePath());
 			choosedFile = file;
@@ -159,8 +120,7 @@ public class Controler implements Initializable {
 		language_combo.setValue(InfoUtils.LANGUAGES.get(0));
 	}
 
-	// main_iu_settings_button
-	// main_iu_user_manual_button
+
 
 	@FXML
 	private void main_iu_user_manual_button(MouseEvent mouseEvent) {
