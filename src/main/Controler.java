@@ -59,7 +59,7 @@ public class Controler implements Initializable {
 	@FXML
 	private ComboBox language_combo;
 
-	private final FileChooser fileChooser = new FileChooser();
+	private FileChooser fileChooser;// = new FileChooser();
 	private File choosedFile;
 	private String outputText = "default output";
 
@@ -88,10 +88,10 @@ public class Controler implements Initializable {
 		if (result.get() == buttonTypeOne){
 			alert.close();
 		}  else if(result.get() == buttonTypeTwo){
+			AppStartClass.LOG.info(InfoUtils.APP_CLOSE_CONSOLE_MESSAGE);
 			System.exit(0);
 		}
 		
-		AppStartClass.LOG.info(InfoUtils.APP_CLOSE_CONSOLE_MESSAGE);
 	}
 	
 	
@@ -109,6 +109,7 @@ public class Controler implements Initializable {
 	
 	@FXML
 	private void default_file_chooser_ui_choose_button(MouseEvent mouseEvent) {
+		fileChooser = new FileChooser();
 		File file = fileChooser.showOpenDialog(AppStartClass.STAGE);
 		
 		if (file != null) {
@@ -153,14 +154,17 @@ public class Controler implements Initializable {
 	@FXML
 	private void default_file_chooser_ui_save_button(MouseEvent mouseEvent) {
 		
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(InfoUtils.SAVE_FILE_REGEX);
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
 		fileChooser.getExtensionFilters().add(extFilter);
-		
 		File file = fileChooser.showSaveDialog(AppStartClass.STAGE);
 
 		if (file != null) {
 			saveTextToFile(output_textarea.getText(), file);
 		}
+		
+		
+		//System.out.println("test");
+		
 	}
 
 	
