@@ -117,8 +117,11 @@ public class Controler implements Initializable {
 			choosedFile = file;
 		}
 		
-		language_combo.getItems().addAll(InfoUtils.LANGUAGES);
-		language_combo.setValue(InfoUtils.LANGUAGES.get(0));
+		
+		if(language_combo.getItems().size() < 2) {
+			language_combo.getItems().addAll(InfoUtils.LANGUAGES);
+			language_combo.setValue(InfoUtils.LANGUAGES.get(0));
+		}
 	}
 
 
