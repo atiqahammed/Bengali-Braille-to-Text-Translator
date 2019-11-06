@@ -76,7 +76,7 @@ Braille to Text Translator is a desktop application. The use of this application
 ### Step 1: Launch the application
 After launching the application a window will come. The screenshot is given below.
 
-![Launch the application](https://github.com/atiqahammed/Bengali-Braille-to-Text-Translator/blob/master/documents/4.PNG)
+![Launch the application](https://github.com/atiqahammed/Bengali-Braille-to-Text-Translator/blob/master/documents/4.png)
 
 ### Step 2: Go to Translation Page
 After clicking on the Translate button the following window will open from where the user can translate a scanned image of braille code.
@@ -96,6 +96,7 @@ After selecting user will click on the Translate image button. The corresponding
 ### Step 5: Saving the Output
 To save the output in file the user will click on the Save Text button. A file chooser will open. The user will get option to select directory and file name to save the output file.
 
+![Choosing Image File](https://github.com/atiqahammed/Bengali-Braille-to-Text-Translator/blob/master/documents/8.PNG)
 
 ## Output Result
 
