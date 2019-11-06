@@ -47,6 +47,57 @@ The user will get an option to save the output in a file with “.txt” extensi
 - Install openvc version opencv-4.1.1 and copy the opencv_java411.dll file and add it "C:\Program Files (x86)\Common Files\Oracle\Java\javapath" directory. 
 
 
+## Installation
+
+Download the exe file from [here](https://github.com/atiqahammed/Bengali-Braille-to-Text-Translator/releases) and install in the system. Installation procedure are given below.
+
+#### Step 1:
+Double click on the exe file 
+
+![Step 1](https://github.com/atiqahammed/Bengali-Braille-to-Text-Translator/blob/master/documents/1.PNG)
+
+#### Step 2:
+A Installation window will appear. Then double click on the **Next** button to install the application 
+
+![Step 2](https://github.com/atiqahammed/Bengali-Braille-to-Text-Translator/blob/master/documents/2.PNG)
+
+#### Step 3:
+After completing the installation click on the **Finish** button to complete the installation
+
+![Step 3](https://github.com/atiqahammed/Bengali-Braille-to-Text-Translator/blob/master/documents/3.PNG)
+
+#### Step 4:
+To launch the application Run the application as **Administrator**. The translate braille code image into text.
+
+
+## User Manual
+Braille to Text Translator is a desktop application. The use of this application is given step by step.
+
+### Step 1: Launch the application
+After launching the application a window will come. The screenshot is given below.
+
+![Launch the application](https://github.com/atiqahammed/Bengali-Braille-to-Text-Translator/blob/master/documents/4.png)
+
+### Step 2: Go to Translation Page
+After clicking on the Translate button the following window will open from where the user can translate a scanned image of braille code.
+
+![Go to Translation Page](https://github.com/atiqahammed/Bengali-Braille-to-Text-Translator/blob/master/documents/5.PNG)
+
+### Step 3: Choosing Image File
+Clicking on the Choose image button there a file chooser window will open. Using the file chooser user can choose any image file for translation. If the user wish to provide the file path directly she/he can type the file path in the text box just right to the Choose Image button.
+
+![Choosing Image File](https://github.com/atiqahammed/Bengali-Braille-to-Text-Translator/blob/master/documents/6.PNG)
+
+### Step 4: Image to Text Translation
+After selecting user will click on the Translate image button. The corresponding Bengali text will be in the text field below the Translate image button as output.
+
+![Choosing Image File](https://github.com/atiqahammed/Bengali-Braille-to-Text-Translator/blob/master/documents/7.PNG)
+
+### Step 5: Saving the Output
+To save the output in file the user will click on the Save Text button. A file chooser will open. The user will get option to select directory and file name to save the output file.
+
+![Choosing Image File](https://github.com/atiqahammed/Bengali-Braille-to-Text-Translator/blob/master/documents/8.PNG)
+
 ## Output Result
 
 In this application the main focus was translate image into corresponding Bengali text. Predicting Bengali characters and the predicting the corresponding word from braille code was the main concern.
