@@ -1,3 +1,10 @@
+## Output Result
+
+In this application the main focus was translate image into corresponding Bengali text. Predicting Bengali characters and the predicting the corresponding word from braille code was the main concern.
+For developing this project 11 dataset of Bengali braille code has been used. All the dataset is collected from a visual impaired person who is a former student of University of Dhaka. At time of collecting the dataset we consider to cover all the characters to be appeared in the dataset. We also try to cover the complex letter and the Bengali character those takes two braille cells to represent a single Bengali character. Dataset 1 has 12 lines with 188 characters and 35 words. Dataset 2 has 5 lines with 73 characters and 16 words. In total there exists 1745 letters and 353 words in all datasets.
+The average accuracy of predicting correct letter is 94.7%. From the predicting letter the average accuracy of predicting word is 83%. All results are represented in the table given below.
+
+
 |Data File|Line Number          |Number Of Letter|Correctly Identified Letter|Accuracy (%)|Number of Words|Number of Words Where All Characters are Correctly Identified|Word Accuracy|
 |---------|---------------------|----------------|---------------------------|------------|---------------|-------------------------------------------------------------|-------------|
 |data_01  |1                    |21              |20                         |95.23809524 |3              |1                                                            |33.33333333  |
