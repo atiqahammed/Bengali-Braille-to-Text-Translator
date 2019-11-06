@@ -1,3 +1,7 @@
+# Bengali Braille to Text Translator
+Braille is a reading and writing system which can only be read with the sense of touch. It is used by blind and visually impaired people who cannot access print materials. But there exist a few people who are neither blind nor visually impaired know Braille code and its syntax. It creates a written communication gap between people who are visually impaired and who are not. Braille to Text Translator helps people to read Braille Code easily. But there are no well recognized tools for translating Bengali braille code into text. This application will help to reduce this issue. For developing this application Bengali braille typed data has been collected from a visual impaired person. The using optical braille recognition methodology and the syntax Bengali braille code has been translated into Bengali text. 
+
+
 ## Project Specification
 Braille is a reading and writing system which can only be read with the sense of touch. It is used by blind and visually impaired people who cannot access print materials. Braille is not a language. Rather, it is a code by which many languages can be written and read.  It uses raised dots to represent the letters of the print alphabet. It also includes symbols to represent punctuation.
 This project aims to extract Bengali text from a scanned image of the paper on which Bengali braille code is typed.
