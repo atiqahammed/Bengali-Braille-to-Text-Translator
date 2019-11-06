@@ -32,6 +32,57 @@ The user will then click on the translate button. After some processing on the i
 ### Saving Output
 The user will get an option to save the output in a file with “.txt” extension. After clicking on the save button on the user interface the user will get an file saving option to save the file in her/his chosen directory.
 
+
+## Methodology
+
+### Step 1: Convert Image RGB to Gray (Grayscale Conversion): 
+In any image, each of the pixels should have a variation of RGB values for three different colors Red, Green, and Blue. But for having the same value of each three colors for every pixel it requires to grayscale conversion for this image.
+
+### Step 2: Noise Reduction:
+For noise reduction median filter, gaussian elimination will be used. To apply gaussian blur 3 X 3 kernel was used. Same size kernel was used for median blur also.   
+
+### Step 3: Binary conversion: 
+Then it will take a thresholded image consisting of couples of white and black spots, where each couple denotes a single Braille dot. To do this Otsu thresholding will be used. In the binary image the white spots are considered as the dot in the image. And the black portion of the image are considered as the plain portion.
+
+### Step 4: Collecting Dots
+In this step, all separated white spots on the image are collected. To collect those white spots the connected white spots are considered as a single dot. For checking the neighbour dot to be part of the same dot it was checked as if the neighbour dot is white or not. If it was white and was not considered as a single dot then it was taken as part of it and mapped as checked one. To consider a pixel as a neighbour one 3 * 3 frame/kernel was used. 
+ 
+### Step 5: Finding the Center of Collected Dots
+To calculate the center of the rectangular was created using all the boundary pixel of a dot. The index of the cross point of two diagonals of the rectangle was considered as the center point of the dot.
+
+### Step 6: Merging Dot
+After considering those dots as a rectangle some rectangle could be overlapped. Those rectangles which were overlapped are then considered as a single dot after merging them. Then finally after merging those dots are remained those are considered as single dots.
+
+### Step 7: Finding Line
+Where a single dot is found in the image a line was considered there. All the dot nearest to the line was considered the those dots are also on the same line. The all the row index of all lines has been collected for post operation.
+
+### Step 8: Merging Lines
+All index of the collected lines then sorted to have a sequence of line. From the sorted collection sequential distance has been calculated. If there exist N line on the image from the list of N dot N-1 distance has been found. The the distance sorted. Form the the sorted distance we get a median of the distance. Those lines are then merged that  were within the half of the median distance.  
+
+### Step 9: Mapping Dots with Lines
+After getting the list of lines it requires to identify which dot exists on which line. Dots were then mapped with the nearest line index.
+
+### Step 10: FInding Eligible Lines
+To find the most eligible 3 dot lines for translating actual text format is the next step. To do so there require all the line to go through all the combination to be a part of the 3 eligible dot line. For example the first line only be the first line of a 3 sequential line. The second line can be the first line or it could be the second line of a 3 sequential eligible line for text translation. If we get multiple combination for a single line for being eligible then, it will be a matter of concern to find the most eligible line with which combination has the most dot count in it.
+
+### Step 11: Column Identification
+Find the column in the 3 sequential line that are selected in the previous steps. To Identify the column the half of the distance between line that was come from the median distance between all the sequential line	 is considered to be the threshold.
+
+### Step 12: Word Identification
+There are some threshold such as distance between column within same character and distance between column between different column. Identify separated words using those threshold. Two different words in a single line are in at least two distance between column in different character and one distance between within character.  
+
+### Step 13: Braille Cell Identification  
+Identify the braille cells in a word using the thresholds discussed in the previous step. If a column is in the first position it could be the first column of a cell or it could be the last column of a cell. To identify its main position in the cell all the combination should be considered to be a part of a cell. This combination will be done using the threshold. 
+
+### Step 14: Decimal Braille Code Generation
+This stage is a core stage of the system and it was done by testing each dot in Braille cell, if it active the position of this dot take digit one and if inactivated the position of this dot takes digit zero. The recognizing process of active or inactive dots was depended on taking summation of dot frame, if the summation was been one's digits, that means this dot is activated, else that dot will be inactive.
+
+### Step 15: Character Recognition 
+Using the corresponding binary code of every cell identify the corresponding character then Identified. To do so decimal braille code to character was used.   
+
+### Step 16: Post Processing
+In post process vowel and consonant are merged. Then concatenated character has been merged. 
+
 	
 ## System Requirements
 - This is application will work on windows 7, 8 and 10. 
@@ -221,4 +272,7 @@ The average accuracy of predicting correct letter is 94.7%. From the predicting 
 |data_11  |9                    |4               |4                          |100         |1              |1                                                            |100          |
 |data_11  |10                   |17              |16                         |94.11764706 |3              |2                                                            |66.66666667  |
 |data_11  |All Lines            |181             |174                        |96.13259669 |33             |32                                                           |96.96969697  |
-|All data |All lines of all data|1745            |1654                       |94.78510029 |353            |293                                                          |83.00283286  |
+|All data |All lines of all data|1745            |1654                       |94.78510029 |353            |293                                                         |83.00283286  |
+
+
+It was so much challenging to prepare a well describtion for the first time. I think that this describtion has been written in an easy-to-read way as well as with full information required to have a good concept over the idea. The reader of should easily understand the information of the summary.
