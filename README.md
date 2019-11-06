@@ -47,6 +47,29 @@ The user will get an option to save the output in a file with “.txt” extensi
 - Install openvc version opencv-4.1.1 and copy the opencv_java411.dll file and add it "C:\Program Files (x86)\Common Files\Oracle\Java\javapath" directory. 
 
 
+## Installation
+
+Download the exe file from [here](https://github.com/atiqahammed/Bengali-Braille-to-Text-Translator/releases) and install in the system. Installation procedure are given below.
+
+#### Step 1:
+Double click on the exe file 
+
+![Step 1](https://github.com/atiqahammed/Bengali-Braille-to-Text-Translator/blob/master/documents/1.PNG)
+
+#### Step 2:
+A Installation window will appear. Then double click on the **Next** button to install the application 
+
+![Step 2](https://github.com/atiqahammed/Bengali-Braille-to-Text-Translator/blob/master/documents/2.PNG)
+
+#### Step 3:
+After completing the installation click on the **Finish** button to complete the installation
+
+![Step 3](https://github.com/atiqahammed/Bengali-Braille-to-Text-Translator/blob/master/documents/3.PNG)
+
+#### Step 4:
+To launch the application Run the application as **Administrator**. The translate braille code image into text.
+
+
 ## Output Result
 
 In this application the main focus was translate image into corresponding Bengali text. Predicting Bengali characters and the predicting the corresponding word from braille code was the main concern.
