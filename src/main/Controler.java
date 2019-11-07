@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import org.opencv.core.Core;
@@ -34,6 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import preProcessor.Dilation;
 import util.Constant;
@@ -54,7 +56,7 @@ public class Controler implements Initializable {
 	private TextArea output_textarea;
 
 	@FXML
-	private TextField default_template_ui_file_path_textfield;
+	private TextField default_template_ui_file_path_textfield, folder_ui_input_folder_textbox, folder_ui_output_folder_textbox1;
 	
 	@FXML
 	private ComboBox language_combo;
@@ -92,6 +94,47 @@ public class Controler implements Initializable {
 			System.exit(0);
 		}
 		
+	}
+	
+	
+	
+	@FXML
+	private void input_folder_button(MouseEvent mouseEvent) {
+		System.out.println("input folder button");
+		
+		DirectoryChooser dir_chooser = new DirectoryChooser();
+        File folder = dir_chooser.showDialog(AppStartClass.STAGE); 
+
+        if (folder != null) { 
+            System.out.println(folder.getAbsolutePath() + "  selected");
+            
+//            File folder = new File("/Users/you/folder/");
+            File[] listOfFiles = folder.listFiles();
+
+            for (File file : listOfFiles) {
+                if (file.isFile()) {
+                    System.out.println(file.getName());
+                }
+            }
+            
+            
+        } 
+		
+	}
+	
+	@FXML
+	private void output_folder_button(MouseEvent mouseEvent) {
+		System.out.println("output folder button");
+	}
+	
+	@FXML
+	private void translate_folder(MouseEvent mouseEvent) {
+		System.out.println("translate folder button");
+	}
+	
+	@FXML
+	private void main_iu_default_translate_folder(MouseEvent mouseEvent) {
+		loadUI(InfoUtils.TRANSLATE_FOLDER_VIEW);
 	}
 	
 	

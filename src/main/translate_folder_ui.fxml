@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="test_id" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controler">
+   <children>
+      <TextField fx:id="folder_ui_input_folder_textbox" layoutX="186.0" layoutY="43.0" prefHeight="39.0" prefWidth="400.0" />
+      <Button layoutX="14.0" layoutY="47.0" mnemonicParsing="false" onMouseClicked="#input_folder_button" prefHeight="30.0" prefWidth="165.0" style="-fx-background-color: #101010; -fx-text-fill: #ffffff;" text="Choose Input Folder">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="15.0" layoutY="167.0" mnemonicParsing="false" onMouseClicked="#translate_folder" prefHeight="30.0" prefWidth="569.0" style="-fx-background-color: #101010; -fx-text-fill: #ffffff;" text="Translate Image In Choosen Folder">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="14.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#output_folder_button" style="-fx-background-color: #101010; -fx-text-fill: #ffffff;" text="Choose Output Folder">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <TextField fx:id="folder_ui_output_folder_textbox1" layoutX="186.0" layoutY="100.0" prefHeight="39.0" prefWidth="400.0" />
+   </children>
+</AnchorPane>

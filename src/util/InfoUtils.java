@@ -9,6 +9,7 @@ public class InfoUtils {
 	public static final String HOME_UI_VIEW = "home_anchorpane_ui";
 	public static final String HOME_UI_SUB_VIEW = "default_file_chooser_anchorpane_ui";
 	public static final String USER_MANUAL_VIEW = "user_man_anchorpane_ui";
+	public static final String TRANSLATE_FOLDER_VIEW = "translate_folder_ui";
 	
 	public static final String PREPROCESSED_FILE_NAME = "pre_processed_image.jpg";
 	
