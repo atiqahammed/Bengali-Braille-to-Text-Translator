@@ -43,6 +43,8 @@ import util.InfoUtils;
 
 public class Controler implements Initializable {
 
+	private boolean inputFolderFileValidation;
+	
 	@FXML
 	private CheckBox gaussian_blur_checkbox, median_blur_checkbox;
 
@@ -100,23 +102,34 @@ public class Controler implements Initializable {
 	
 	@FXML
 	private void input_folder_button(MouseEvent mouseEvent) {
-		System.out.println("input folder button");
 		
 		DirectoryChooser dir_chooser = new DirectoryChooser();
         File folder = dir_chooser.showDialog(AppStartClass.STAGE); 
-
+        inputFolderFileValidation = true;
+        
         if (folder != null) { 
-            System.out.println(folder.getAbsolutePath() + "  selected");
-            
-//            File folder = new File("/Users/you/folder/");
+        	
             File[] listOfFiles = folder.listFiles();
 
             for (File file : listOfFiles) {
                 if (file.isFile()) {
-                    System.out.println(file.getName());
+                	inputFolderFileValidation = Constant.FUNCTIONS.validateImageFileType(file.getAbsolutePath());
+                	if(!inputFolderFileValidation) break;
+                } else {
+                	inputFolderFileValidation = false;
                 }
             }
             
+            if(inputFolderFileValidation) {
+            	folder_ui_input_folder_textbox.setText(folder.getAbsolutePath());
+            } else {
+            	Alert alert = new Alert(AlertType.INFORMATION);
+    			alert.setTitle(InfoUtils.INVALID_FOLDER_TYPE_ERROR);
+    			alert.setHeaderText(InfoUtils.INVALID_FILE_TYPE_ERROR4);
+    			alert.setContentText(InfoUtils.INVALID_FILE_TYPE_ERROR5);
+    			alert.showAndWait();
+    		
+            }
             
         } 
 		
@@ -125,6 +138,23 @@ public class Controler implements Initializable {
 	@FXML
 	private void output_folder_button(MouseEvent mouseEvent) {
 		System.out.println("output folder button");
+		
+		DirectoryChooser dir_chooser = new DirectoryChooser();
+        File folder = dir_chooser.showDialog(AppStartClass.STAGE); 
+        inputFolderFileValidation = true;
+        
+        if (folder != null) {
+        	folder_ui_output_folder_textbox1.setText(folder.getAbsolutePath());
+        } else {
+        	Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle(InfoUtils.INVALID_FOLDER_TYPE_ERROR);
+			alert.setHeaderText(InfoUtils.INVALID_FILE_TYPE_ERROR4);
+			alert.setContentText(InfoUtils.INVALID_FILE_TYPE_ERROR6);
+			alert.showAndWait();
+        }
+        
+		
+		
 	}
 	
 	@FXML
