@@ -39,11 +39,19 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#main_iu_default_template_button" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #101010; -fx-text-fill: #f0f0f0;" text="Translate">
+            <Button mnemonicParsing="false" onMouseClicked="#main_iu_default_template_button" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #101010; -fx-text-fill: #f0f0f0;" text="Translate Single Image">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
                <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onMouseClicked="#main_iu_default_translate_folder" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #101010; -fx-text-fill: #f0f0f0;" text="Translate Folder">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+			   <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>

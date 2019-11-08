@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import org.opencv.core.Core;
@@ -34,6 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import preProcessor.Dilation;
 import util.Constant;
@@ -41,6 +43,9 @@ import util.InfoUtils;
 
 public class Controler implements Initializable {
 
+	private boolean inputFolderFileValidation, outputFolderValidation;
+	private File inputFolder = null; 
+	
 	@FXML
 	private CheckBox gaussian_blur_checkbox, median_blur_checkbox;
 
@@ -54,7 +59,7 @@ public class Controler implements Initializable {
 	private TextArea output_textarea;
 
 	@FXML
-	private TextField default_template_ui_file_path_textfield;
+	private TextField default_template_ui_file_path_textfield, folder_ui_input_folder_textbox, folder_ui_output_folder_textbox1;
 	
 	@FXML
 	private ComboBox language_combo;
@@ -92,6 +97,121 @@ public class Controler implements Initializable {
 			System.exit(0);
 		}
 		
+	}
+	
+	
+	
+	@FXML
+	private void input_folder_button(MouseEvent mouseEvent) {
+		
+		DirectoryChooser dir_chooser = new DirectoryChooser();
+        File folder = dir_chooser.showDialog(AppStartClass.STAGE); 
+        inputFolderFileValidation = true;
+        
+        if (folder != null) { 
+        	
+            File[] listOfFiles = folder.listFiles();
+
+            for (File file : listOfFiles) {
+                if (file.isFile()) {
+                	inputFolderFileValidation = Constant.FUNCTIONS.validateImageFileType(file.getAbsolutePath());
+                	if(!inputFolderFileValidation) break;
+                } else {
+                	inputFolderFileValidation = false;
+                }
+            }
+            
+            if(inputFolderFileValidation) {
+            	folder_ui_input_folder_textbox.setText(folder.getAbsolutePath());
+            	inputFolder = folder;
+            } else {
+            	Alert alert = new Alert(AlertType.INFORMATION);
+    			alert.setTitle(InfoUtils.INVALID_FOLDER_TYPE_ERROR);
+    			alert.setHeaderText(InfoUtils.INVALID_FILE_TYPE_ERROR4);
+    			alert.setContentText(InfoUtils.INVALID_FILE_TYPE_ERROR5);
+    			alert.showAndWait();
+    			inputFolderFileValidation = false;
+            }
+            
+        } else {
+        	inputFolderFileValidation = false;
+        }
+		
+	}
+	
+	@FXML
+	private void output_folder_button(MouseEvent mouseEvent) {
+		
+		DirectoryChooser dir_chooser = new DirectoryChooser();
+        File folder = dir_chooser.showDialog(AppStartClass.STAGE); 
+        outputFolderValidation = true;
+        
+        if (folder != null) {
+        	folder_ui_output_folder_textbox1.setText(folder.getAbsolutePath());
+        } else {
+        	Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle(InfoUtils.INVALID_FOLDER_TYPE_ERROR);
+			alert.setHeaderText(InfoUtils.INVALID_FILE_TYPE_ERROR4);
+			alert.setContentText(InfoUtils.INVALID_FILE_TYPE_ERROR6);
+			alert.showAndWait();
+			outputFolderValidation = false;
+			
+        }
+        
+		
+		
+	}
+	
+	private ArrayList<String> getTextFromImage(String path, boolean language) {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+
+		String imageName = path;
+		System.out.println(imageName);
+		Mat src = Imgcodecs.imread(imageName);
+		Mat dst = new Mat();
+		Imgproc.cvtColor(src, dst, Imgproc.COLOR_RGB2GRAY);
+		Imgproc.GaussianBlur(dst, dst, new Size(3, 3), 5);
+		Imgproc.medianBlur(dst, dst, 3);
+
+		Imgproc.threshold(dst, dst, 0, 255, Imgproc.THRESH_OTSU);
+		Imgcodecs.imwrite(InfoUtils.PREPROCESSED_FILE_NAME, dst);
+		File image_file = new File(InfoUtils.PREPROCESSED_FILE_NAME);
+
+		image_file = Constant.OPOSITE_BINARY_CONVERTOR.getOpositBinaryImage(image_file);
+		return new TextProcessorAdvance().getRectangularDottedFile(image_file);
+	}
+	
+	@FXML
+	private void translate_folder(MouseEvent mouseEvent) {
+		if(inputFolderFileValidation && outputFolderValidation) {
+			
+			File[] listOfFiles = inputFolder.listFiles();
+			
+			 for (File file : listOfFiles) {
+				 Constant.FILE_READ_WRITER.writeOutput(getTextFromImage(file.getAbsolutePath(), true), folder_ui_output_folder_textbox1.getText() + "\\" + file.getName() + ".txt");
+	         }
+			 
+			 Alert alert = new Alert(AlertType.INFORMATION);
+			 alert.setTitle("Translation Sucessfull");
+			 alert.setHeaderText(null);
+			 alert.setContentText("All the file successfully translated.");
+			 alert.showAndWait();
+		}
+		
+		else {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle(InfoUtils.INVALID_FOLDER_TYPE_ERROR);
+			alert.setHeaderText(InfoUtils.INVALID_FILE_TYPE_ERROR4);
+			alert.setContentText(InfoUtils.INVALID_FILE_TYPE_ERROR7);
+			alert.showAndWait();
+		}
+		
+		
+	}
+	
+	@FXML
+	private void main_iu_default_translate_folder(MouseEvent mouseEvent) {
+		loadUI(InfoUtils.TRANSLATE_FOLDER_VIEW);
 	}
 	
 	
