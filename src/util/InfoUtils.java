@@ -25,6 +25,7 @@ public class InfoUtils {
 	public static final String INVALID_FILE_TYPE_ERROR4 = "Please select a valid direcroty.";
 	public static final String INVALID_FILE_TYPE_ERROR5 = "Selected folder is invalid. This application supports PNG and JPG type image. Please select valid folder in where all files has PNG or JPG extension.";
 	public static final String INVALID_FILE_TYPE_ERROR6 = "Selected folder is invalid for output. Please select a valid folder.";
+	public static final String INVALID_FILE_TYPE_ERROR7 = "Please select both input and output directory.";
 	public static final String FILE_SAVE_WARNING = "OUTPUT FILE NOT FOUND. DATA CANNOT BE SAVE.";
 	
 	public static final String SAVE_FILE_REGEX = "\"TXT files (*.txt)\", \"*.txt\""; 
