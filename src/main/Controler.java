@@ -318,6 +318,7 @@ public class Controler implements Initializable {
 
 		if (validFile) {
 
+			Constant.IS_BENGALI_SELECTED = true;
 			if(language_combo.getValue().equals(InfoUtils.LANGUAGES.get(1)))
 				Constant.IS_BENGALI_SELECTED = false;
 			
