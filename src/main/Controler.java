@@ -62,7 +62,7 @@ public class Controler implements Initializable {
 	private TextField default_template_ui_file_path_textfield, folder_ui_input_folder_textbox, folder_ui_output_folder_textbox1;
 	
 	@FXML
-	private ComboBox language_combo;
+	private ComboBox language_combo, language_combo_foldder;
 
 	private FileChooser fileChooser;// = new FileChooser();
 	private File choosedFile;
@@ -124,6 +124,12 @@ public class Controler implements Initializable {
             if(inputFolderFileValidation) {
             	folder_ui_input_folder_textbox.setText(folder.getAbsolutePath());
             	inputFolder = folder;
+            	
+            	if(language_combo_foldder.getItems().size() < 2) {
+            		language_combo_foldder.getItems().addAll(InfoUtils.LANGUAGES);
+            		language_combo_foldder.setValue(InfoUtils.LANGUAGES.get(0));
+        		}
+            	
             } else {
             	Alert alert = new Alert(AlertType.INFORMATION);
     			alert.setTitle(InfoUtils.INVALID_FOLDER_TYPE_ERROR);
@@ -148,6 +154,12 @@ public class Controler implements Initializable {
         
         if (folder != null) {
         	folder_ui_output_folder_textbox1.setText(folder.getAbsolutePath());
+        	
+        	if(language_combo_foldder.getItems().size() < 2) {
+        		language_combo_foldder.getItems().addAll(InfoUtils.LANGUAGES);
+        		language_combo_foldder.setValue(InfoUtils.LANGUAGES.get(0));
+    		}
+        	
         } else {
         	Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle(InfoUtils.INVALID_FOLDER_TYPE_ERROR);
@@ -186,9 +198,15 @@ public class Controler implements Initializable {
 		if(inputFolderFileValidation && outputFolderValidation) {
 			
 			File[] listOfFiles = inputFolder.listFiles();
+			boolean isBanglaSelected = true;
+			if(language_combo_foldder.getValue().equals(InfoUtils.LANGUAGES.get(1))) {
+				isBanglaSelected = false;
+			}
+
+			Constant.IS_BENGALI_SELECTED = isBanglaSelected;
 			
 			 for (File file : listOfFiles) {
-				 Constant.FILE_READ_WRITER.writeOutput(getTextFromImage(file.getAbsolutePath(), true), folder_ui_output_folder_textbox1.getText() + "\\" + file.getName() + ".txt");
+				 Constant.FILE_READ_WRITER.writeOutput(getTextFromImage(file.getAbsolutePath(), isBanglaSelected), folder_ui_output_folder_textbox1.getText() + "\\" + file.getName() + ".txt");
 	         }
 			 
 			 Alert alert = new Alert(AlertType.INFORMATION);
