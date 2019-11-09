@@ -13,7 +13,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="15.0" layoutY="167.0" mnemonicParsing="false" onMouseClicked="#translate_folder" prefHeight="30.0" prefWidth="569.0" style="-fx-background-color: #101010; -fx-text-fill: #ffffff;" text="Translate Image In Choosen Folder">
+      <Button layoutX="17.0" layoutY="208.0" mnemonicParsing="false" onMouseClicked="#translate_folder" prefHeight="30.0" prefWidth="569.0" style="-fx-background-color: #101010; -fx-text-fill: #ffffff;" text="Translate Image In Choosen Folder">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -24,5 +24,6 @@
          </font>
       </Button>
       <TextField fx:id="folder_ui_output_folder_textbox1" disable="true" layoutX="186.0" layoutY="100.0" prefHeight="39.0" prefWidth="400.0" />
+      <ComboBox fx:id="language_combo_foldder" layoutX="17.0" layoutY="160.0" prefHeight="30.0" prefWidth="569.0" />
    </children>
 </AnchorPane>
