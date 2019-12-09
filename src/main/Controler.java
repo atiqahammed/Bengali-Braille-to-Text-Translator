@@ -8,17 +8,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
-
-import imageProcessor.TextProcessor;
 import imageProcessor.TextProcessorAdvance;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,17 +27,15 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-import preProcessor.Dilation;
 import util.Constant;
 import util.InfoUtils;
 
 public class Controler implements Initializable {
 
-	private boolean inputFolderFileValidation, outputFolderValidation;
+	private boolean inputFolderPathValidation, outputFolderPathValidation;
 	private File inputFolder = null; 
 	
 	@FXML
@@ -64,14 +56,14 @@ public class Controler implements Initializable {
 	@FXML
 	private ComboBox language_combo, language_combo_foldder;
 
-	private FileChooser fileChooser;// = new FileChooser();
+	private FileChooser fileChooser;
 	private File choosedFile;
-	private String outputText = "default output";
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	}
 
+	
 	@FXML
 	private void exit(MouseEvent mouseEvent) {
 		
@@ -100,13 +92,12 @@ public class Controler implements Initializable {
 	}
 	
 	
-	
 	@FXML
 	private void input_folder_button(MouseEvent mouseEvent) {
 		
 		DirectoryChooser dir_chooser = new DirectoryChooser();
         File folder = dir_chooser.showDialog(AppStartClass.STAGE); 
-        inputFolderFileValidation = true;
+        inputFolderPathValidation = true;
         
         if (folder != null) { 
         	
@@ -114,14 +105,14 @@ public class Controler implements Initializable {
 
             for (File file : listOfFiles) {
                 if (file.isFile()) {
-                	inputFolderFileValidation = Constant.FUNCTIONS.validateImageFileType(file.getAbsolutePath());
-                	if(!inputFolderFileValidation) break;
+                	inputFolderPathValidation = Constant.FUNCTIONS.validateImageFileType(file.getAbsolutePath());
+                	if(!inputFolderPathValidation) break;
                 } else {
-                	inputFolderFileValidation = false;
+                	inputFolderPathValidation = false;
                 }
             }
             
-            if(inputFolderFileValidation) {
+            if(inputFolderPathValidation) {
             	folder_ui_input_folder_textbox.setText(folder.getAbsolutePath());
             	inputFolder = folder;
             	
@@ -136,11 +127,11 @@ public class Controler implements Initializable {
     			alert.setHeaderText(InfoUtils.INVALID_FILE_TYPE_ERROR4);
     			alert.setContentText(InfoUtils.INVALID_FILE_TYPE_ERROR5);
     			alert.showAndWait();
-    			inputFolderFileValidation = false;
+    			inputFolderPathValidation = false;
             }
             
         } else {
-        	inputFolderFileValidation = false;
+        	inputFolderPathValidation = false;
         }
 		
 	}
@@ -150,7 +141,7 @@ public class Controler implements Initializable {
 		
 		DirectoryChooser dir_chooser = new DirectoryChooser();
         File folder = dir_chooser.showDialog(AppStartClass.STAGE); 
-        outputFolderValidation = true;
+        outputFolderPathValidation = true;
         
         if (folder != null) {
         	folder_ui_output_folder_textbox1.setText(folder.getAbsolutePath());
@@ -166,7 +157,7 @@ public class Controler implements Initializable {
 			alert.setHeaderText(InfoUtils.INVALID_FILE_TYPE_ERROR4);
 			alert.setContentText(InfoUtils.INVALID_FILE_TYPE_ERROR6);
 			alert.showAndWait();
-			outputFolderValidation = false;
+			outputFolderPathValidation = false;
 			
         }
         
@@ -178,7 +169,6 @@ public class Controler implements Initializable {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
 		String imageName = path;
-		System.out.println(imageName);
 		Mat src = Imgcodecs.imread(imageName);
 		Mat dst = new Mat();
 		Imgproc.cvtColor(src, dst, Imgproc.COLOR_RGB2GRAY);
@@ -195,7 +185,7 @@ public class Controler implements Initializable {
 	
 	@FXML
 	private void translate_folder(MouseEvent mouseEvent) {
-		if(inputFolderFileValidation && outputFolderValidation) {
+		if(inputFolderPathValidation && outputFolderPathValidation) {
 			
 			File[] listOfFiles = inputFolder.listFiles();
 			boolean isBanglaSelected = true;
@@ -274,7 +264,6 @@ public class Controler implements Initializable {
 		
 		File file = new File(Constant.OUTPUT_IMAGE_FILE_NAME + "." + Constant.OUTPUT_IMAGE_FILE_TYPE);
 
-		// first check if Desktop is supported by Platform or not
 		if (!Desktop.isDesktopSupported()) {
 			AppStartClass.LOG.warning(InfoUtils.APP_NOT_SUPPORT_ERROR);
 			return;
@@ -303,9 +292,6 @@ public class Controler implements Initializable {
 			saveTextToFile(output_textarea.getText(), file);
 		}
 		
-		
-		//System.out.println("test");
-		
 	}
 
 	
@@ -322,30 +308,19 @@ public class Controler implements Initializable {
 			if(language_combo.getValue().equals(InfoUtils.LANGUAGES.get(1)))
 				Constant.IS_BENGALI_SELECTED = false;
 			
-			System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-
-			String imageName = filePathInTextField;
-			System.out.println(imageName);
-			Mat src = Imgcodecs.imread(imageName);
-			Mat dst = new Mat();
-			Imgproc.cvtColor(src, dst, Imgproc.COLOR_RGB2GRAY);
-			Imgproc.GaussianBlur(dst, dst, new Size(3, 3), 5);
-			Imgproc.medianBlur(dst, dst, 3);
-
-			Imgproc.threshold(dst, dst, 0, 255, Imgproc.THRESH_OTSU);
-			Imgcodecs.imwrite(InfoUtils.PREPROCESSED_FILE_NAME, dst);
+			preprocessImage(filePathInTextField);
+			
 			File image_file = new File(InfoUtils.PREPROCESSED_FILE_NAME);
-
 			image_file = Constant.OPOSITE_BINARY_CONVERTOR.getOpositBinaryImage(image_file);
+			
 			ArrayList<String> lines = new TextProcessorAdvance().getRectangularDottedFile(image_file);
 			Constant.FILE_READ_WRITER.writeOutput(Constant.OUTPUT_LIST, Constant.OUTPUT_FILE_NAME);
 			
 			output_textarea.setText("");
-
-			for (int i = 0; i < lines.size(); i++) {
-				output_textarea.appendText(lines.get(i));
-				output_textarea.appendText("\n");
-
+			
+			for(String line: lines) {
+				output_textarea.appendText(line);
+				output_textarea.appendText(InfoUtils.ENDLINE);
 			}
 
 		}
@@ -362,6 +337,21 @@ public class Controler implements Initializable {
 	}
 	
 	
+	private void preprocessImage(String imagePath) {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		
+		Mat src = Imgcodecs.imread(imagePath);
+		Mat dst = new Mat();
+		Imgproc.cvtColor(src, dst, Imgproc.COLOR_RGB2GRAY);
+		Imgproc.GaussianBlur(dst, dst, new Size(3, 3), 5);
+		Imgproc.medianBlur(dst, dst, 3);
+
+		Imgproc.threshold(dst, dst, 0, 255, Imgproc.THRESH_OTSU);
+		Imgcodecs.imwrite(InfoUtils.PREPROCESSED_FILE_NAME, dst);
+		
+	}
+
+
 	private void loadUI(String ui) {
 
 		Parent root = null;

@@ -32,6 +32,7 @@ public class InfoUtils {
 	
 	public static final String NO_BUTTON_TEXT = "No";
 	public static final String YES_BUTTON_TEXT = "Yes";
+	public static final String ENDLINE = "\n";
 	
 	public static final ArrayList<String> LANGUAGES = new ArrayList<String>()
 			{ 
