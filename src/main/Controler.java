@@ -8,17 +8,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
-
-import imageProcessor.TextProcessor;
 import imageProcessor.TextProcessorAdvance;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,11 +27,9 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-import preProcessor.Dilation;
 import util.Constant;
 import util.InfoUtils;
 
@@ -64,7 +56,7 @@ public class Controler implements Initializable {
 	@FXML
 	private ComboBox language_combo, language_combo_foldder;
 
-	private FileChooser fileChooser;// = new FileChooser();
+	private FileChooser fileChooser;
 	private File choosedFile;
 	private String outputText = "default output";
 
