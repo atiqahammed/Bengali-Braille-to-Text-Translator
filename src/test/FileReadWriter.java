@@ -3,10 +3,15 @@ package test;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.ArrayList;
 
 public class FileReadWriter {
@@ -33,20 +38,45 @@ public class FileReadWriter {
 	}
 
 	public void writeOutput(ArrayList<String> allOutput, String fileName) {
-		FileWriter fileWriter = null;
+		// previous code
+		/*
+		 * FileWriter fileWriter = null; try { fileWriter = new FileWriter(fileName); }
+		 * catch (IOException e) { System.out.println("problem in file writing"); }
+		 * PrintWriter printWriter = new PrintWriter(fileWriter);
+		 * 
+		 * for (String data : allOutput) { printWriter.println(data); }
+		 * 
+		 * printWriter.close(); System.out.println("file wriing completed");
+		 */
+		
+		Writer out = null;
 		try {
-			fileWriter = new FileWriter(fileName);
-		} catch (IOException e) {
-			System.out.println("problem in file writing");
+			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		PrintWriter printWriter = new PrintWriter(fileWriter);
-
-		for (String data : allOutput) {
-			printWriter.println(data);
-		}
-
-		printWriter.close();
-		System.out.println("file wriing completed");
+			try {
+			    
+			    for(String line : allOutput) {
+			    	try {
+						out.write(line + "\n");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+			    }
+			    
+			} finally {
+			    try {
+					out.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 
 	}
 
