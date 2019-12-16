@@ -289,7 +289,10 @@ public class Controler implements Initializable {
 		File file = fileChooser.showSaveDialog(AppStartClass.STAGE);
 
 		if (file != null) {
-			saveTextToFile(output_textarea.getText(), file);
+//			saveTextToFile(output_textarea.getText(), file);
+			ArrayList<String> output = new ArrayList<String>();
+			output.add(output_textarea.getText());
+			Constant.FILE_READ_WRITER.writeOutput(output, file.getAbsolutePath());
 		}
 		
 	}
